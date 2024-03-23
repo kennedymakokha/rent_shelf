@@ -1,13 +1,14 @@
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../containers/layout/navbar/header";
 import Footer from "../containers/Footer/footer";
 // import Header from "../components/Header";
 
 export default function Root() {
+  const location = useLocation();
   return (
     <div>
-      <Header />
+      {location.pathname !== "/login" && <Header />}
       <div className=" my-0 mx-auto p-[3rem 20px]">
         <Outlet />
       </div>

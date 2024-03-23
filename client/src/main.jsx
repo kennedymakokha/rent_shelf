@@ -12,6 +12,7 @@ import ShelveDetails from './pages/shelves/shelveDetails/details'
 import Shelves from './pages/shelves'
 import Warehouse from './pages/shelfTypes'
 import Chats from './pages/chats.jsx'
+import Login from './pages/login'
 const rootFontStyle = {
   fontSize: '20px',
   fontFamily: "RalewayDots-Regular",
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "chats",
         element: <Chats />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
       // {
       //   path: "web-design",

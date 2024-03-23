@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import './style.css'
-import Logo from './logo.png'
+import Logo from './../../../assets/logo.png'
 import MobileNav from './components/MobileNav.jsx';
 const Header = () => {
   return (

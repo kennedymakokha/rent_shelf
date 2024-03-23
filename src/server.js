@@ -11,6 +11,7 @@ import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 // routes
 
 import RolesRoutes from './routes/rolesRoutes.js'
+import UserRoutes from './routes/userRoutes.js'
 connectDb()
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 
 app.use('/api/roles', RolesRoutes)
+app.use('/api/users', UserRoutes)
 app.get('/', (req, res) => res.send("Server started"))
 app.use(notFound);
 app.use(errorHandler);
