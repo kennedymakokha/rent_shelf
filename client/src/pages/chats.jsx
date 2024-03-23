@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import './chartcss.css'
 import { io } from 'socket.io-client'
-   const socket = io("http://localhost:5000");
+const socket = io("http://localhost:5000");
 
 
 function Chats() {
 
- 
+
 
     useEffect(() => {
         console.log("first")
@@ -19,12 +19,23 @@ function Chats() {
         });
     }, [])
 
+    const onChangeInput = (e) => {
+        const { value } = e.target
+        if (value) {
+            socket.emit('chat message', value);
+            // value = '';
+        }
+    }
     return (
         <div className='bog'>
             <ul id="messages"></ul>
             <form id="form" action="">
-                <input id="input" autocomplete="off" /><button>Send</button>
+                <input id="input" onChange={onChangeInput}
+                    onKeyDown={() => socket.emit('typing', "")}
+                    autocomplete="off" /><button>Send</button>
             </form>
+
+
         </div>
     )
 }
