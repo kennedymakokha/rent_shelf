@@ -6,7 +6,7 @@ function index(props) {
 
         <div className="bg-gray-400 w-full h-[200px] relative z-0">
             <img src={props?.backDrop} alt='' className='w-full h-full object-cover ' />
-            <div className="absolute top-0 left-0 w-full  h-full opacity-70 bg-black z-4">
+            <div className="absolute top-0 left-0 w-full  h-full opacity-40 bg-black z-4">
 
             </div>
             <div className="absolute w-auto px-6 py-6 h-6 left-10   top-28  shadow-md opacity-70  text-primary-100 bg-white  flex justify-center items-center z-40">

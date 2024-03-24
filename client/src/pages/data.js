@@ -1,6 +1,7 @@
 import Shelves from './home/images/shelves.jpg'
 // import d from './home/images'
 import Shelves1 from './home/images/shelves1.jpg'
+import wh1 from './home/images/wh1.jpg'
 export const FeaturedArray = [
     {
         user_id: {
@@ -636,7 +637,7 @@ export const WarehouseArray = [
         title: "Wendy Rental Shelves",
         location: "Ruiru Ndani",
         price: "1200",
-        image: Shelves,
+        image: wh1,
         featured: true,
         description: "Has big shelves for any type of products. Never pay for any CBT, test or assessment as part of any recruitment process. When in doubt, contact us",
         address: {
@@ -708,4 +709,38 @@ export const WarehouseArray = [
         ],
         ratings: 4,
     }
+]
+
+export const towns = [
+    {
+        title: 'Nairobi',
+        subs: [
+            "kinoo",
+            "embakasi",
+            "fedha",
+            "eastleigh",
+            "ruaka",
+            "denderu"
+        ]
+    },
+    {
+        title: 'Mombasa',
+        subs: [
+            "likoni", "bamburi", "kisauni",
+        ],
+    },
+    {
+        title: 'Kisumu',
+        subs: [
+            "kayole", "madongoporomoka", "meli",
+        ]
+    },
+    {
+        title: 'Kakamega',
+        subs: [
+            "Kwisero", "kisiandumbu"
+        ]
+    },
+
+
 ]

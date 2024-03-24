@@ -3,20 +3,13 @@ import TitleContainer from '../../containers/titleContainer'
 import { FeaturedArray } from '../data'
 import Contents from './contents'
 import FeaturedCard from './featured/components/featuredCard'
+import ScrollRight from './featured/scrollRight'
 
 function index() {
     return (
-
-        <Contents bg="bg-white">
-            <div className="flex w-full h-[400px] flex-col  ">
-                <TitleContainer title="Shelves You may Like 😜" />
-                <div className=' pt-2 bg- w-full h-full  flex flex-row overflow-x-scroll scrollbar-hide'>
-                    {FeaturedArray.map((featured, i) => (
-                        <FeaturedCard key={i} opp feature text="text-primary-100" bg="bg-slate-100" featured={featured} />
-                    ))}
-                </div>
-            </div>
-        </Contents>
+        <ScrollRight title="Shelves You may Like 😜"  opp feature array={FeaturedArray} text="text-primary-100" bgcontainer= "bg-white" bg="bg-slate-100" showDetails   />
+    
+      
     )
 }
 

@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         element: <Shelves />,
       },
       {
-        path: "shelves-type/:name",
+        path: "services/:name/:town",
         element: <Warehouse />,
       },
       {

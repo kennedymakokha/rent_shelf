@@ -21,6 +21,20 @@ const loginFields = [
     }
 ]
 
+const activationFields = [
+    {
+        labelText: "Code",
+        labelFor: "code",
+        id: "code",
+        name: "code",
+        type: "number",
+        autoComplete: "code",
+        isRequired: true,
+        placeholder: "Activation Code "
+    },
+   
+]
+
 const signupFields = [
     {
         labelText: "Username",
@@ -64,4 +78,4 @@ const signupFields = [
     }
 ]
 
-export { loginFields, signupFields }
+export { loginFields,activationFields, signupFields }

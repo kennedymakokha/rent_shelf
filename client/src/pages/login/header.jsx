@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import Logo from './../../assets/logo.png'
-export default function Header({
-    heading,
+const Header = ({ heading,
     paragraph,
     linkName,
-    linkUrl = "#"
-}) {
+    change,
+    linkUrl }) => {
+   
     return (
         <div className="mb-10">
             <div className="flex justify-center">
@@ -21,10 +21,11 @@ export default function Header({
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600 mt-5">
                 {paragraph} {' '}
-                <Link to={linkUrl} className="font-medium text-purple-600 hover:text-purple-500">
+                <div onClick={change} className="font-medium text-purple-600 hover:text-purple-500">
                     {linkName}
-                </Link>
+                </div>
             </p>
         </div>
     )
 }
+export default Header

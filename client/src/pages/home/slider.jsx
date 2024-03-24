@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import slider from './sliderImages/bookshelves1.png'
+import slider from './../../assets/slider1.jpg'
 import slider1 from './sliderImages/slider1.jpg'
 import slider2 from './sliderImages/slider2.jpg'
 
@@ -58,12 +58,12 @@ function Slider() {
     return (
         <div className="w-full  h-[300px] sm:h-[620px] bg-primary-300 flex justify-center items-center">
             <div className=" w-full h-full relative z-0">
-                <img src={items[active].icon} alt='' className='h-full w-full  sm:object-cover object-contain' />
+                <img src={items[active].icon} alt='' className='sm:h-[620px] h-full w-full  sm:object-cover object-contain' />
                 <div className=
-                    {`absolute right-[5%] left-[5%]  top-[15%]  sm:top-[75%] mx-20 flex justify-center items-center z-10`}>
-                    <div className='sm:bg-[#199e9e] h-20 px-8 flex item-center justify-center flex-col rounded-md '>
+                    {`absolute right-[5%] left-[5%]  top-[15%]  sm:top-[75%] sm:mx-20 mx-2 flex justify-center items-center z-20`}>
+                    {/* <div className='sm:bg-[#199e9e] h-20 px-8 flex item-center justify-center flex-col rounded-md '> */}
                         <p className="text-xl px-8 sm:text-center sm:text-2xl text-white sm:text-slate-100 sm:font-semibold font-bold">{items[active]?.title}</p>
-                    </div>
+                    {/* </div> */}
 
                 </div>
                 <div className="absolute top-[25%] bottom-[25%]   sm:mx-20 w-[100%] sm:w-[90%] flex  justify-between items-center z-20">
@@ -85,7 +85,7 @@ function Slider() {
                         <span key={i} className={`${item.state === true ? 'bg-secondary-1000 sm:w-3 sm:h-3 h-1 w-1 rounded-full border border-2 border-white' : 'bg-primary-1000  sm:w-3 sm:h-3 h-1 w-1 rounded-full'}`}></span>
                     ))}
                 </div>
-                <div className="absolute  inset-0   bg-black mx-0 flex justify-center opacity-50 items-center -z-5">
+                <div className="absolute  inset-0  bg-gradient-to-t from-primary-100  mx-0 flex justify-center  items-center -z-5">
 
                 </div>
             </div>
