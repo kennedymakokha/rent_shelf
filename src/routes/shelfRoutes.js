@@ -4,7 +4,7 @@ import express from 'express'
 import { getShelf, getShelfs, updateShelf, deleteShelf, registerShelf } from '../controllers/shelfController.js'
 import { protect } from '../middlewares/authMiddleware.js'
 import multer from 'multer';
-import path from 'path';``
+import path from 'path'; ``
 import { v4 } from 'uuid'
 
 import { fileURLToPath } from 'url';
@@ -22,11 +22,11 @@ const storage = multer.diskStorage({
 var upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
-        if (file.mimetype == "image/png" || file.mimetype == "application/pdf" || file.mimetype == "image/jpg") {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
             cb(null, true);
         } else {
             cb(null, false);
-            return cb(new Error('Only .pdf are allowed'));
+            return cb(new Error('Only .jpg and .png are allowed'));
         }
     }
 });
@@ -38,6 +38,6 @@ router.route('/:id')
 
 router.route('/')
     .post([upload.array('file'), protect], registerShelf)
-    .get(protect, getShelfs)
+    .get(getShelfs)
 
 export default router 

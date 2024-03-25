@@ -13,6 +13,8 @@ import Shelves from './pages/shelves'
 import Warehouse from './pages/shelfTypes'
 import Chats from './pages/chats.jsx'
 import Login from './pages/login'
+import { store } from './store.jsx'
+import { Provider } from 'react-redux'
 const rootFontStyle = {
   fontSize: '20px',
   fontFamily: "RalewayDots-Regular",
@@ -89,10 +91,10 @@ const router = createBrowserRouter([
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-
-    <div style={rootFontStyle}>
-      <RouterProvider router={router} />
-    </div>
-
+    <Provider store={store}>
+      <div style={rootFontStyle}>
+        <RouterProvider router={router} />
+      </div>
+    </Provider>
   </React.StrictMode>,
 )

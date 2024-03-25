@@ -10,9 +10,12 @@ import imagemin from 'imagemin';
 import imageminMozJpeg from 'imagemin-mozjpeg';
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
-        const Shelfs = await Shelf.find({ deletedAt: null })
+        const Shelfs = await Shelf.find({ deletedAt: null }).populate("town_id", "name")
+            .populate("area_id", "name")
+            .populate("type_id","name")
         return res.status(200).json(Shelfs)
     } catch (error) {
+        console.log(error)
         return res.status(404);
         throw new Error("Fetching Failed ")
     }
@@ -39,8 +42,8 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
         }
         req.body.files = reqFiles
         req.body.createdBy = req.user._id
-        await Shelf.create(req.body)
-        res.status(200).json({ message: 'Shelf Updated successfully ' })
+        let shel = await Shelf.create(req.body)
+        res.status(200).json({ message: 'Shelf Updated successfully ', shel })
         return
     } catch (error) {
         console.log(error)
