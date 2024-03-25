@@ -9,6 +9,8 @@ import { CustomError } from "../middlewares/customErr.js";
 import { validateUserInput } from "../Validators/usersValidator.js";
 
 import jwt from "jsonwebtoken";
+import { SendMessage } from "../utils/sms_sender.js";
+import Format_phone_number from "../utils/FormatPhonNumber.js";
 
 
 const login_user = expressAsyncHandler(async (req, res) => {
@@ -45,16 +47,19 @@ const login_user = expressAsyncHandler(async (req, res) => {
 const register_User = expressAsyncHandler(async (req, res) => {
     try {
         const { name, phone, verification_code } = req.body
+        req.body.phone = await Format_phone_number(req.body.phone)
         const UserExists = await User.findOne({ phone })
-        if (UserExists) {
-            return res.status(401).json({ message: "User Exists" })
-        }
+        // if (UserExists) {
+        //     return res.status(401).json({ message: "User Exists" })
+        // }
         await CustomError(validateUserInput, req.body, res)
         req.body.verification_code = GenActivationCode(5)
         let role = await Role.findOne({ name: req.body.role })
         req.body.role = role._id
         req.body.createdBy = req?.user?._id
         await User.create(req.body)
+        const textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Pickup mtaani is  ${req.body.verification_code} ` }
+        await SendMessage(textbody)
         return res.status(200).json({ message: "User created Successfully" })
     } catch (error) {
         console.log(error)

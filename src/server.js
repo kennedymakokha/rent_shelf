@@ -12,6 +12,10 @@ import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 
 import RolesRoutes from './routes/rolesRoutes.js'
 import UserRoutes from './routes/userRoutes.js'
+import TypesRoutes from './routes/typesRoutes.js'
+import TownsRoutes from './routes/townsRoutes.js'
+import AreaRoutes from './routes/areaRoutes.js'
+import ShelfsRoutes from './routes/shelfRoutes.js'
 connectDb()
 const app = express()
 
@@ -22,6 +26,11 @@ app.use(cookieParser())
 
 app.use('/api/roles', RolesRoutes)
 app.use('/api/users', UserRoutes)
+app.use('/api/types', TypesRoutes)
+app.use('/api/towns', TownsRoutes)
+app.use('/api/areas', AreaRoutes)
+app.use('/api/shelves', ShelfsRoutes)
+
 app.get('/', (req, res) => res.send("Server started"))
 app.use(notFound);
 app.use(errorHandler);
