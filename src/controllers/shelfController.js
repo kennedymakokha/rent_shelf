@@ -1,10 +1,13 @@
 import expressAsyncHandler from "express-async-handler"
-
+import multer from 'multer'
+import { v4 } from 'uuid'
 import Shelf from '../models/shelfmodel.js'
+import path from 'path';
 import { CustomError } from "../middlewares/customErr.js";
-
+import multiparty from 'multiparty';
 import { validateShelfInput } from "../Validators/shelfValidator.js";
-
+import imagemin from 'imagemin';
+import imageminMozJpeg from 'imagemin-mozjpeg';
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
         const Shelfs = await Shelf.find({ deletedAt: null })
@@ -16,12 +19,32 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 })
 const registerShelf = expressAsyncHandler(async (req, res) => {
     try {
-        await CustomError(validateShelfInput, req.body, res)
-        req.body.createdBy = req.user._id,
-            await Shelf.create(req.body)
-        return res.status(200).json({ message: 'Created Successfull' })
+        // const url = req.protocol + '://' + req.get('host');
+        const reqFiles = [];
+        const url = req.protocol + '://' + req.get('host')
+        CustomError(validateShelfInput, req.body, res)
+        if (req.files.length === 0) {
+            res.status(400).json({ message: 'Kindly upload at least one image ' })
+            return
+        }
+        for (var i = 0; i < req.files.length; i++) {
+            reqFiles.push(url + '/public/uploads/files/' + req.files[i].filename);
+            await imagemin(["public/uploads/files/" + req.files[i].filename], {
+                destination: "public/uploads/files",
+                plugins: [
+                    imageminMozJpeg({ quality: 30 })
+                ]
+            })
+
+        }
+        req.body.files = reqFiles
+        req.body.createdBy = req.user._id
+        await Shelf.create(req.body)
+        res.status(200).json({ message: 'Shelf Updated successfully ' })
+        return
     } catch (error) {
         console.log(error)
+        return res.status(400).json({ message: 'Failed ', error })
     }
 })
 const getShelf = expressAsyncHandler(async (req, res) => {
