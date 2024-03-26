@@ -52,15 +52,20 @@ const register_User = expressAsyncHandler(async (req, res) => {
         // if (UserExists) {
         //     return res.status(401).json({ message: "User Exists" })
         // }
-        await CustomError(validateUserInput, req.body, res)
+        CustomError(validateUserInput, req.body, res)
         req.body.verification_code = GenActivationCode(5)
-        let role = await Role.findOne({ name: req.body.role })
+        let roleName = "customer"
+        if (req.body.role) {
+            roleName = req.body.role
+        }
+        let role = await Role.findOne({ name: roleName })
         req.body.role = role._id
         req.body.createdBy = req?.user?._id
-        await User.create(req.body)
+        let userobj = await User.create(req.body)
+        let { _id } = userobj
         const textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Pickup mtaani is  ${req.body.verification_code} ` }
-        await SendMessage(textbody)
-        return res.status(200).json({ message: "User created Successfully" })
+        // await SendMessage(textbody)
+        return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
         console.log(error)
         return res.status(401).json({ message: error.message })
@@ -75,9 +80,7 @@ const activate_User = expressAsyncHandler(async (req, res) => {
         const user = await User.findOne({ _id: req.params.id })
 
         if (parseInt(user.verification_code) !== parseInt(req.body.code)) {
-            return res
-                .status(400)
-                .json({ message: "Wrong Code kindly re-enter the code correctly" });
+            return res.status(400) .json({ message: "Wrong Code kindly re-enter the code correctly" });
         } else {
             let userObj = await User.findOneAndUpdate(
                 { _id: req.params.id },
@@ -96,7 +99,7 @@ const activate_User = expressAsyncHandler(async (req, res) => {
                 });
         }
     } catch (error) {
-        console.log(error)
+        
         return res
             .status(400)
             .json({ success: false, message: "operation failed ", error });

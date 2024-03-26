@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom'
 import FeaturedCard from './featured/components/featuredCard'
 import ScrollRight from './featured/scrollRight'
 
-function index() {
+function index(props) {
     return (
         <>
-            <ScrollRight goTo='/warehouse' left title="Warehouse" noPrice array={WarehouseArray} text="text-white" bgcontainer="bg-slate-100" bg="bg-primary-500"  />
+            <ScrollRight goTo='/warehouse' data={props.data} isFetching={props.isFetching}  left title="Warehouse" noPrice array={WarehouseArray} text="text-white" bgcontainer="bg-slate-100" bg="bg-primary-500"  />
 
 
          

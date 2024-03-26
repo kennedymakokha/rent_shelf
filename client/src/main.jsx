@@ -12,9 +12,13 @@ import ShelveDetails from './pages/shelves/shelveDetails/details'
 import Shelves from './pages/shelves'
 import Warehouse from './pages/shelfTypes'
 import Chats from './pages/chats.jsx'
-import Login from './pages/login'
+import Login from './pages/authentication/login.jsx'
+import SignUp from './pages/authentication/signup.jsx'
+import Activate from './pages/authentication/activate.jsx'
 import { store } from './store.jsx'
 import { Provider } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const rootFontStyle = {
   fontSize: '20px',
   fontFamily: "RalewayDots-Regular",
@@ -62,6 +66,14 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
+      {
+        path: "activate",
+        element: <Activate />,
+      },
+      {
+        path: "signup",
+        element: <SignUp />,
+      },
       // {
       //   path: "web-design",
       //   element: <WebDesign />,
@@ -94,6 +106,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <div style={rootFontStyle}>
         <RouterProvider router={router} />
+        <ToastContainer />
       </div>
     </Provider>
   </React.StrictMode>,

@@ -18,7 +18,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             })
         }),
         fetchshelves: builder.query({
-            query: () => `${USER_URL}`
+            query: (e) => `${USER_URL}?featured=${e}`
         }),
         fetchshelvesByID: builder.query({
             query: (id) => `${USER_URL}/${id}`

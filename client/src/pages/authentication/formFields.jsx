@@ -1,13 +1,13 @@
 const loginFields = [
     {
         labelText: "Email address",
-        labelFor: "email-address",
-        id: "email-address",
+        labelFor: "email",
+        id: "email",
         name: "email",
-        type: "email",
+        type: "text",
         autoComplete: "email",
         isRequired: true,
-        placeholder: "Email address"
+        placeholder: "Email address, Phone, Number or ID"
     },
     {
         labelText: "Password",
@@ -37,24 +37,24 @@ const activationFields = [
 
 const signupFields = [
     {
-        labelText: "Username",
-        labelFor: "username",
-        id: "username",
-        name: "username",
+        labelText: "Full name",
+        labelFor: "name",
+        id: "name",
+        name: "name",
         type: "text",
-        autoComplete: "username",
+        autoComplete: "name",
         isRequired: true,
-        placeholder: "Username"
+        placeholder: "Full name"
     },
     {
-        labelText: "Email address",
-        labelFor: "email-address",
-        id: "email-address",
-        name: "email",
-        type: "email",
+        labelText: "Phone Number",
+        labelFor: "phone",
+        id: "phone",
+        name: "phone",
+        type: "number",
         autoComplete: "email",
         isRequired: true,
-        placeholder: "Email address"
+        placeholder: "Phone Number"
     },
     {
         labelText: "Password",
@@ -68,11 +68,11 @@ const signupFields = [
     },
     {
         labelText: "Confirm Password",
-        labelFor: "confirm-password",
-        id: "confirm-password",
-        name: "confirm-password",
+        labelFor: "confirm_password",
+        id: "confirm_password",
+        name: "confirm_password",
         type: "password",
-        autoComplete: "confirm-password",
+        autoComplete: "confirm_password",
         isRequired: true,
         placeholder: "Confirm Password"
     }

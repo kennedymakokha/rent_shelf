@@ -5,7 +5,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (data) => ({
-                url: `${USER_URL}/auth`,
+                url: `${USER_URL}/login`,
                 method: "POST",
                 body: data
             })
@@ -32,6 +32,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         getuser: builder.query({
             query: () => `${USER_URL}/profile`
         }),
+
+        activate: builder.mutation({
+            query: (data) => ({
+                url: `${USER_URL}/activate/${data.id}`,
+                method: "PUT",
+                body: data
+            })
+        }),
         getusers: builder.query({
             query: () => `${USER_URL}/role-users/all`
         }),
@@ -44,4 +52,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const { useLoginMutation, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice
+export const { useLoginMutation, useActivateMutation, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice

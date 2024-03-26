@@ -18,24 +18,24 @@ export const validateUserInput = (data) => {
     if (Validator.isEmpty(data.phone)) {
         errors.phone = 'Phone Number is required';
     }
-    if (Validator.isEmpty(data.ID_no)) {
-        errors.ID_no = 'ID Number is required';
-    }
-    if (Validator.isEmpty(data.ID_no)) {
-        errors.ID_no = 'ID Number is required';
-    }
-    if (Validator.isEmpty(data.role)) {
-        errors.role = 'Role is required';
-    }
-    if (Validator.isEmpty(data.role)) {
-        errors.role = 'Role is required';
-    }
+    // if (Validator.isEmpty(data.ID_no)) {
+    //     errors.ID_no = 'ID Number is required';
+    // }
+    // if (Validator.isEmpty(data.ID_no)) {
+    //     errors.ID_no = 'ID Number is required';
+    // }
+    // if (Validator.isEmpty(data.role)) {
+    //     errors.role = 'Role is required';
+    // }
+    // if (Validator.isEmpty(data.role)) {
+    //     errors.role = 'Role is required';
+    // }
     if (Validator.isEmpty(data.password)) {
         errors.password = 'Password is required';
     }
-    if (!Validator.isLength(data.ID_no, { min: 8, })) {
-        errors.ID_no = 'Identification No must be at least 6 characters';
-    }
+    // if (!Validator.isLength(data.ID_no, { min: 8, })) {
+    //     errors.ID_no = 'Identification No must be at least 6 characters';
+    // }
     if (!Validator.isLength(data.password, { min: 8, max: 30 })) {
         errors.password = 'Password must be more than 8 characters long';
     }
@@ -50,7 +50,7 @@ export const validateUserInput = (data) => {
         errors.phone = 'phone Number  must have at least  10 characters ';
     }
     if (data.password !== data.confirm_password) {
-        errors.new_password = 'Password Mismatch the confirm password  ';
+        errors.new_password = 'Password Mismatch    ';
     }
     return {
         errors,

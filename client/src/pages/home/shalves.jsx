@@ -5,9 +5,9 @@ import Contents from './contents'
 import FeaturedCard from './featured/components/featuredCard'
 import ScrollRight from './featured/scrollRight'
 
-function index() {
+function index(props) {
     return (
-        <ScrollRight title="Shelves You may Like 😜"  opp feature array={FeaturedArray} text="text-primary-100" bgcontainer= "bg-white" bg="bg-slate-100" showDetails   />
+        <ScrollRight  data={props.data} isFetching={props.isFetching}  title="Shelves You may Like 😜"  opp feature array={FeaturedArray} text="text-primary-100" bgcontainer= "bg-white" bg="bg-slate-100" showDetails   />
     
       
     )

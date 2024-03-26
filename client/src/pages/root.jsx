@@ -8,7 +8,7 @@ export default function Root() {
   const location = useLocation();
   return (
     <div>
-      {location.pathname !== "/login" && <Header />}
+      {location.pathname !== "/login" && location.pathname !== "/signup" && location.pathname!== "/activate" && <Header />}
       <div className=" my-0 mx-auto p-[3rem 20px]">
         <Outlet />
       </div>

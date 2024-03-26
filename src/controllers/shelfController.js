@@ -10,10 +10,17 @@ import imagemin from 'imagemin';
 import imageminMozJpeg from 'imagemin-mozjpeg';
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
-        const Shelfs = await Shelf.find({ deletedAt: null }).populate("town_id", "name")
+
+
+        let featured = await Shelf.find({ deletedAt: null, featured: true }).populate("town_id", "name")
             .populate("area_id", "name")
-            .populate("type_id","name")
-        return res.status(200).json(Shelfs)
+            .populate("type_id", "name")
+        let all = await Shelf.find({ deletedAt: null }).populate("town_id", "name")
+            .populate("area_id", "name")
+            .populate("type_id", "name")
+        return res.status(200).json({ all, featured })
+
+
     } catch (error) {
         console.log(error)
         return res.status(404);
