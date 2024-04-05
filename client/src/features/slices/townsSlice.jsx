@@ -1,27 +1,27 @@
 import { apiSlice } from "./apiSlice";
-const USER_URL = "/api/medications";
+const USER_URL = "/api/towns";
 
-export const MedsApiSlice = apiSlice.injectEndpoints({
+export const medicationsApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        createMed: builder.mutation({
+        create: builder.mutation({
             query: (data) => ({
                 url: `${USER_URL}`,
                 method: "POST",
                 body: data
             })
         }),
-        updateMed: builder.mutation({
+        update: builder.mutation({
             query: (data) => ({
                 url: `${USER_URL}/${data._id}`,
                 method: "PUT",
                 body: data
             })
         }),
-        fetchMeds: builder.query({
+        fetch: builder.query({
             query: () => `${USER_URL}`
         }),
-      
-        deleteMed: builder.mutation({
+
+        delete: builder.mutation({
             query: (id) => ({
                 url: `${USER_URL}/${id}`,
                 method: "DELETE",
@@ -30,4 +30,4 @@ export const MedsApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {  useDeleteMedMutation, useFetchMedsQuery, useUpdateMedMutation, useCreateMedMutation } = MedsApiSlice
+export const { useCreateMutation, useFetchQuery, useDeleteMutation, useUpdateMutation } = medicationsApiSlice

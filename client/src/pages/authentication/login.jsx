@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLoginMutation, useRegisterMutation, } from './../../features/slices/usersApiSlice';
 import { setCredentials } from './../../features/slices/authSlice';
+import { toast } from 'react-toastify';
 
 const fields = loginFields;
 let fieldsState = {};
@@ -32,13 +33,14 @@ export default function Login() {
             const res = await login(loginState).unwrap();
             dispatch(setCredentials({ ...res }))
             navigate('/')
-           
+
         } catch (error) {
-            console.log(error)
+            toast.error(error.data.message)
+           
         }
     }
 
- 
+
     useEffect(() => {
         if (userInfo) {
             navigate('/')
@@ -49,7 +51,7 @@ export default function Login() {
             heading="Login to your account"
             paragraph="Don't have an account yet?"
             linkName="Signup"
-            linkUrl=""
+            linkUrl="/signup"
         >
             <div className="mt-8 space-y-6" >
                 <div className="-space-y-px">

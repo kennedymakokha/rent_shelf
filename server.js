@@ -20,6 +20,7 @@ import TypesRoutes from './src/routes/typesRoutes.js'
 import TownsRoutes from './src/routes/townsRoutes.js'
 import AreaRoutes from './src/routes/areaRoutes.js'
 import ShelfsRoutes from './src/routes/shelfRoutes.js'
+import FeatureRoutes from './src/routes/featureRoutes.js'
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 connectDb()
@@ -40,6 +41,7 @@ app.use('/api/types', TypesRoutes)
 app.use('/api/towns', TownsRoutes)
 app.use('/api/areas', AreaRoutes)
 app.use('/api/shelves', ShelfsRoutes)
+app.use('/api/features', FeatureRoutes)
 
 
 const __dirname = path.dirname(__filename);

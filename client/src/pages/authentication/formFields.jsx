@@ -7,7 +7,7 @@ const loginFields = [
         type: "text",
         autoComplete: "email",
         isRequired: true,
-        placeholder: "Email address, Phone, Number or ID"
+        placeholder: "ID/Phone Number "
     },
     {
         labelText: "Password",
@@ -32,7 +32,7 @@ const activationFields = [
         isRequired: true,
         placeholder: "Activation Code "
     },
-   
+
 ]
 
 const signupFields = [
@@ -52,6 +52,58 @@ const signupFields = [
         id: "phone",
         name: "phone",
         type: "number",
+        autoComplete: "email",
+        isRequired: true,
+        placeholder: "Phone Number"
+    },
+    {
+        labelText: "Identification Number",
+        labelFor: "ID_no",
+        id: "ID_no",
+        name: "ID_no",
+        type: "text",
+        autoComplete: "ID_no",
+        isRequired: true,
+        placeholder: "ID No"
+    },
+    {
+        labelText: "Password",
+        labelFor: "password",
+        id: "password",
+        name: "password",
+        type: "password",
+        autoComplete: "current-password",
+        isRequired: true,
+        placeholder: "Password"
+    },
+    {
+        labelText: "Confirm Password",
+        labelFor: "confirm_password",
+        id: "confirm_password",
+        name: "confirm_password",
+        type: "password",
+        autoComplete: "confirm_password",
+        isRequired: true,
+        placeholder: "Confirm Password"
+    }
+]
+const listingFields = [
+    {
+        labelText: "Name",
+        labelFor: "name",
+        id: "name",
+        name: "name",
+        type: "text",
+        autoComplete: "name",
+        isRequired: true,
+        placeholder: "Full name"
+    },
+    {
+        labelText: "Phone Number",
+        labelFor: "phone",
+        id: "phone",
+        name: "phone",
+        type: "select",
         autoComplete: "email",
         isRequired: true,
         placeholder: "Phone Number"
@@ -78,4 +130,4 @@ const signupFields = [
     }
 ]
 
-export { loginFields,activationFields, signupFields }
+export { loginFields, activationFields, listingFields, signupFields }

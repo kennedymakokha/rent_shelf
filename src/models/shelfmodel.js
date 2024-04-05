@@ -7,9 +7,9 @@ const townSchema = new Schema({
     files: { type: Array, },
     price: { type: Number, },
     ratings: { type: Number, default: 2 },
-    features: {
-        type: Array,
-    },
+    features:
+        [{ type: Schema.Types.ObjectId, ref: 'tb_feature' }]
+    ,
     featured: { type: Boolean, default: false },
     deletedAt: { type: Date, default: null },
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },

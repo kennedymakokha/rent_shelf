@@ -15,16 +15,17 @@ import Format_phone_number from "../utils/FormatPhonNumber.js";
 
 const login_user = expressAsyncHandler(async (req, res) => {
     try {
+
         const { email, password } = req.body;
-        const user = await User.findOne({ $or: [{ email: email }, { ID_no: email }, { phone: email }] }).populate('role', 'name')
-        console.log(user)
+        let phone = await Format_phone_number(email)
+        const user = await User.findOne({ $or: [{ email: email }, { ID_no: email }, { phone: phone }] }).populate('role', 'name')
+        // 
         if (user && (await user.matchPassword(password))) {
-            if (user.activated === false) {
-                return res.status(401).json({ message: "Your account is Inactive Kindly activate it" })
-            }
+
             let token = generateToken(res, user._id)
-            await User.findOneAndUpdate({ $or: [{ email }, { ID_no: email }] }, { onduty: true }, { new: true, useFindAndModify: false })
+            user.tokens.push(req.body.token)
             user.tokens.indexOf(req.body.token) === -1 ? user.tokens.push(req.body.token) : console.log("This item already exists");
+
             await User.findOneAndUpdate({ $or: [{ email }, { ID_no: email }] }, { tokens: user.tokens }, { new: true, useFindAndModify: false })
             return res.status(201).json({
                 id: user._id,
@@ -32,26 +33,31 @@ const login_user = expressAsyncHandler(async (req, res) => {
                 token: token,
                 email: user.email,
                 role: user?.role?.name,
-                activation_code: user.verification_code,
+                onduty: user.onduty,
                 tokens: user.tokens
             })
+
+
         } else {
+
             return res.status(401).json({ message: "Invalid email or password" })
+
         }
     } catch (error) {
-        console.log(error)
-        return res.status(401).json({ message: error.message })
+        console.log("Error")
+        return res.status(401).json({ message: "Invalid password  or email entered " })
 
     }
+
 })
 const register_User = expressAsyncHandler(async (req, res) => {
     try {
         const { name, phone, verification_code } = req.body
         req.body.phone = await Format_phone_number(req.body.phone)
         const UserExists = await User.findOne({ phone })
-        // if (UserExists) {
-        //     return res.status(401).json({ message: "User Exists" })
-        // }
+        if (UserExists) {
+            return res.status(401).json({ message: "User Exists" })
+        }
         CustomError(validateUserInput, req.body, res)
         req.body.verification_code = GenActivationCode(5)
         let roleName = "customer"
@@ -63,8 +69,8 @@ const register_User = expressAsyncHandler(async (req, res) => {
         req.body.createdBy = req?.user?._id
         let userobj = await User.create(req.body)
         let { _id } = userobj
-        const textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Pickup mtaani is  ${req.body.verification_code} ` }
-        // await SendMessage(textbody)
+        const textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code} ` }
+        await SendMessage(textbody)
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
         console.log(error)
@@ -80,7 +86,7 @@ const activate_User = expressAsyncHandler(async (req, res) => {
         const user = await User.findOne({ _id: req.params.id })
 
         if (parseInt(user.verification_code) !== parseInt(req.body.code)) {
-            return res.status(400) .json({ message: "Wrong Code kindly re-enter the code correctly" });
+            return res.status(400).json({ message: "Wrong Code kindly re-enter the code correctly" });
         } else {
             let userObj = await User.findOneAndUpdate(
                 { _id: req.params.id },
@@ -99,7 +105,7 @@ const activate_User = expressAsyncHandler(async (req, res) => {
                 });
         }
     } catch (error) {
-        
+
         return res
             .status(400)
             .json({ success: false, message: "operation failed ", error });
@@ -113,6 +119,13 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         phone: req.user.phone
     }
     return res.status(200).json(user)
+})
+const getUsers1 = expressAsyncHandler(async (req, res) => {
+
+    const users = await User.find({})
+        .populate('role', 'name').sort({ createdAt: -1 }).limit(100)
+    return res.status(200).json(users)
+
 })
 const getUsers = expressAsyncHandler(async (req, res) => {
     if (req.query.searchKey) {
@@ -149,18 +162,16 @@ const getUser = expressAsyncHandler(async (req, res) => {
 })
 const logoutUser = expressAsyncHandler(async (req, res) => {
     try {
-        await Duty.findOneAndUpdate({ user_id: req.body.id }, { end: Date(Date.now()) }, { new: true, useFindAndModify: false })
-        await User.findOneAndUpdate({ _id: req.body.id }, { onduty: false }, { new: true, useFindAndModify: false })
-
-        const user = await User.findOne({ _id: req.body.id })
-        const index = user?.tokens.indexOf(req.body.token);
-        if (index > -1) { // only splice array when item is found
-            user?.tokens.splice(index, 1); // 2nd parameter means remove one item only
-        }
-        res.cookie('jwt', '', {
-            httpOnly: true,
-            expires: new Date(0)
-        })
+        console.log(req.body)
+        // const user = await User.findOne({ _id: req.user._id })
+        // const index = user?.tokens.indexOf(req.body.token);
+        // if (index > -1) { // only splice array when item is found
+        //     user?.tokens.splice(index, 1); // 2nd parameter means remove one item only
+        // }
+        // res.cookie('jwt', '', {
+        //     httpOnly: true,
+        //     expires: new Date(0)
+        // })
 
         return res.status(200).json({ message: 'logged out  User' })
     } catch (error) {
@@ -198,5 +209,5 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    login_user, activate_User, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
+    login_user, activate_User, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
 }

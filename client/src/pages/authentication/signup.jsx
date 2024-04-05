@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signupFields } from './formFields';
 import Input from './input';
 import FormAction from './formActions';
@@ -6,6 +6,7 @@ import AuthContainer from './authContainer';
 import { useLoginMutation, useRegisterMutation, } from './../../features/slices/usersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 // import { signupFields } from "../constants/formFields"
 // import FormAction from "./FormAction";
 // import Input from "./Input";
@@ -20,11 +21,12 @@ export default function Signup() {
   const navigate = useNavigate();
   const handleChange = (e) => setSignupState({ ...signupState, [e.target.id]: e.target.value });
   const [register, isFetching] = useRegisterMutation();
+  const { userInfo } = useSelector((state) => state.auth)
   const handleSubmit = async (e) => {
     try {
       const res = await register(signupState).unwrap();
       localStorage.setItem("activated", false)
-      console.log(res)
+     
       localStorage.setItem("RegId", res._id)
       toast.info('succeful registration')
       navigate('/activate')
@@ -35,13 +37,17 @@ export default function Signup() {
 
   }
 
-
+  useEffect(() => {
+    if (userInfo) {
+        navigate('/')
+    }
+})
   return (
     <AuthContainer
       heading="Sign Up "
       paragraph="Already have an account"
       linkName="Login"
-      linkUrl=""
+      linkUrl="/login"
     >
       <div className="mt-8 space-y-6" >
         <div className="">

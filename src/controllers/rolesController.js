@@ -9,8 +9,9 @@ const getRoles = expressAsyncHandler(async (req, res) => {
         const roles = await Role.find({ deletedAt: null })
         return res.status(200).json(roles)
     } catch (error) {
-        return res.status(404);
-        throw new Error("Fetching Failed ")
+        return res.status(400).json({message:"Error Ocured try again",error})
+    
+    
     }
 })
 const registerRole = expressAsyncHandler(async (req, res) => {

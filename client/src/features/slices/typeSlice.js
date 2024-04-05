@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-const USER_URL = "/api/doc/history";
+const USER_URL = "/api/types";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -18,10 +18,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             })
         }),
 
-        fetchHistory: builder.query({
+        fetchType: builder.query({
             query: () => `${USER_URL}`
         }),
-        deleteHistory: builder.mutation({
+        deleteType: builder.mutation({
             query: (id) => ({
                 url: `${USER_URL}/${id}`,
                 method: "DELETE",
@@ -30,4 +30,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const { useCreateMutation, useDeleteHistoryMutation, useUpdateMutation, useFetchHistoryQuery } = usersApiSlice
+export const { useCreateMutation, useDeleteTypeMutation, useUpdateMutation, useFetchTypeQuery } = usersApiSlice

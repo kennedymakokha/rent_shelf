@@ -10,6 +10,7 @@ import Ratings from '../ratings';
 import Modal from '../../../auth/login';
 import { FeaturedArray } from '../../../data';
 import FeaturedCard from '../../../home/featured/components/featuredCard';
+import ShelveImages from './shelveImages';
 
 
 
@@ -17,32 +18,32 @@ function index(props) {
     const [showModal, setShowModal] = useState(false);
     const location = useLocation();
     const data = location.state;
-    console.log(data)
     let paths =
         [
             { title: "shelves", path: 'shelves' },
-            { title: `${data?.title}`, path: `shelves/${data?.title.replace(/\s+/g, "-").toLowerCase()}` }
+            { title: `${data?.name}`, path: `shelves/${data?.name?.replace(/\s+/g, "-").toLowerCase()}` }
         ]
 
     return (
         <Contents
-            backDrop={data?.image} title={data?.title} path={paths} bg="bg-slate-50">
+            backDrop={data?.files[0]} detailed={data} title={data?.name} path={paths} bg="bg-slate-50">
             <div className="flex w-full h-auto flex-col  ">
-                {/* <TitleContainer title={data.title} /> */}
+                <div className='sm:flex hidden'><TitleContainer title={data?.name} /></div>
                 <div className=' w-full h-full  flex flex-row '>
-                    <div className=' sm:w-3/4 w-full pt-10 h-full gap-y-2  flex flex-col p-2 '>
+                    <div className=' h-auto sm:w-3/4 w-full sm:pt-10 pt-0 h-full sm:gap-y-2  flex flex-col sm:p-2 '>
+                        <ShelveImages showModal={showModal} setShowModal={setShowModal} data={data} />
                         <ShelveDetails showModal={showModal} setShowModal={setShowModal} data={data} />
-                        <Address showModal={showModal} setShowModal={setShowModal} data={data} />
+                        {/* <Address showModal={showModal} setShowModal={setShowModal} data={data} />
                         <OverView showModal={showModal} setShowModal={setShowModal} data={data} />
                         {data?.featured && <Features showModal={showModal} setShowModal={setShowModal} data={data} />}
-                        <Ratings showModal={showModal} setShowModal={setShowModal} data={data} />
+                        <Ratings showModal={showModal} setShowModal={setShowModal} data={data} /> */}
                     </div>
                     <div className=' w-1/4 h-auto p-2 pt-10 sm:flex hidden flex-col '>
                         <TitleContainer title="Featured Shelves" />
                         <div className=' w-full h-[300px]  flex flex-row overflow-x-scroll scrollbar-hide'>
                             {FeaturedArray.filter(e => e.featured).map((featured, i) => (
-                                <Link key={i}  state={props.featured} to={`/shelves/${props?.featured?.title.replace(/\s+/g, "-").toLowerCase()}`} className=" w-full  h-full group shrink-0  p-2 flex justify-center items-center">
-                                    <FeaturedCard hide sidebadge featured={featured} />
+                                <Link key={i} state={props.featured} to={`/shelves/${props?.featured?.name?.replace(/\s+/g, "-").toLowerCase()}`} className=" w-full  h-full group shrink-0  p-2 flex justify-center items-center">
+                                    {/* <FeaturedCard hide sidebadge featured={featured} /> */}
                                 </Link>
                             ))}
                         </div>

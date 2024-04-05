@@ -12,6 +12,7 @@ import ShelveDetails from './pages/shelves/shelveDetails/details'
 import Shelves from './pages/shelves'
 import Warehouse from './pages/shelfTypes'
 import Chats from './pages/chats.jsx'
+import Listings from './pages/Listings'
 import Login from './pages/authentication/login.jsx'
 import SignUp from './pages/authentication/signup.jsx'
 import Activate from './pages/authentication/activate.jsx'
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "chats",
         element: <Chats />,
+      },
+      {
+        path: "add-listing",
+        element: <Listings />,
       },
       {
         path: "login",

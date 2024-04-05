@@ -7,7 +7,7 @@ function FeaturedCard(props) {
 
     return (
 
-        <Link state={props.featured} to={`/shelves/${props?.featured?.name.replace(/\s+/g, "-").toLowerCase()}`} className="sm:w-1/5 w-full  h-full group shrink-0  p-2 flex justify-center items-center">
+        <Link state={props.featured} to={`/shelves/${props?.featured?.name?.replace(/\s+/g, "-").toLowerCase()}`} className="sm:w-1/5 w-full  h-full group shrink-0  p-2 flex justify-center items-center">
 
             <div className=" w-full h-full relative z-0 rounded-md shadow-2xl">
                 <img src={props?.featured?.files[0]} alt='' className='w-full h-full object-cover rounded-md' />

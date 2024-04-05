@@ -10,8 +10,9 @@ const getTypes = expressAsyncHandler(async (req, res) => {
         const Types = await Type.find({ deletedAt: null })
         return res.status(200).json(Types)
     } catch (error) {
-        return res.status(404);
-        throw new Error("Fetching Failed ")
+        return res.status(400).json({message:"Error Ocured try again",error})
+    
+    
     }
 })
 const registerType = expressAsyncHandler(async (req, res) => {

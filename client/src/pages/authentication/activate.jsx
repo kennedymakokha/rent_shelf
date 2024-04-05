@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { loginFields } from "../constants/formFields";
 
 import FormExtra from './formExtra';
@@ -8,8 +8,8 @@ import FormAction from './formActions';
 import AuthContainer from './authContainer';
 import { useActivateMutation } from '../../features/slices/usersApiSlice';
 import { toast } from 'react-toastify';
-// import FormExtra from "./FormExtra";
-// import Input from "./Input";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const fields = activationFields;
 let fieldsState = {};
@@ -17,18 +17,21 @@ fields.forEach(field => fieldsState[field.id] = '');
 
 export default function Activate() {
     const [activateState, setActivateState] = useState(fieldsState);
-
+    const navigate = useNavigate();
     const handleChange = (e) => {
         setActivateState({ ...activateState, [e.target.id]: e.target.value })
     }
-
-
+    const { userInfo } = useSelector((state) => state.auth)
     const [activate, isFetching] = useActivateMutation();
     const handleSubmit = async () => {
         try {
             activateState.id = localStorage.getItem("RegId")
             await activate(activateState)
-            return 
+            localStorage.removeItem("RegId")
+            localStorage.removeItem('activated')
+            navigate('/login')
+            toast.info('activated')
+            return
         } catch (error) {
             alert("error")
             console.log("error")
@@ -37,7 +40,11 @@ export default function Activate() {
     }
 
 
-
+    useEffect(() => {
+        if (userInfo) {
+            navigate('/')
+        }
+    })
     return (
         <AuthContainer
             heading="Activate your account"

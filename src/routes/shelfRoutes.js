@@ -37,7 +37,7 @@ router.route('/:id')
     .get(protect, getShelf)
 
 router.route('/')
-    .post([upload.array('file'), protect], registerShelf)
+    .post([upload.array('files'), protect], registerShelf)
     .get(getShelfs)
 
 export default router 

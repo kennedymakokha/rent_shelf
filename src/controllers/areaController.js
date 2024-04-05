@@ -10,8 +10,9 @@ const getAreas = expressAsyncHandler(async (req, res) => {
         const Areas = await Area.find({ deletedAt: null })
         return res.status(200).json(Areas)
     } catch (error) {
-        return res.status(404);
-        throw new Error("Fetching Failed ")
+        return res.status(400).json({message:"Error Ocured try again",error})
+    
+    
     }
 })
 const registerArea = expressAsyncHandler(async (req, res) => {

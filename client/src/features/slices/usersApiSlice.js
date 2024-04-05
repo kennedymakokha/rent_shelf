@@ -44,9 +44,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             query: () => `${USER_URL}/role-users/all`
         }),
         logout: builder.mutation({
-            query: () => ({
+            query: (data) => ({
                 url: `${USER_URL}/logout`,
                 method: "POST",
+                body:data
             })
         })
     })

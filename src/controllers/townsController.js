@@ -10,8 +10,9 @@ const getTowns = expressAsyncHandler(async (req, res) => {
         const Towns = await Town.find({ deletedAt: null })
         return res.status(200).json(Towns)
     } catch (error) {
-        return res.status(404);
-        throw new Error("Fetching Failed ")
+        return res.status(400).json({message:"Error Ocured try again",error})
+    
+    
     }
 })
 const registerTown = expressAsyncHandler(async (req, res) => {

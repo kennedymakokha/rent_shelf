@@ -15,21 +15,25 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
         let featured = await Shelf.find({ deletedAt: null, featured: true }).populate("town_id", "name")
             .populate("area_id", "name")
             .populate("type_id", "name")
+            .populate("features", "name")
         let all = await Shelf.find({ deletedAt: null }).populate("town_id", "name")
             .populate("area_id", "name")
             .populate("type_id", "name")
+            .populate("features", "name")
+
         return res.status(200).json({ all, featured })
 
 
     } catch (error) {
-        console.log(error)
-        return res.status(404);
-        throw new Error("Fetching Failed ")
+
+        return res.status(400).json({ message: "Error Ocured try again", error })
+
+
     }
 })
 const registerShelf = expressAsyncHandler(async (req, res) => {
     try {
-        // const url = req.protocol + '://' + req.get('host');
+     
         const reqFiles = [];
         const url = req.protocol + '://' + req.get('host')
         CustomError(validateShelfInput, req.body, res)
