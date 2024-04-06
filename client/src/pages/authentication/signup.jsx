@@ -3,45 +3,52 @@ import { signupFields } from './formFields';
 import Input from './input';
 import FormAction from './formActions';
 import AuthContainer from './authContainer';
-import { useLoginMutation, useRegisterMutation, } from './../../features/slices/usersApiSlice';
+import { useRegisterMutation, } from './../../features/slices/usersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-// import { signupFields } from "../constants/formFields"
-// import FormAction from "./FormAction";
-// import Input from "./Input";
+import { HandleConsole } from '../../utils/selectFromapi';
+
 
 const fields = signupFields;
 let fieldsState = {};
 
 fields.forEach(field => fieldsState[field.id] = '');
 
+
 export default function Signup() {
   const [signupState, setSignupState] = useState(fieldsState);
   const navigate = useNavigate();
   const handleChange = (e) => setSignupState({ ...signupState, [e.target.id]: e.target.value });
-  const [register, isFetching] = useRegisterMutation();
+
+  const [signUp] = useRegisterMutation();
   const { userInfo } = useSelector((state) => state.auth)
-  const handleSubmit = async (e) => {
+  // HandleConsole(userInfo)
+  const urlParams = new URLSearchParams(window.location.search);
+  const affiliate = urlParams.get('affiliate');
+  signupState.ref_no = affiliate
+  const handleSubmit = async () => {
     try {
-      const res = await register(signupState).unwrap();
-      localStorage.setItem("activated", false)
-     
-      localStorage.setItem("RegId", res._id)
+      // HandleConsole(signupState)
+      await signUp(signupState).unwrap();
+
+      // localStorage.setItem("activated", false)
+
+      // localStorage.setItem("RegId", res._id)
       toast.info('succeful registration')
       navigate('/activate')
     } catch (error) {
-      console.log(error)
-      toast.error(error.data.message)
+      // console.log(error)
+      toast.error(error)
     }
 
   }
 
   useEffect(() => {
     if (userInfo) {
-        navigate('/')
+      navigate('/')
     }
-})
+  })
   return (
     <AuthContainer
       heading="Sign Up "

@@ -4,6 +4,7 @@ dotenv.config()
 // const port = process.env.PORT || 5000
 import connectDb from './config/db.js'
 import path from 'path';
+import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import Lab from './iolab.js'
@@ -25,7 +26,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 connectDb()
 const app = express()
-
+app.use(cors("*"))
 var http = HTTP.createServer(app);
 app.use(express.json())
 

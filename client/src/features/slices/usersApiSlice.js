@@ -11,17 +11,26 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             })
         }),
         register: builder.mutation({
-            query: (data) => ({
-                url: `${USER_URL}`,
-                method: "POST",
-                body: data
-            })
+            query: (data) => {
+                console.log(USER_URL)
+                return {
+                    url: `${USER_URL}`,
+                    method: "POST",
+                    body: data
+                }
+            }
         }),
+        
         editUserDetails: builder.mutation({
             query: (data) => ({
                 url: `${USER_URL}/${data.id}`,
                 method: "PUT",
                 body: data
+            })
+        }),
+        fetchaffiliates: builder.query({
+            query: () => ({
+                url: `${USER_URL}/affiliates`
             })
         }),
         fetchuser: builder.query({
@@ -53,4 +62,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const { useLoginMutation, useActivateMutation, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice
+export const { useLoginMutation, useActivateMutation, useFetchaffiliatesQuery, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice

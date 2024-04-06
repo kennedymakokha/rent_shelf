@@ -13,15 +13,11 @@ function index() {
 
     const { data, refetch, isFetching, isSuccess, isLoading } = useFetchshelvesQuery(true)
     const navigate = useNavigate()
-
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const tutorialParam = urlParams.get('affiliate');
     const { userInfo } = useSelector((state) => state.auth)
-    console.log(tutorialParam)
     useEffect(() => {
-        if (userInfo && userInfo.role == "admin") {
-            return navigate('admin')
+      
+         if (userInfo && userInfo.role === "admin") {
+            navigate('admin')
         } else {
             return
         }

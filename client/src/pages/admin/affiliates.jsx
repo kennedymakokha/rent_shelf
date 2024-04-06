@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Table, { TBody, TH, TableContainer, TableHead, TableTitle } from '../../containers/layout/admin/table';
 import { AffiliatesTableHead } from './data.json'
 import { toast } from 'react-toastify';
-
 import { useSelector } from 'react-redux';
 import Button, { ButtonSM } from '../../containers/Buttons';
 import AdminLayout from '../../containers/layout/admin/adminLayout';
@@ -10,10 +9,7 @@ import { Link } from 'react-router-dom';
 import InputContainer, { SearchContaine } from '../../containers/input';
 import { useGetusersQuery, useRegisterMutation } from '../../features/slices/usersApiSlice';
 import Modal from '../../containers/Modal';
-
 function Affiliates() {
-
-
     const [showModal, setShowModal] = useState(false);
     const [searchKey, setsearchKey] = useState("");
     const [item, setitem] = useState({ firstName: "", lastName: "", ID_no: "", phone: '', email: "" });
@@ -43,7 +39,8 @@ function Affiliates() {
                 toast('Created Succesfully')
             } else {
                 item.name = `${item.firstName} ${item.lastName}`
-                item.password = item.ID_no
+                item.password = `M${item.ID_no}!`
+                item.confirm_password = `M${item.ID_no}!`
                 item.role = "affiliate"
 
                 await register(item).unwrap();

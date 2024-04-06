@@ -46,6 +46,7 @@ const signupFields = [
         isRequired: true,
         placeholder: "Full name"
     },
+
     {
         labelText: "Phone Number",
         labelFor: "phone",
@@ -61,11 +62,12 @@ const signupFields = [
         labelFor: "ID_no",
         id: "ID_no",
         name: "ID_no",
-        type: "text",
+        type: "Number",
         autoComplete: "ID_no",
         isRequired: true,
         placeholder: "ID No"
     },
+   
     {
         labelText: "Password",
         labelFor: "password",

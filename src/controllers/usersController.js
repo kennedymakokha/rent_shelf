@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler"
 import User from './../models/usersModel.js'
 import Role from '../models/rolesmodel.js'
+import UserAfiliate from '../models/userAffiliatemodel.js'
 
 import bcrypt from 'bcryptjs';
 import generateToken from "../utils/generateToken.js";
@@ -11,6 +12,7 @@ import { validateUserInput } from "../Validators/usersValidator.js";
 import jwt from "jsonwebtoken";
 import { SendMessage } from "../utils/sms_sender.js";
 import Format_phone_number from "../utils/FormatPhonNumber.js";
+
 
 
 const login_user = expressAsyncHandler(async (req, res) => {
@@ -52,11 +54,10 @@ const login_user = expressAsyncHandler(async (req, res) => {
 })
 const register_User = expressAsyncHandler(async (req, res) => {
     try {
-        const { name, phone, verification_code, ID_no } = req.body
-        req.body.phone = await Format_phone_number(req.body.phone)
 
-        const UserExists = await User.findOne({ $or: [{ ID_no: ID_no }, { phone: phone }] })
-
+        const { ID_no } = req.body
+        let PhoneNumber = await Format_phone_number(req.body.phone)
+        const UserExists = await User.findOne({ $or: [{ ID_no: ID_no }, { phone: PhoneNumber }] })
         if (UserExists) {
             return res.status(401).json({ message: "User Exists" })
         }
@@ -69,9 +70,16 @@ const register_User = expressAsyncHandler(async (req, res) => {
         }
         let role = await Role.findOne({ name: roleName })
         req.body.role = role._id
-        req.body.createdBy = req?.user?._id
+        if (req?.user) {
+            req.body.createdBy = req?.user?._id
+        }
         let userobj = await User.create(req.body)
         let { _id } = userobj
+        if (req.body.referal_no) {
+            let affiliate = await User.findOne({ referal_no: req.body.ref_no })
+
+            await UserAfiliate.create({ user: userobj._id, affiliate: affiliate._id })
+        }
         let textbody
         if (roleName === "affiliate") {
             textbody = { address: `${req.body.phone}`, Body: `Hi \nYour referal link is http://localhost:3000?affiliate=${req.body.referal_no}  ` }
@@ -80,7 +88,7 @@ const register_User = expressAsyncHandler(async (req, res) => {
             textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code}\nand your referal code is ${req.body.referal_no}  ` }
         }
 
-        await SendMessage(textbody)
+        // await SendMessage(textbody)
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
         console.log(error)
@@ -128,6 +136,24 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         phone: req.user.phone
     }
     return res.status(200).json(user)
+})
+const getAffiliateCounts = expressAsyncHandler(async (req, res) => {
+    let Affiliates = await UserAfiliate.find().populate("affiliate", "name").populate("user", "name")
+    let affiliatesArray = []
+    for (let index = 0; index < Affiliates.length; index++) {
+        const i = affiliatesArray.findIndex(e => e.id === Affiliates[index].affiliate._id);
+        if (i > -1) {
+            affiliatesArray[i].affiliates.push({ id: Affiliates[index].user._id, name: Affiliates[index].user.name })
+            affiliatesArray[i].y = affiliatesArray[i].y + 1
+        }
+        else {
+
+            affiliatesArray.push({ id: Affiliates[index].affiliate._id, y: 1, label: Affiliates[index].affiliate.name, affiliates: [{ id: Affiliates[index].user._id, name: Affiliates[index].user.name }] })
+        }
+
+    }
+    // console.log(affiliatesArray)
+    return res.status(200).json(affiliatesArray)
 })
 const getUsers1 = expressAsyncHandler(async (req, res) => {
 
@@ -220,5 +246,5 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    login_user, activate_User, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
+    login_user, activate_User, getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
 }

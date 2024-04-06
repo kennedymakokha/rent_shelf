@@ -31,6 +31,7 @@ export default function Login() {
 
         try {
             const res = await login(loginState).unwrap();
+            
             dispatch(setCredentials({ ...res }))
             navigate('/')
 

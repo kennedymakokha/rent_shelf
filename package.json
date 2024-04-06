@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@canvasjs/react-charts": "^1.0.2",
     "africastalking": "^0.6.6",
     "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.2",
