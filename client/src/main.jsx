@@ -13,6 +13,8 @@ import Shelves from './pages/shelves'
 import Warehouse from './pages/shelfTypes'
 import Chats from './pages/chats.jsx'
 import Listings from './pages/Listings'
+import Admin from './pages/admin'
+import Affiliate from './pages/admin/affiliates.jsx'
 import Login from './pages/authentication/login.jsx'
 import SignUp from './pages/authentication/signup.jsx'
 import Activate from './pages/authentication/activate.jsx'
@@ -67,6 +69,7 @@ const router = createBrowserRouter([
         path: "add-listing",
         element: <Listings />,
       },
+     
       {
         path: "login",
         element: <Login />,
@@ -78,6 +81,14 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignUp />,
+      },
+      {
+        path: "admin",
+        element: <Admin />,
+      },
+      {
+        path: "admin/affiliate",
+        element: <Affiliate />,
       },
       // {
       //   path: "web-design",

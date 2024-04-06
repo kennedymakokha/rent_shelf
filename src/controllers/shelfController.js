@@ -8,6 +8,8 @@ import multiparty from 'multiparty';
 import { validateShelfInput } from "../Validators/shelfValidator.js";
 import imagemin from 'imagemin';
 import imageminMozJpeg from 'imagemin-mozjpeg';
+import User from "../models/usersModel.js";
+import role from "../models/rolesmodel.js";
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
 
@@ -33,7 +35,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 })
 const registerShelf = expressAsyncHandler(async (req, res) => {
     try {
-     
+
         const reqFiles = [];
         const url = req.protocol + '://' + req.get('host')
         CustomError(validateShelfInput, req.body, res)
@@ -54,6 +56,9 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
         req.body.files = reqFiles
         req.body.createdBy = req.user._id
         let shel = await Shelf.create(req.body)
+
+        let rol = await role.findOne({ name: "owner" })
+        await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
         res.status(200).json({ message: 'Shelf Updated successfully ', shel })
         return
     } catch (error) {

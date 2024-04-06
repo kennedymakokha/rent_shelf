@@ -1,0 +1,50 @@
+{
+    "Users": [
+        "admin"
+    ],
+    "Receptionist": [
+        "receptionist"
+    ],
+    "Pharmacist": [
+        "pharmacist"
+        
+    ],
+
+    
+    "Dashboard": [
+        "Dr",
+        "admin"
+    ],
+    "appointments": [
+        "Dr",
+        "admin",
+        "patient"
+    ],
+    "consultation": [
+        "Lab_tech",
+        "Dr",
+        "admin"
+    ],
+    "accounts": [
+        "Acc",
+        "admin"
+    ],
+    "triage": [
+        "Nurse",
+        "admin"
+    ],
+    "lab": [
+        "Lab_tech",
+        "admin",
+        "Nurse"
+    ],
+    "patients": [
+        "Dr",
+        "Lab_tech",
+        "receptionist",
+        "admin",
+        "Nurse",
+        "Acc",
+        "pharmacist"
+    ]
+}

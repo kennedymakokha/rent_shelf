@@ -4,47 +4,8 @@ import { useFetchQuery } from "../../../features/slices/townsSlice";
 import { SelectFromAPI } from "../../../utils/selectFromapi";
 import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
-const fixedInputclassName = "rounded-md appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm"
+import InputContainer, { SelectContainer } from "../../input.jsx";
 
-const InputContainer = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
-    return (
-        <>
-            <label className="block text-slate-500 uppercase text-sm ml-1  font-bold mb-1">
-                {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
-            </label>
-            <input
-                onChange={handleChange}
-                value={value}
-                id={id}
-                name={name}
-
-                multiple
-                type={type}
-                required={required}
-                className={fixedInputclassName}
-                placeholder={placeholder}
-            />
-        </>
-    )
-}
-
-const SelectContainer = ({ value, multiple, array, id, name, required, type, placeholder, label, handleChange }) => {
-    return (
-        <>
-            <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
-                {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
-            </label>
-            <select multiple={multiple} className={fixedInputclassName} onChange={handleChange}>
-                <option value="">Select {name}</option>
-                {array?.map((arr, i) => (
-                    <option key={i} value={arr.value} className="h-20">{arr.label}</option>
-                ))}
-            </select>
-        </>
-    )
-
-
-}
 
 const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, typesuccess, }) => {
     const [files, setFiles] = useState([])
@@ -280,14 +241,14 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
                                 </div>
                                 <div className="flex items-center justify-end px-6 py-2 border-t border-solid border-blueGray-200 rounded-b">
                                     <button
-                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                                        className="text-secondary-500 hover:text-primary-100 hover:border-secondary-100 border-primary-100 border rounded-md background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
                                         onClick={() => setShowModal(false)}
                                     >
                                         Close
                                     </button>
                                     <button
-                                        className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                        className="text-white bg-primary-100 hover:bg-primary-300 hover:text-secondary-100 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
                                         onClick={() => { handleSubmit(item) }}
                                     >

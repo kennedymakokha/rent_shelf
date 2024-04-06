@@ -44,7 +44,7 @@ const login_user = expressAsyncHandler(async (req, res) => {
 
         }
     } catch (error) {
-        console.log("Error")
+
         return res.status(401).json({ message: "Invalid password  or email entered " })
 
     }
@@ -52,14 +52,17 @@ const login_user = expressAsyncHandler(async (req, res) => {
 })
 const register_User = expressAsyncHandler(async (req, res) => {
     try {
-        const { name, phone, verification_code } = req.body
+        const { name, phone, verification_code, ID_no } = req.body
         req.body.phone = await Format_phone_number(req.body.phone)
-        const UserExists = await User.findOne({ phone })
+
+        const UserExists = await User.findOne({ $or: [{ ID_no: ID_no }, { phone: phone }] })
+
         if (UserExists) {
             return res.status(401).json({ message: "User Exists" })
         }
         CustomError(validateUserInput, req.body, res)
         req.body.verification_code = GenActivationCode(5)
+        req.body.referal_no = GenActivationCode(6)
         let roleName = "customer"
         if (req.body.role) {
             roleName = req.body.role
@@ -69,7 +72,14 @@ const register_User = expressAsyncHandler(async (req, res) => {
         req.body.createdBy = req?.user?._id
         let userobj = await User.create(req.body)
         let { _id } = userobj
-        const textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code} ` }
+        let textbody
+        if (roleName === "affiliate") {
+            textbody = { address: `${req.body.phone}`, Body: `Hi \nYour referal link is http://localhost:3000?affiliate=${req.body.referal_no}  ` }
+
+        } else {
+            textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code}\nand your referal code is ${req.body.referal_no}  ` }
+        }
+
         await SendMessage(textbody)
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
@@ -79,7 +89,6 @@ const register_User = expressAsyncHandler(async (req, res) => {
     }
 
 })
-
 const activate_User = expressAsyncHandler(async (req, res) => {
     try {
 
@@ -143,6 +152,8 @@ const getUsers = expressAsyncHandler(async (req, res) => {
         return res.status(200).json(users)
     }
 })
+
+
 const getroleUsers = expressAsyncHandler(async (req, res) => {
     if (req.params.role === "all") {
         const users = await User.find({ deletedAt: null })
@@ -163,15 +174,15 @@ const getUser = expressAsyncHandler(async (req, res) => {
 const logoutUser = expressAsyncHandler(async (req, res) => {
     try {
         console.log(req.body)
-        // const user = await User.findOne({ _id: req.user._id })
-        // const index = user?.tokens.indexOf(req.body.token);
-        // if (index > -1) { // only splice array when item is found
-        //     user?.tokens.splice(index, 1); // 2nd parameter means remove one item only
-        // }
-        // res.cookie('jwt', '', {
-        //     httpOnly: true,
-        //     expires: new Date(0)
-        // })
+        const user = await User.findOne({ _id: req.user._id })
+        const index = user?.tokens.indexOf(req.body.token);
+        if (index > -1) { // only splice array when item is found
+            user?.tokens.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        res.cookie('jwt', '', {
+            httpOnly: true,
+            expires: new Date(0)
+        })
 
         return res.status(200).json({ message: 'logged out  User' })
     } catch (error) {

@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./navbar/header";
 export default function page(props) {
     let h = 0.76638176638176 * window.innerHeight
-    console.log(`${h}px`)
+   
     return (
         <>
             {/* <Navbar /> */}
