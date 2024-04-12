@@ -130,7 +130,9 @@ const List = ({ towns, areas, isSuccess }) => {
     }
 
     const handleSubmit = async () => {
+       
         try {
+         
             item.type_id = availabletypes
             item.features = availablefeatures
 
@@ -175,7 +177,7 @@ const List = ({ towns, areas, isSuccess }) => {
         <div className="flex  w-full z-50 outline-none focus:outline-none">
             <div className="  w-full my-2 mx-auto ">
                 <div className="border-0 rounded-lg  relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                   
+
                     <div className="relative sm:px-6 px-1 bg-slate-100 flex-auto">
                         <div className=" rounded px-8 pt-6 pb-1 w-full">
                             <div className="flex w-full  sm:flex-row flex-col ">
@@ -228,7 +230,7 @@ const List = ({ towns, areas, isSuccess }) => {
                                     <SelectContainer
                                         name="Town"
                                         array={SelectFromAPI({
-                                            array: isSuccess? towns:[]
+                                            array: isSuccess ? towns : []
                                         })}
                                         handleChange={(e) => { setItem(prevState => ({ ...prevState, town_id: e.target.value })) }}
                                         placeholder="town"
@@ -241,7 +243,7 @@ const List = ({ towns, areas, isSuccess }) => {
                                     <SelectContainer
                                         name="Area"
                                         array={SelectFromAPI({
-                                            array: areas !== undefined ? areas:[]
+                                            array: areas !== undefined ? areas : []
                                             , name: "area_id"
                                         })}
                                         handleChange={(e) => { console.log(e.target.value); setItem(prevState => ({ ...prevState, area_id: e.target.value })) }}

@@ -21,7 +21,7 @@ function ServiceCard() {
 }
 
 let v = [1, 2, 3, 4, 5]
-const ImageContainer = () => {
+export const ImageContainer = () => {
     return (
         <div className="absolute  top-0  h-16 w-1/2 right-0  flex justify-between items-center z-10">
             {v.map((y, i) => (

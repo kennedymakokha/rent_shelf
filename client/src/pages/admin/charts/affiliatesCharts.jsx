@@ -9,7 +9,7 @@ var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
-function affiliatesCharts() {
+function AffiliatesCharts() {
     const { data, refetch, isSuccess } = useFetchaffiliatesQuery()
 
     const options = {
@@ -42,4 +42,4 @@ function affiliatesCharts() {
     )
 }
 
-export default affiliatesCharts
+export default AffiliatesCharts

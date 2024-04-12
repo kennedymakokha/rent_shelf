@@ -1,9 +1,11 @@
 import express from 'express'
-import { login_user, activate_User,getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, logoutUser, getUserProfile, getUser } from '../controllers/usersController.js'
+import { login_user, activate_User, getAffiliateCounts, Whatsap, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, logoutUser, getUserProfile, getUser } from '../controllers/usersController.js'
 import { isAuth, protect } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
 router.post('/', register_User)
+router.get('/whatasap', Whatsap)
+
 router.get('/', protect, getUsers1)
 router.get('/affiliates', protect, getAffiliateCounts)
 

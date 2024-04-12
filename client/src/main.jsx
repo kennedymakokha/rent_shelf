@@ -15,6 +15,10 @@ import Chats from './pages/chats.jsx'
 import Listings from './pages/Listings'
 import Admin from './pages/admin'
 import Affiliate from './pages/admin/affiliates.jsx'
+import Owners from './pages/admin/owners.jsx'
+import OwnerDetails from './pages/admin/ownerDetails.jsx'
+import ShelfDetails from './pages/admin/shelfDetails.jsx'
+import Customers from './pages/admin/users.jsx'
 import Login from './pages/authentication/login.jsx'
 import SignUp from './pages/authentication/signup.jsx'
 import Activate from './pages/authentication/activate.jsx'
@@ -69,7 +73,7 @@ const router = createBrowserRouter([
         path: "add-listing",
         element: <Listings />,
       },
-     
+
       {
         path: "login",
         element: <Login />,
@@ -89,6 +93,26 @@ const router = createBrowserRouter([
       {
         path: "admin/affiliate",
         element: <Affiliate />,
+      },
+      {
+        path: "admin/customers",
+        element: <Customers />,
+      },
+      {
+        path: "admin/shelf-owners/:name",
+        element: <OwnerDetails />,
+      },
+      {
+        path: "admin/shelf-owners",
+        element: <Owners />,
+      },
+      {
+        path: "admin/shelves",
+        element: <Owners />,
+      },
+      {
+        path: "admin/shelves/:name",
+        element: <ShelfDetails />,
       },
       // {
       //   path: "web-design",

@@ -38,7 +38,7 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
 
         const reqFiles = [];
         const url = req.protocol + '://' + req.get('host')
-        CustomError(validateShelfInput, req.body, res)
+        // CustomError(validateShelfInput, req.body, res)
         if (req.files.length === 0) {
             res.status(400).json({ message: 'Kindly upload at least one image ' })
             return
@@ -55,10 +55,11 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
         }
         req.body.files = reqFiles
         req.body.createdBy = req.user._id
-        let shel = await Shelf.create(req.body)
 
+        let shel = await Shelf.create(req.body)
         let rol = await role.findOne({ name: "owner" })
-        await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
+        let v = await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
+
         res.status(200).json({ message: 'Shelf Updated successfully ', shel })
         return
     } catch (error) {
@@ -68,8 +69,29 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
 })
 const getShelf = expressAsyncHandler(async (req, res) => {
 
-    const Shelf = await Shelf.findById()
-    return res.status(200).json(Shelf)
+    const ShelV = await Shelf.findById(req.params.id)
+    return res.status(200).json(ShelV)
+})
+const getUsershelves = expressAsyncHandler(async (req, res) => {
+
+    const ShelV = await Shelf.find({ createdBy: req.params.id }).populate('town_id', 'name')
+        .populate('area_id', 'name')
+        .populate('features', 'name')
+        .populate('createdBy', 'name,phone')
+        .populate('type_id', 'name')
+
+    return res.status(200).json(ShelV)
+})
+const publishUnpublishShelf = expressAsyncHandler(async (req, res) => {
+    try {
+        let Shelve = await Shelf.findById(req.params.id)
+        console.log(Shelve)
+        let updates = await Shelf.findOneAndUpdate({ _id: req.params.id }, { published: !Shelve.published }, { new: true, useFindAndModify: false })
+        return res.status(200).json({ message: 'Shelf Updated successfully ', updates })
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({ message: 'Shelf Updated failed ' })
+    }
 })
 
 const updateShelf = expressAsyncHandler(async (req, res) => {
@@ -86,11 +108,11 @@ const deleteShelf = expressAsyncHandler(async (req, res) => {
         return res.status(200).json({ message: ' deleted successfully ', deleted })
     } catch (error) {
         return res.status(404);
-        console.log(error)
+        // console.log(error)
         throw new Error("deletion Failed ")
     }
 })
 
 export {
-    getShelf, getShelfs, updateShelf, deleteShelf, registerShelf
+    getShelf, getShelfs, updateShelf, publishUnpublishShelf, getUsershelves, deleteShelf, registerShelf
 }

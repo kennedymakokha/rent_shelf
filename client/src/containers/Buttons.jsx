@@ -24,11 +24,13 @@ export function ButtonSM(props) {
             onClick={props.onClick}
             className={`  h-5
          ${props.primary && "bg-[#007bff] border-primary-100"}
+         ${props.warning && "text-white"}
+         ${props.warning && "bg-orange-500"}
          ${props.outline && "bg-transparent border border-primary-100 text-black"}
          ${props.secondary && "bg-[#6c757d] border-primary-100"}
          ${props.danger && "bg-[#dc3545] border-primary-100"}
         
-          flex items-center justify-center shadow-xl rounded-md  text-[10px] font-bold px-3 py-2`}>{props.title}</div>
+          flex items-center justify-center shadow-xl rounded-md  text-white text-[10px] font-bold px-3 py-2`}>{props.title}</div>
     )
 }
 export default Button

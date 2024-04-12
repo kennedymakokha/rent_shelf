@@ -1,7 +1,7 @@
 
 
 import express from 'express'
-import { getShelf, getShelfs, updateShelf, deleteShelf, registerShelf } from '../controllers/shelfController.js'
+import { getShelf, getShelfs, publishUnpublishShelf, updateShelf, deleteShelf, getUsershelves, registerShelf } from '../controllers/shelfController.js'
 import { protect } from '../middlewares/authMiddleware.js'
 import multer from 'multer';
 import path from 'path'; ``
@@ -31,10 +31,13 @@ var upload = multer({
     }
 });
 const router = express.Router()
+router.route('/publish/:id').put(protect, publishUnpublishShelf)
 router.route('/:id')
     .delete(protect, deleteShelf)
     .put(protect, updateShelf)
     .get(protect, getShelf)
+router.route('/user/:id').get(protect, getUsershelves)
+
 
 router.route('/')
     .post([upload.array('files'), protect], registerShelf)

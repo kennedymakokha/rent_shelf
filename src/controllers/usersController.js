@@ -12,6 +12,7 @@ import { validateUserInput } from "../Validators/usersValidator.js";
 import jwt from "jsonwebtoken";
 import { SendMessage } from "../utils/sms_sender.js";
 import Format_phone_number from "../utils/FormatPhonNumber.js";
+import { getTemplatedMessageInput, getTextMessageInput, sendMessage } from "../utils/messageHelper.js";
 
 
 
@@ -88,7 +89,7 @@ const register_User = expressAsyncHandler(async (req, res) => {
             textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code}\nand your referal code is ${req.body.referal_no}  ` }
         }
 
-        // await SendMessage(textbody)
+        await SendMessage(textbody)
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
         console.log(error)
@@ -138,17 +139,17 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     return res.status(200).json(user)
 })
 const getAffiliateCounts = expressAsyncHandler(async (req, res) => {
-    let Affiliates = await UserAfiliate.find().populate("affiliate", "name").populate("user", "name")
+    let Affiliates = await UserAfiliate.find().populate("affiliate", "name").populate("user", "name createdAt")
     let affiliatesArray = []
     for (let index = 0; index < Affiliates.length; index++) {
         const i = affiliatesArray.findIndex(e => e.id === Affiliates[index].affiliate._id);
         if (i > -1) {
-            affiliatesArray[i].affiliates.push({ id: Affiliates[index].user._id, name: Affiliates[index].user.name })
+            affiliatesArray[i].affiliates.push({ id: Affiliates[index].user._id, name: Affiliates[index].user.name, date: Affiliates[index].user.createdAt })
             affiliatesArray[i].y = affiliatesArray[i].y + 1
         }
         else {
 
-            affiliatesArray.push({ id: Affiliates[index].affiliate._id, y: 1, label: Affiliates[index].affiliate.name, affiliates: [{ id: Affiliates[index].user._id, name: Affiliates[index].user.name }] })
+            affiliatesArray.push({ id: Affiliates[index].affiliate._id, y: 1, label: Affiliates[index].affiliate.name, affiliates: [{ id: Affiliates[index].user._id, name: Affiliates[index].user.name, date: Affiliates[index].user.createdAt }] })
         }
 
     }
@@ -160,6 +161,29 @@ const getUsers1 = expressAsyncHandler(async (req, res) => {
     const users = await User.find({})
         .populate('role', 'name').sort({ createdAt: -1 }).limit(100)
     return res.status(200).json(users)
+
+})
+const Whatsap = expressAsyncHandler(async (req, res) => {
+
+    try {
+        var data = getTemplatedMessageInput(process.env.RECIPIENT_WAID, 'Welcome to the Movie Ticket Demo App for Node.js!');
+
+        sendMessage(data)
+            .then(function (response) {
+                // console.log(response)
+                return res.status(200).json("response")
+            })
+            .catch(function (error) {
+                console.log(error.response);
+                return;
+            });
+
+    } catch (error) {
+        console.log(error)
+    }
+    // const users = await User.find({})
+    //     .populate('role', 'name').sort({ createdAt: -1 }).limit(100)
+    // return res.status(200).json(users)
 
 })
 const getUsers = expressAsyncHandler(async (req, res) => {
@@ -246,5 +270,5 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    login_user, activate_User, getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
+    login_user, activate_User, Whatsap, getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
 }

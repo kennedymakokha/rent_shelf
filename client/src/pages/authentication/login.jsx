@@ -21,27 +21,20 @@ export default function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [login, isFetching] = useLoginMutation();
-
     const { userInfo } = useSelector((state) => state.auth)
     const handleChange = (e) => {
         setLoginState({ ...loginState, [e.target.id]: e.target.value })
     }
 
     const handleSubmit = async (e) => {
-
         try {
             const res = await login(loginState).unwrap();
-            
             dispatch(setCredentials({ ...res }))
             navigate('/')
-
         } catch (error) {
-            toast.error(error.data.message)
-           
+            toast.error(error.data.message)   
         }
     }
-
-
     useEffect(() => {
         if (userInfo) {
             navigate('/')

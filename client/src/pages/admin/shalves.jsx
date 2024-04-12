@@ -16,9 +16,9 @@ function Affiliates() {
     const [affils, setaffils] = useState(false);
     const [searchKey, setsearchKey] = useState("");
     const [item, setitem] = useState({ firstName: "", lastName: "", ID_no: "", phone: '', email: "" });
-    const { userInfo } = useSelector((state) => state.auth)
-    const { data, refetch, isFetching } =  ("affiliate")
-    const { data: affiliates, isSuccess } = useFetchaffiliatesQuery()
+
+    const { data, refetch, isFetching } = useGetusersQuery("customer")
+
     const [register] = useRegisterMutation();
     // const [updatePatient] = useUpdatePatientMutation();
     // const [deletePatient] = useDeletePatientMutation();
@@ -78,8 +78,8 @@ function Affiliates() {
     return (
         <AdminLayout>
 
-            {!affils ? <TableContainer isFetching={isFetching}>
-                <TableTitle tableTitle="Affiliates " />
+            <TableContainer isFetching={isFetching}>
+                <TableTitle tableTitle="Shelves " />
                 <div className='flex justify-between items-center m-2 '>
                     <SearchContaine value={searchKey} name="name" placeholder="Search "
                     // onChange={(e) => debounce(search(e), 1000)}
@@ -137,38 +137,15 @@ function Affiliates() {
                                         <ButtonSM primary title="Edit" onClick={() => { setitem(person); setShowModal(true); }} height={2} width={8} />
                                     </div>
                                     <div className="text-indigo-600 hover:text-indigo-900">
-                                        <ButtonSM danger title="Delete" onClick={() => { deleteHandler(person?._id); }} height={2} width={8} />
+                                        <ButtonSM warning title="Disable" onClick={() => { deleteHandler(person?._id); }} height={2} width={8} />
                                     </div>
                                 </td>
                             </tr>
                         ))}
                     </TBody>
                 </Table>
-            </TableContainer> :
+            </TableContainer>
 
-                <div class="bg-gray-400 w-full  relative z-0">
-                    
-                    <div class="absolute top-[20%] w-full flex justify-center items-center z-20">
-                        <div className='w-full border border-primary-200'>
-                            {affiliates?.map((affil, i) => (
-                                <div className='w-full flex-col'>
-                                    <div className='w-full py-1 shadow-sm text-sm px-2 bg-primary-300 text-white'>{affil.label}</div>
-                                    {affil?.affiliates?.map((af, i) => (
-                                        <div className='flex'>
-                                            <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{af.name}</div>
-                                            <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{moment(af.date).format("Do MMM YYYY")}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div class="absolute bg-black  flex justify-center items-center z-10">
-                    </div>
-                </div>
-
-                // 
-            }
             <Modal
                 showModal={showModal}
                 closeModal={closeModal}

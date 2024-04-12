@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Multiple } from "../../../utils/multiple";
 import { useFetchQuery } from "../../../features/slices/townsSlice";
-import { SelectFromAPI } from "../../../utils/selectFromapi";
+import { HandleConsole, SelectFromAPI } from "../../../utils/selectFromapi";
 import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
 import InputContainer, { SelectContainer } from "../../input.jsx";
@@ -80,12 +80,13 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
 
     const handleSubmit = async () => {
         try {
+
             item.type_id = availabletypes
             item.features = availablefeatures
 
             const formData = new FormData();
 
-
+            
             for (let index = 0; index < files.length; index++) {
                 formData.append("files", files[index]);
             }

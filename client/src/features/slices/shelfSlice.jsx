@@ -17,11 +17,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data
             })
         }),
+        publishshelve: builder.mutation({
+            query: (data) => ({
+                url: `${USER_URL}/publish/${data}`,
+                method: "PUT",
+                body: data
+            })
+        }),
         fetchshelves: builder.query({
             query: (e) => `${USER_URL}?featured=${e}`
         }),
         fetchshelvesByID: builder.query({
             query: (id) => `${USER_URL}/${id}`
+        }),
+        fetchUsershelves: builder.query({
+            query: (id) => `${USER_URL}/user/${id}`
         }),
         deleteshelve: builder.mutation({
             query: (id) => ({
@@ -32,4 +42,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const { useCreateshelveMutation, useDeleteshelveMutation, useFetchshelvesByIDQuery, useFetchshelvesQuery, useUpdateshelveMutation } = usersApiSlice
+export const { useCreateshelveMutation, usePublishshelveMutation, useFetchUsershelvesQuery, useDeleteshelveMutation, useFetchshelvesByIDQuery, useFetchshelvesQuery, useUpdateshelveMutation } = usersApiSlice

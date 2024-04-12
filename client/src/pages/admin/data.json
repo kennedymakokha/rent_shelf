@@ -3,7 +3,17 @@
         "name",
         "ID Number",
         "phone No",
-       
         "Action"
+    ],
+    "ShelvesTableHead": [
+        "name",
+        "price",
+        "Location",
+        "area",
+        "building",
+        "features",
+        "types",
+        "published",
+        "featured"
     ]
 }

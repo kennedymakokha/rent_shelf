@@ -10,6 +10,9 @@ import { useLogoutMutation } from '../../../features/slices/usersApiSlice.js';
 import { logout } from '../../../features/slices/authSlice.jsx';
 import logo from './../../../assets/logo.png'
 import { Menus } from './menuData.jsx';
+import { handleurl } from '../../../utils/handleUrl.jsx';
+import { DropDown } from '../../DropDown.jsx';
+
 // import  {}
 
 function AdminLayout(props) {
@@ -19,13 +22,12 @@ function AdminLayout(props) {
     const navigate = useNavigate()
     const [logoutApiCall] = useLogoutMutation();
     const dispatch = useDispatch()
-
-
     const LogOutHandler = async () => {
         await logoutApiCall().unwrap()
         dispatch(logout({ id: userInfo.id, token: localStorage.getItem('token') }))
         navigate('/')
     }
+
     return (
         <div className='flex h-auto  min-h-screen flex-col'>
             <div className='flex h-auto min-h-screen '>
@@ -54,7 +56,7 @@ function AdminLayout(props) {
                                     if (element === userInfo?.role) {
                                         return (
                                             <li key={i} className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer
-                                        p-2 hover:text-slate-600 hover:bg-primary-100 rounded-md ${menu.gap ? "mt-9" : "mt-2"} ${i === 0 && "bg-primary-100"}`}>
+                                        p-2 hover:text-slate-600 hover:bg-primary-100 rounded-md ${menu.gap ? "mt-9" : "mt-2"} ${handleurl(location.pathname, 2) === handleurl(menu.path, 2) && "bg-primary-200"}`}>
                                                 {menu.src}
                                                 <span className={`${!open && "hidden"}  origin-left duration-200`}> {menu.title}</span>
                                             </li>)
@@ -91,13 +93,16 @@ function AdminLayout(props) {
                                     </svg>
 
                                     <div className="   lg:max-w-sm">
-                                        {/* <Dropdown title={` ${userInfo?.name}`}
-                                            items={[
-                                                { title: "profile", fun: () => navigate(`/profile`) },
-                                                { separator: true, title: "Log Out", fun: () => { LogOutHandler(); console.log("Logout") } }
-                                            ]}
-                                        /> */}
+                                        {userInfo && <div className='sm:flex hidden items-center justify-center  gap-x-0'>
 
+                                            <DropDown title={userInfo?.name} array={[{
+                                                title: "Profile", onclick: () => console.log("first")
+                                            },
+                                            {
+                                                title: "Logout", onclick: LogOutHandler
+                                            }]} />
+
+                                        </div>}
                                     </div>
 
                                 </div>

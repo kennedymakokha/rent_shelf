@@ -17,7 +17,7 @@ function Affiliates() {
     const [searchKey, setsearchKey] = useState("");
     const [item, setitem] = useState({ firstName: "", lastName: "", ID_no: "", phone: '', email: "" });
     const { userInfo } = useSelector((state) => state.auth)
-    const { data, refetch, isFetching } =  ("affiliate")
+    const { data, refetch, isFetching } = useGetusersQuery("owner")
     const { data: affiliates, isSuccess } = useFetchaffiliatesQuery()
     const [register] = useRegisterMutation();
     // const [updatePatient] = useUpdatePatientMutation();
@@ -45,7 +45,7 @@ function Affiliates() {
                 item.name = `${item.firstName} ${item.lastName}`
                 item.password = `M${item.ID_no}!`
                 item.confirm_password = `M${item.ID_no}!`
-                item.role = "affiliate"
+                item.role = "customer"
 
                 await register(item).unwrap();
                 refetch()
@@ -78,16 +78,14 @@ function Affiliates() {
     return (
         <AdminLayout>
 
-            {!affils ? <TableContainer isFetching={isFetching}>
-                <TableTitle tableTitle="Affiliates " />
+            <TableContainer isFetching={isFetching}>
+                <TableTitle tableTitle="Shelve Owners " />
                 <div className='flex justify-between items-center m-2 '>
                     <SearchContaine value={searchKey} name="name" placeholder="Search "
                     // onChange={(e) => debounce(search(e), 1000)}
                     />
                     <div className='flex gap-x-3'>
-                        <Button
-                            // icon={ }
-                            primary title=" Details" onClick={() => { setaffils(true) }} />
+
                         <Button
                             icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                                 <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
@@ -106,7 +104,7 @@ function Affiliates() {
                                     <div className="flex items-center">
 
                                         <Link
-                                            to={`/patients/${person?.name?.replace(/\s+/g, '')
+                                            to={`/admin/shelf-owners/${person?.name?.replace(/\s+/g, '')
                                                 }`} state={{ details: person }}
 
                                         >
@@ -144,38 +142,15 @@ function Affiliates() {
                         ))}
                     </TBody>
                 </Table>
-            </TableContainer> :
+            </TableContainer>
 
-                <div class="bg-gray-400 w-full  relative z-0">
-                    
-                    <div class="absolute top-[20%] w-full flex justify-center items-center z-20">
-                        <div className='w-full border border-primary-200'>
-                            {affiliates?.map((affil, i) => (
-                                <div className='w-full flex-col'>
-                                    <div className='w-full py-1 shadow-sm text-sm px-2 bg-primary-300 text-white'>{affil.label}</div>
-                                    {affil?.affiliates?.map((af, i) => (
-                                        <div className='flex'>
-                                            <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{af.name}</div>
-                                            <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{moment(af.date).format("Do MMM YYYY")}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div class="absolute bg-black  flex justify-center items-center z-10">
-                    </div>
-                </div>
-
-                // 
-            }
             <Modal
                 showModal={showModal}
                 closeModal={closeModal}
                 item={item}
                 handleSubmit={submit}
                 buttontitle={item?._id !== undefined && item?._id !== null && item?._id !== "" ? `Update` : "Save"}
-                title={item?._id !== undefined && item?._id !== null && item?._id !== "" ? `Edit ${item.firstName} ${item.lastName}` : "Add an Affiliate "}
+                title={item?._id !== undefined && item?._id !== null && item?._id !== "" ? `Edit ${item.firstName} ${item.lastName}` : "Add Shelf Owner  "}
                 body={
                     <form className="  rounded px-8 pt-6 pb-8 w-full">
                         <div className='flex w-full  space-between'>

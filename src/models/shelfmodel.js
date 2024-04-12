@@ -11,6 +11,7 @@ const townSchema = new Schema({
         [{ type: Schema.Types.ObjectId, ref: 'tb_feature' }]
     ,
     featured: { type: Boolean, default: false },
+    published: { type: Boolean, default: false },
     deletedAt: { type: Date, default: null },
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },
     area_id: { type: Schema.Types.ObjectId, ref: 'tb_area' },
