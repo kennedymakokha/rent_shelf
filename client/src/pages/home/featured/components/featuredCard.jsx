@@ -23,11 +23,11 @@ function FeaturedCard(props) {
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-2 h-2">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                         </svg>
-                                        {feature}</li>
+                                        {feature.name}</li>
                                 ))}
                             </ul>
                             <div className='flex flex-row flex-wrap gap-2 border-t p-2'>
-                                {props?.featured?.types?.slice(0, 10).map((type, i) => (<div key={i} className=' px-2 text-sm text-white text-center border rounded-md border-secondary-100'>{type}</div>))}
+                                {props?.featured?.types?.slice(0, 10).map((type, i) => (<div key={i} className=' px-2 text-sm text-white text-center border rounded-md border-secondary-100'>{type.name}</div>))}
                             </div>
                         </div>}
                     </> : <Bottom1 featured={props.featured} />

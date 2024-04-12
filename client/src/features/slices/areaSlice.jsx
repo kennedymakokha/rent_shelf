@@ -20,7 +20,10 @@ export const AreasApiSlice = apiSlice.injectEndpoints({
         fetchAreas: builder.query({
             query: () => `${USER_URL}`
         }),
-      
+        fetchTownAreas: builder.query({
+            query: (id) => `${USER_URL}/town/${id}`
+        }),
+
         deleteArea: builder.mutation({
             query: (id) => ({
                 url: `${USER_URL}/${id}`,
@@ -30,4 +33,4 @@ export const AreasApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {  useDeleteAreaMutation, useFetchAreasQuery, useUpdateAreaMutation, useCreateAreaMutation } = AreasApiSlice
+export const { useDeleteAreaMutation,useFetchTownAreasQuery, useFetchAreasQuery, useUpdateAreaMutation, useCreateAreaMutation } = AreasApiSlice

@@ -28,12 +28,35 @@ export function SearchContaine(props) {
 }
 const fixedInputclassName = "rounded-md appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm"
 
+export const TextArea = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
+    return (
+        <>
+            <label className="block text-slate-500 uppercase text-sm ml-1  font-bold mb-1">
+                {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
+            </label>
+
+            <textarea
+                onChange={handleChange}
+                value={value}
+                id={id}
+                name={name}
+
+                multiple
+                type={type}
+                required={required}
+                className={fixedInputclassName}
+                placeholder={placeholder}
+            />
+        </>
+    )
+}
 const InputContainer = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
             <label className="block text-slate-500 uppercase text-sm ml-1  font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
+
             <input
                 onChange={handleChange}
                 value={value}
@@ -67,21 +90,7 @@ export const SelectContainer = ({ value, multiple, array, id, name, required, ty
 
 
 }
-export function TextArea(props) {
-    return (
-        <div className='flex flex-col mx-1'>
-            <label className="block text-slate-500 capitalize text-sm font-bold mb-1 flex">
-                {props.label}{props.required && <span className='text-red-500 flex items-center justify-center w-4 '> * </span>}
-            </label>
 
-            <textarea rows={props.cols ? props.cols : "4"} cols="50"
-                type={props.type ? props.type : "text"} placeholder={props.placeholder} name={props.name}
-                onChange={props.onChange}
-                value={props.value}
-                className="  appearance-none text-[14px] focus:outline-none    rounded w-full  px-1 text-black" />
-        </div>
-    )
-}
 
 
 

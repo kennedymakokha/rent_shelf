@@ -26,8 +26,13 @@ const login_user = expressAsyncHandler(async (req, res) => {
         if (user && (await user.matchPassword(password))) {
 
             let token = generateToken(res, user._id)
-            user.tokens.push(req.body.token)
-            user.tokens.indexOf(req.body.token) === -1 ? user.tokens.push(req.body.token) : console.log("This item already exists");
+          
+            if (req.body.token !== null ) {
+               
+                user.tokens.indexOf(req.body.token) === -1 ? user.tokens.push(req.body.token) : console.log("This item already exists");
+            }
+
+          
 
             await User.findOneAndUpdate({ $or: [{ email }, { ID_no: email }] }, { tokens: user.tokens }, { new: true, useFindAndModify: false })
             return res.status(201).json({

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginMutation, useRegisterMutation, } from './../../features/slices/usersApiSlice';
 import { setCredentials } from './../../features/slices/authSlice';
 import { toast } from 'react-toastify';
+import { HandleConsole } from '../../utils/selectFromapi';
 
 const fields = loginFields;
 let fieldsState = {};
@@ -28,11 +29,15 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         try {
+
+            loginState.token = localStorage.getItem("token")
             const res = await login(loginState).unwrap();
             dispatch(setCredentials({ ...res }))
+            localStorage.removeItem("token")
             navigate('/')
         } catch (error) {
-            toast.error(error.data.message)   
+           
+            toast.error(error.data.message)
         }
     }
     useEffect(() => {

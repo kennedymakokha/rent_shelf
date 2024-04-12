@@ -41,7 +41,7 @@ function ScrollRight(props) {
                             <FeaturedCard noPrice={props.noPrice} left={props.left} opp={props.opp} feature={props.feature} key={i} text={props.text} bg={props.bg} showDetails={props.showDetails} featured={featured} />
                         ))}
                     </div>
-                    {props.array.length > 5 && <div className="absolute  top-[40%]  right-10 flex justify-between items-between z-10">
+                    {props?.array?.length > 5 && <div className="absolute  top-[40%]  right-10 flex justify-between items-between z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" className="w-8 h-8 text-white">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>

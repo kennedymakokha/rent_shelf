@@ -4,27 +4,27 @@ import { useFetchQuery } from "../../../features/slices/townsSlice";
 import { HandleConsole, SelectFromAPI } from "../../../utils/selectFromapi";
 import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
-import InputContainer, { SelectContainer } from "../../input.jsx";
+import InputContainer, { SelectContainer, TextArea } from "../../input.jsx";
 
 
-const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, typesuccess, }) => {
+const Modal = ({ showModal, town, changeTown, setShowModal, featuresArray, towns, types, areas, typesuccess, }) => {
     const [files, setFiles] = useState([])
     const [typesArr, setTypesArr] = useState([])
     const [featuresArr, setFeaturesArr] = useState([])
     const [availabletypes, setavailableTypes] = useState([])
     const [createshelve, isSuccess] = useCreateshelveMutation();
-
-    const [item, setItem] = useState({
+    let initialState = {
         name: "",
         price: 0,
         features: [],
         building: "",
         area_id: "",
         town_id: "",
+        description: "",
         type_id: [],
         files: []
-
-    })
+    }
+    const [item, setItem] = useState(initialState)
     const [availablefeatures, setavailaFeatures] = useState([])
 
 
@@ -79,6 +79,7 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
     }
 
     const handleSubmit = async () => {
+
         try {
 
             item.type_id = availabletypes
@@ -86,7 +87,7 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
 
             const formData = new FormData();
 
-            
+
             for (let index = 0; index < files.length; index++) {
                 formData.append("files", files[index]);
             }
@@ -99,12 +100,13 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
 
             formData.append("name", item.name);
             formData.append("price", item.price);
-
+            formData.append("description", item.description);
             formData.append("building", item.building);
             formData.append("area_id", item.area_id);
             formData.append("town_id", item.town_id);
 
             await createshelve(formData)
+            setItem(initialState)
             setShowModal(false);
             toast.success('Added successfull')
         } catch (error) {
@@ -170,6 +172,20 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
                                                     id="building"
                                                     required={true}
                                                 />
+
+                                                <div className={`flex flex-row  gap-2 flex-wrap my-1`}>
+                                                    <TextArea
+                                                        name="description"
+                                                        handleChange={changeInput}
+                                                        placeholder="description"
+                                                        label="description"
+                                                        type="text"
+                                                        value={item.description}
+                                                        id="description"
+                                                        required={true}
+                                                    />
+                                                </div>
+
                                                 <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
                                                     Features
                                                 </label>
@@ -190,7 +206,7 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
                                                         array: towns
                                                         , name: "town_id"
                                                     })}
-                                                    handleChange={(e) => { setItem(prevState => ({ ...prevState, town_id: e.target.value })) }}
+                                                    handleChange={async (e) => { await changeTown(e.target.value); setItem(prevState => ({ ...prevState, town_id: e.target.value })); }}
                                                     placeholder="town"
                                                     label="town"
                                                     type="select"
@@ -233,6 +249,7 @@ const Modal = ({ showModal, setShowModal, featuresArray, towns, types, areas, ty
                                                             className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-slate-400 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                                     ))}
                                                 </div>
+
 
                                             </div>
                                         </div>

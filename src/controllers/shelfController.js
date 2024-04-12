@@ -10,15 +10,24 @@ import imagemin from 'imagemin';
 import imageminMozJpeg from 'imagemin-mozjpeg';
 import User from "../models/usersModel.js";
 import role from "../models/rolesmodel.js";
+import firebaseAdmin from "../../firebaseAdmin.js";
+import { getMessaging } from "firebase-admin/messaging";
+
+
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
-
-
-        let featured = await Shelf.find({ deletedAt: null, featured: true }).populate("town_id", "name")
+        let featured = await Shelf.find({
+            deletedAt: null,
+            // published: true,
+            featured: true
+        }).populate("town_id", "name")
             .populate("area_id", "name")
             .populate("type_id", "name")
             .populate("features", "name")
-        let all = await Shelf.find({ deletedAt: null }).populate("town_id", "name")
+        let all = await Shelf.find({
+            deletedAt: null,
+            // published: true 
+        }).populate("town_id", "name")
             .populate("area_id", "name")
             .populate("type_id", "name")
             .populate("features", "name")
@@ -58,9 +67,38 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
 
         let shel = await Shelf.create(req.body)
         let rol = await role.findOne({ name: "owner" })
-        let v = await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
+        await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
 
         res.status(200).json({ message: 'Shelf Updated successfully ', shel })
+       
+        let adminRole = await role.findOne({ name: "admin" })
+        let admins = await User.find({ role: adminRole._id })
+        let tokensArray = []
+        for (let index = 0; index < admins.length; index++) {
+            // const element = array[index];
+            tokensArray = tokensArray.concat(admins[index].tokens)
+
+        }
+        console.log(tokensArray)
+        let payload = {
+            notification: {
+                title: `New Shelf In Town `,
+                body: `${shel.name} Has been Posted\nChcke it out and Publish `,
+                image: `${shel.files[0]}`
+            },
+            "webpush": {
+                "fcm_options": {
+                    "link": "https://dummypage.com"
+                }
+            },
+            data: {
+                url: 'http://localhost:3000/shelves'
+            },
+
+            tokens: tokensArray
+        }
+
+        let v = await firebaseAdmin.messaging().sendEachForMulticast(payload)
         return
     } catch (error) {
         console.log(error)
@@ -85,8 +123,29 @@ const getUsershelves = expressAsyncHandler(async (req, res) => {
 const publishUnpublishShelf = expressAsyncHandler(async (req, res) => {
     try {
         let Shelve = await Shelf.findById(req.params.id)
-        console.log(Shelve)
+        let Owner = await User.findById(Shelve.createdBy)
         let updates = await Shelf.findOneAndUpdate({ _id: req.params.id }, { published: !Shelve.published }, { new: true, useFindAndModify: false })
+
+        let payload = {
+            notification: {
+                title: `${updates.published ? "Published " : "Unpublished"}`,
+                body: `${Shelve.name} Has been ${updates.published ? "Published" : "Unpublished"} `,
+                image: `${Shelve.files[0]}`
+            },
+            "webpush": {
+                "fcm_options": {
+                    "link": "https://dummypage.com"
+                }
+            },
+            data: {
+                url: 'https://www.youtube.com'
+            },
+
+            tokens: Owner.tokens
+        }
+
+        let v = await firebaseAdmin.messaging().sendEachForMulticast(payload)
+
         return res.status(200).json({ message: 'Shelf Updated successfully ', updates })
     } catch (error) {
         console.log(error)

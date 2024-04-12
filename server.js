@@ -22,6 +22,9 @@ import TownsRoutes from './src/routes/townsRoutes.js'
 import AreaRoutes from './src/routes/areaRoutes.js'
 import ShelfsRoutes from './src/routes/shelfRoutes.js'
 import FeatureRoutes from './src/routes/featureRoutes.js'
+
+import FCMroutes from './src/routes/fcmAdminRoutes.js'
+
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 connectDb()
@@ -37,6 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 
 app.use('/api/roles', RolesRoutes)
+app.use('/api/fcm', FCMroutes)
 app.use('/api/users', UserRoutes)
 app.use('/api/types', TypesRoutes)
 app.use('/api/towns', TownsRoutes)

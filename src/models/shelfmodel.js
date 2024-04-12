@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const townSchema = new Schema({
     name: { type: String, },
     building: { type: String, },
+    description: { type: String, },
     files: { type: Array, },
     price: { type: Number, },
     ratings: { type: Number, default: 2 },

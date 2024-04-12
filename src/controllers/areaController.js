@@ -10,14 +10,14 @@ const getAreas = expressAsyncHandler(async (req, res) => {
         const Areas = await Area.find({ deletedAt: null })
         return res.status(200).json(Areas)
     } catch (error) {
-        return res.status(400).json({message:"Error Ocured try again",error})
-    
-    
+        return res.status(400).json({ message: "Error Ocured try again", error })
+
+
     }
 })
 const registerArea = expressAsyncHandler(async (req, res) => {
     try {
-        await CustomError(validateAreaInput, req.body, res)
+        CustomError(validateAreaInput, req.body, res)
         req.body.createdBy = req.user._id,
             await Area.create(req.body)
         return res.status(200).json({ message: 'Created Successfull' })
@@ -29,6 +29,12 @@ const getArea = expressAsyncHandler(async (req, res) => {
 
     const Area = await Area.findById()
     return res.status(200).json(Area)
+})
+
+const getTownAreas = expressAsyncHandler(async (req, res) => {
+
+    const Areas = await Area.find({ town_id: req.params.id })
+    return res.status(200).json(Areas)
 })
 
 const updateArea = expressAsyncHandler(async (req, res) => {
@@ -51,5 +57,5 @@ const deleteArea = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    getArea, getAreas, updateArea, deleteArea, registerArea
+    getArea, getAreas, updateArea, deleteArea, getTownAreas, registerArea
 }

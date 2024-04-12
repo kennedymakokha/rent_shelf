@@ -11,28 +11,31 @@ import { toast } from 'react-toastify';
 import { useFetchQuery } from '../../../features/slices/townsSlice.jsx';
 
 import { logout } from '../../../features/slices/authSlice';
-import { useFetchAreasQuery } from '../../../features/slices/areaSlice.jsx';
+import { useFetchTownAreasQuery } from '../../../features/slices/areaSlice.jsx';
 import { useFetchTypeQuery } from '../../../features/slices/typeSlice.js';
 import { useFetchFeatureQuery } from '../../../features/slices/featureSlice.jsx';
 import { useLogoutMutation } from '../../../features/slices/usersApiSlice.js';
-import { HandleArray } from '../../../utils/selectFromapi.jsx';
+import { HandleArray, HandleConsole } from '../../../utils/selectFromapi.jsx';
 import { DropDown } from '../../DropDown.jsx';
 // import { Dropdown } from './../../DropDown.jsx';
 const Header = () => {
   const [showModal, setShowModal] = useState(false)
-
+  const [town, setTown] = useState(false)
 
   const { userInfo } = useSelector((state) => state.auth)
-  // alert(JSON.stringify(userInfo))
+  
   const navigate = useNavigate()
-
   const [logoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch()
   const { data: towns, refetch, isSuccess, isLoading } = useFetchQuery()
-  const { data: areas, isSuccess: success, } = useFetchAreasQuery()
+  const { data: areas, refetch: { refetchAreas }, isSuccess: success, } = useFetchTownAreasQuery(town)
   const { data: types, isSuccess: typesuccess, } = useFetchTypeQuery()
   const { data: features, isSuccess: fearesuccess, } = useFetchFeatureQuery()
 
+
+  const changeTown = (town) => {
+    setTown(town)
+  }
 
   let newTypesArray = HandleArray(types)
   let featuresArray = HandleArray(features)
@@ -84,7 +87,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <ListingModal showModal={showModal} types={newTypesArray} featuresArray={featuresArray} typesuccess={typesuccess} areas={areas} towns={towns} isSuccess={isSuccess} setShowModal={setShowModal} />
+      <ListingModal showModal={showModal} changeTown={changeTown} setTown={setTown} types={newTypesArray} featuresArray={featuresArray} typesuccess={typesuccess} areas={areas} towns={towns} isSuccess={isSuccess} setShowModal={setShowModal} />
     </header>
   );
 };

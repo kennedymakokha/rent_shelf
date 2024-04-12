@@ -32,9 +32,9 @@ export default function Signup() {
       // HandleConsole(signupState)
       await signUp(signupState).unwrap();
 
-      // localStorage.setItem("activated", false)
+      localStorage.setItem("activated", false)
 
-      // localStorage.setItem("RegId", res._id)
+      localStorage.setItem("RegId", res._id)
       toast.info('succeful registration')
       navigate('/activate')
     } catch (error) {
