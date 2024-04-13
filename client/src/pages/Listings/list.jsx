@@ -14,7 +14,7 @@ const fixedInputclassName = "rounded-md appearance-none my-2 relative block w-fu
 const InputContainer = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-slate-500 uppercase text-sm ml-1  font-bold mb-1">
+            <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
             <input
@@ -36,7 +36,7 @@ const InputContainer = ({ value, id, multiple, name, required, type, placeholder
 const SelectContainer = ({ value, multiple, array, id, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className=" w-full  text-slate-500 uppercase text-sm font-bold mb-1">
+            <label className=" w-full  text-primary-100 uppercase text-sm font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
             <select multiple={multiple} className={fixedInputclassName} onChange={handleChange}>
@@ -213,14 +213,14 @@ const List = ({ towns, areas, isSuccess }) => {
                                         id="building"
                                         required={true}
                                     />
-                                    <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
+                                    <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
                                         Features
                                     </label>
                                     <div className="flex flex-row  gap-2 flex-wrap my-1">
                                         {featuresArray.map((feature, i) => (
                                             <div key={i}
                                                 onClick={() => handlefeature(i)}
-                                                className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-slate-400 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
+                                                className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-primary-100 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                         ))}
                                     </div>
 
@@ -265,14 +265,14 @@ const List = ({ towns, areas, isSuccess }) => {
                                         id="price"
                                     />
 
-                                    <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
+                                    <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
                                         Types
                                     </label>
                                     <div className={`flex flex-row  gap-2 flex-wrap my-1`}>
                                         {typesArray.map((feature, i) => (
                                             <div key={i}
                                                 onClick={() => updateFieldChanged(i)}
-                                                className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-slate-400 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
+                                                className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-primary-100 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                         ))}
                                     </div>
 

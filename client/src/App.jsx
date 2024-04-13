@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { io } from "socket.io-client";
+
 import Home from './pages/home'
 import { toast } from 'react-toastify'
 // import './containers/layout/navbar/style.'
@@ -9,6 +9,8 @@ import CookieConsent from "react-cookie-consent";
 import Message from './firebase/Message';
 import { useSubcribeMutation } from './features/slices/FCmSlice';
 import { HandleConsole } from './utils/selectFromapi';
+import { io } from 'socket.io-client'
+export const socket = io("http://localhost:5000");
 const rootFontStyle = {
   fontSize: '18px',
   fontFamily: "RalewayDots-Regular",
@@ -16,7 +18,7 @@ const rootFontStyle = {
 };
 const { VITE_APP_VAPID_KEY } = import.meta.env;
 function App() {
-  const socket = io(`https://localhost:5000`);
+  // const socket = io(`https://localhost:5000`);
   const [show, setShow] = useState(false);
   const [data, setData] = useState({})
   const [subcribe] = useSubcribeMutation();
@@ -31,7 +33,7 @@ function App() {
       });
 
       //We can send token to server
-     
+
       await subcribe({ token, topic: "general" }).unwrap()
       localStorage.setItem("token", token)
     } else if (permission === "denied") {
@@ -48,9 +50,19 @@ function App() {
       setShow(true)
       setData(payload.notification)
     })
-  
+
 
   }, []);
+  useEffect(() => {
+    console.log("first")
+    socket.on("connect", () => {
+      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+
+    socket.on("disconnect", () => {
+      console.log(socket.id); // undefined
+    });
+  }, [])
 
   return (
     <>

@@ -25,7 +25,7 @@ function ShelveDetails({ data, showModal, setShowModal }) {
         </div>
       </div>
       <TitleContainer left title={data?.title} />
-      <p className='text-slate-400 px-3 text-justified '>Located at {data?.description}</p>
+      <p className='text-primary-100 px-3 text-justified '>Located at {data?.description}</p>
     </div>
 
   )

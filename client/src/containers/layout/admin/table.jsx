@@ -20,7 +20,7 @@ export function TableContainer(props) {
 }
 export function TableTitle(props) {
     return (
-        <h2 className="text-slate-500  text-[20px] uppercase underline m-2">
+        <h2 className="text-primary-100  text-[20px] uppercase underline m-2">
             {props.tableTitle}
         </h2>
     )

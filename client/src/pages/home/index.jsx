@@ -8,6 +8,7 @@ import { useFetchshelvesQuery } from '../../features/slices/shelfSlice.jsx'
 import { useSelector } from 'react-redux'
 import { HandleConsole } from '../../utils/selectFromapi.jsx'
 import { useNavigate } from 'react-router-dom'
+import { socket } from '../../App.jsx'
 
 function index() {
 
@@ -15,12 +16,19 @@ function index() {
     const navigate = useNavigate()
     const { userInfo } = useSelector((state) => state.auth)
     useEffect(() => {
-      
-         if (userInfo && userInfo.role === "admin") {
+
+        if (userInfo && userInfo.role === "admin") {
             navigate('admin')
         } else {
             return
         }
+    })
+    useEffect(() => {
+        socket.on("publishing", (data) => {
+            refetch()
+            // console.log(data); // x8WIv7-mJelg7on_ALbx
+        });
+
     })
     return (
         <div className='overflow-hidden'>

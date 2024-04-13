@@ -18,7 +18,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
         let featured = await Shelf.find({
             deletedAt: null,
-            // published: true,
+            published: true,
             featured: true
         }).populate("town_id", "name")
             .populate("area_id", "name")
@@ -26,7 +26,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
             .populate("features", "name")
         let all = await Shelf.find({
             deletedAt: null,
-            // published: true 
+            published: true 
         }).populate("town_id", "name")
             .populate("area_id", "name")
             .populate("type_id", "name")

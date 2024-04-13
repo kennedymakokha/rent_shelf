@@ -186,14 +186,14 @@ const Modal = ({ showModal, town, changeTown, setShowModal, featuresArray, towns
                                                     />
                                                 </div>
 
-                                                <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
+                                                <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
                                                     Features
                                                 </label>
                                                 <div className="flex flex-row  gap-2 flex-wrap my-1">
                                                     {featuresArr.map((feature, i) => (
                                                         <div key={i}
                                                             onClick={() => handlefeature(i)}
-                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-slate-400 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
+                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-primary-100 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                                     ))}
                                                 </div>
 
@@ -239,14 +239,14 @@ const Modal = ({ showModal, town, changeTown, setShowModal, featuresArray, towns
                                                     id="price"
                                                 />
 
-                                                <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
+                                                <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
                                                     Types
                                                 </label>
                                                 <div className={`flex flex-row  gap-2 flex-wrap my-1`}>
                                                     {typesArr.map((feature, i) => (
                                                         <div key={i}
                                                             onClick={() => updateFieldChanged(i)}
-                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-slate-400 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
+                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-primary-100 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                                     ))}
                                                 </div>
 

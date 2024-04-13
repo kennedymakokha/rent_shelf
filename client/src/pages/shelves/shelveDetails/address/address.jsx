@@ -28,13 +28,13 @@ function Address({ data }) {
                 </div>
             </div>
             <div className='flex sm:flex-row flex-col gap-y-2 px-6 w-full'>
-                <div className='flex sm:text-[20px] text-slate-400 text-[18px] w-1/3'>
+                <div className='flex sm:text-[20px] text-primary-100 text-[18px] w-1/3'>
                     {data?.user_id?.name}
                 </div>
-                <div className='flex sm:text-[20px] text-slate-400 text-[18px] w-1/3'>
+                <div className='flex sm:text-[20px] text-primary-100 text-[18px] w-1/3'>
                     {data?.user_id?.phone}
                 </div>
-                <div className='flex sm:text-[20px] text-slate-400 text-[18px] w-1/3'>
+                <div className='flex sm:text-[20px] text-primary-100 text-[18px] w-1/3'>
                     {data?.user_id?.email}
                 </div>
             </div>

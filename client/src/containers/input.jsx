@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 export function SearchContaine(props) {
     return (
         <div className='flex flex-col mx-1'>
-            <label className="block text-slate-500 capitalize text-sm font-bold mb-1 flex">
+            <label className="block text-primary-100 capitalize text-sm font-bold mb-1 flex">
                 {props.label}{props.required && <span className='text-red-500 flex items-center justify-center w-4 '> * </span>}
             </label>
             {props.type === "radio" ? props.referal ?
@@ -31,7 +31,7 @@ const fixedInputclassName = "rounded-md appearance-none my-2 relative block w-fu
 export const TextArea = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-slate-500 uppercase text-sm ml-1  font-bold mb-1">
+            <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
 
@@ -53,7 +53,7 @@ export const TextArea = ({ value, id, multiple, name, required, type, placeholde
 const InputContainer = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-slate-500 uppercase text-sm ml-1  font-bold mb-1">
+            <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
 
@@ -76,7 +76,7 @@ const InputContainer = ({ value, id, multiple, name, required, type, placeholder
 export const SelectContainer = ({ value, multiple, array, id, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
+            <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
             <select multiple={multiple} className={fixedInputclassName} onChange={handleChange}>
@@ -147,7 +147,7 @@ export function SelectInput(props) {
 
     return (
         <div className='flex flex-col mx-1'>
-            <label className="block text-slate-500 capitalize text-sm font-bold mb-1 flex">
+            <label className="block text-primary-100 capitalize text-sm font-bold mb-1 flex">
                 {props.label}{props.required && <span className='text-red-500 flex items-center justify-center w-4 '> * </span>}
             </label>
             {props.search && typing ?
