@@ -3,8 +3,8 @@ import { DetailItem, RateItem } from './items'
 
 function Details({ details }) {
     return (
-        <div className='flex w-full border border-dotted border-primary-700  rounded-md p-2'>
-            <div className='w-full flex '>
+        <div className='flex w-full border flex-col border-dotted border-primary-700  rounded-md p-2'>
+            <div className='w-full border-b border-dotted border-slate-300 pb-2 flex '>
                 <div className='w-[15%] items-center flex-col flex'>
                     <div>
                         <DetailItem label="Name" value={details.name} />
@@ -19,7 +19,7 @@ function Details({ details }) {
                         <h2 className='capitalize font-bold'>features</h2>
                         <div className='flex flex-wrap gap-1'>
                             {details?.features?.map((type, i) => (
-                                <div key={i} className='flex font-normal px-2 text-primary-100 border rounded-md items-center justify-center h-6'>{type.name}</div>
+                                <div key={i} className='flex font-normal px-2 text-slate-400 border rounded-md items-center justify-center h-6'>{type.name}</div>
                             ))}
                         </div>
                     </div>
@@ -29,7 +29,7 @@ function Details({ details }) {
                         <h2 className='capitalize font-bold'>Types</h2>
                         <div className='flex flex-wrap gap-1'>
                             {details?.type_id?.map((type, i) => (
-                                <div key={i} className='flex font-normal px-2 text-primary-100 border rounded-md items-center justify-center h-6'>{type.name}</div>
+                                <div key={i} className='flex font-normal px-2 text-slate-400 border rounded-md items-center justify-center h-6'>{type.name}</div>
                             ))}
                         </div>
                     </div>
@@ -43,6 +43,16 @@ function Details({ details }) {
                         <RateItem perc={10} rate={2} />
                         <RateItem perc={10} rate={1} />
                     </div>
+                </div>
+            </div>
+            <div className='flex w-full   my-1 rounded-md '>
+                <div className='w-full flex '>
+
+                    <div className='w-full   '>
+                        <h2 className='capitalize text-[14px] font-bold'>Description</h2>
+                        <p className='text-slate-400 text-sm'>{details?.description}</p>
+                    </div>
+
                 </div>
             </div>
         </div>

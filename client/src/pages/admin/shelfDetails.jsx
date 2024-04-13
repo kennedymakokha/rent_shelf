@@ -46,16 +46,7 @@ function shelfDetails() {
 
             <ImageWrap details={details} />
             <Details details={details} />
-            <div className='flex w-full border border-dotted border-primary-700 my-1 rounded-md p-2'>
-                <div className='w-full flex '>
-
-                    <div className='w-full  border pl-2 pt-2'>
-                        <h2 className='capitalize text-[14px] font-bold'>Description</h2>
-                        <p className='text-slate-400 text-sm'>{data?.description}</p>
-                    </div>
-
-                </div>
-            </div>
+           
         </AdminLayout>
     )
 }
