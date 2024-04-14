@@ -1,4 +1,4 @@
-import React from 'react'
+
 import TitleContainer from '../../containers/titleContainer'
 import { FeaturedArray } from '../data'
 import Contents from './contents'

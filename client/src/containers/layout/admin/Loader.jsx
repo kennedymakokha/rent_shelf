@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Loading from './loading.webp'
 import './spin.css'
 function Loader() {

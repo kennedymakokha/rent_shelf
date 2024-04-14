@@ -1,4 +1,4 @@
-import React from 'react'
+
 import priceTag from './price.png'
 function Pricebadge({ featured, feature, opp, noPrice }) {
     return (

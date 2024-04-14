@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 function SocialItem({ social, setShowModal }) {
     const action = () => {

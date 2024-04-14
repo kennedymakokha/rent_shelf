@@ -1,8 +1,6 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom';
+/* eslint-disable react/prop-types */
+
 import TitleContainer from '../../../../containers/titleContainer';
-import { socials } from '../details/socialItems';
-import SocialItem from '../details/socialItem';
 
 
 

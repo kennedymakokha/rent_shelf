@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Focus from './Focus.gif'
 import { Link } from 'react-router-dom'
 function Errorpage() {

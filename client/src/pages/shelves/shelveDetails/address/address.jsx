@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { useLocation } from 'react-router-dom';
 import TitleContainer from '../../../../containers/titleContainer';
 import { socials } from '../details/socialItems';

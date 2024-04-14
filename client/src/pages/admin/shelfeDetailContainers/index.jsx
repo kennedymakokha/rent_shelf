@@ -1,4 +1,4 @@
-import React from 'react'
+
 import AdminLayout from '../../containers/layout/admin/adminLayout'
 import { HandleConsole } from '../../utils/selectFromapi'
 import { useLocation } from 'react-router-dom'
@@ -37,7 +37,7 @@ function shelfDetails() {
                 </div>
                 <div className='flex items-center gap-x-2 '>
                     <Ratings small row width={6} count={details?.ratings} />
-                    <div className={`px-2  ${data?.published ? "border border-secondary-200 bg-secondary-300 text-primary-100" : "border bg-primary-300 text-white  border-primary-200"}  rounded-md text-[14px]`} onClick={() => publish()}> {!data?.published ? "Unpublish" : "Publish"}</div>
+                    <div className={`px-2  ${data?.published ? "border border-secondary-200 bg-secondary-300 text-primary-100" : "border bg-primary-300 text-white  border-primary-200"}  rounded-md text-[18px]`} onClick={() => publish()}> {!data?.published ? "Unpublish" : "Publish"}</div>
                 </div>
 
             </div>
@@ -62,7 +62,7 @@ function shelfDetails() {
                         <DetailItem label="Price" value={details.price} />
                     </div>
                     <div className='w-[35%] flex-col flex'>
-                        <div className='flex flex-col text-[14px] px-2 w-1/2'>
+                        <div className='flex flex-col text-[18px] px-2 w-1/2'>
                             <h2 className='capitalize font-bold'>features</h2>
                             <div className='flex flex-wrap gap-1'>
                                 {details?.features?.map((type, i) => (
@@ -79,7 +79,7 @@ function shelfDetails() {
             <div className='flex w-full border border-dotted border-primary-700 my-1 rounded-md p-2'>
                 <div className='w-full flex '>
                     <div className='w-[50%] flex-col flex'>
-                        <div className='flex flex-col text-[14px] px-2 w-1/2'>
+                        <div className='flex flex-col text-[18px] px-2 w-1/2'>
                             <h2 className='capitalize font-bold'>Types</h2>
                             <div className='flex flex-wrap gap-1'>
                                 {details?.types?.map((type, i) => (
@@ -91,7 +91,7 @@ function shelfDetails() {
                         </div>
                     </div>
                     <div className='w-[50%]  border pl-2 pt-2'>
-                        <h2 className='capitalize text-[14px] font-bold'>Ratings</h2>
+                        <h2 className='capitalize text-[18px] font-bold'>Ratings</h2>
                         <div className='flex flex-col p-2 '>
                             <RateItem perc={0} rate={0} />
                             <RateItem perc={0} rate={0} />

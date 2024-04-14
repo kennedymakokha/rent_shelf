@@ -1,4 +1,4 @@
-import React from 'react'
+
 import TitleContainer from './titleContainer'
 
 function Tab(props) {

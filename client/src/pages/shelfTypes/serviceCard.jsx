@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Bg from './Bg.jpg'
 import Bottom from '../home/featured/components/bottom'
 
