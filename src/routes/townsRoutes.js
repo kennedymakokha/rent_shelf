@@ -8,10 +8,10 @@ const router = express.Router()
 router.route('/:id')
     .delete(protect, deleteTown)
     .put(protect, updateTown)
-    .get(protect, getTown)
+    .get( getTown)
 
 router.route('/')
     .post(protect, registerTown)
-    .get(protect, getTowns)
+    .get( getTowns)
 
 export default router 

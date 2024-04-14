@@ -29,14 +29,15 @@ function index() {
             // console.log(data); // x8WIv7-mJelg7on_ALbx
         });
 
-    })
+    }, [data])
+    HandleConsole(data)
     return (
         <div className='overflow-hidden'>
             <Slider />
 
-            <Featured data={data?.featured} isFetching={!isSuccess} />
-            <Shelves data={data?.all} isFetching={!isSuccess} />
-            <Warehouse data={data?.all} isFetching={!isSuccess} />
+            <Featured data={data !== undefined ? data?.filter(e => e.featured === true) : []} isFetching={!isSuccess} />
+            <Shelves data={data !== undefined ? data : []} isFetching={!isSuccess} />
+            <Warehouse data={data !== undefined ? data?.filter(e => e.warehouse === true) : []} isFetching={!isSuccess} />
 
 
 

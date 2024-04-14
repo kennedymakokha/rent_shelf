@@ -23,8 +23,8 @@ function Features({ data }) {
             <div className='flex flex-col sm:flex-row px-6 pb-10  gap-y-4 w-full sm:flex-wrap'>
                 {features.map((feat, i) => (
                     <div className='flex items-center gap-x-2 flex-row px-6 sm:w-1/3 w-full'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 text-primary-100">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-primary-100">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                         </svg>
                         {feat}
                     </div>

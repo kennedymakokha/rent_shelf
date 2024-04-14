@@ -26,7 +26,7 @@ const Lab = (http) => {
         });
         socket.on('publishing', async (msg) => {
             let result;
-            console.log("msg", msg)
+            
             await publish(msg)
             // include the offset with the message
             io.emit('publishing', msg);

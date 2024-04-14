@@ -9,9 +9,9 @@ router.route('/:id')
     .delete(protect, deleteArea)
     .put(protect, updateArea)
     .get(protect, getArea)
-router.route('/town/:id').get(protect, getTownAreas)
+router.route('/town/:id').get( getTownAreas)
 router.route('/')
     .post(protect, registerArea)
-    .get(protect, getAreas)
+    .get( getAreas)
 
 export default router 

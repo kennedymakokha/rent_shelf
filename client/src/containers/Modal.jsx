@@ -21,8 +21,8 @@ const Modal = (props) => {
                                 <div className="flex items-start justify-between px-5 py-2 border-b border-solid border-gray-300 rounded-t ">
                                     <h3 className="text-2xl font=semibold">{title} </h3>
                                     <div onClick={() => closeModal(false)} className="h-8 w-8 p-1  border flex items-center justify-center rounded-full text-center text-2xl font-bold">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" className="hover:text-secondary-500 text-primary-100 w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="hover:text-secondary-500 text-primary-100 w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                                         </svg>
 
                                     </div>

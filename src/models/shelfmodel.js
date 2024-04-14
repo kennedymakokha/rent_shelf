@@ -13,6 +13,7 @@ const townSchema = new Schema({
     ,
     featured: { type: Boolean, default: false },
     published: { type: Boolean, default: false },
+    warehouse: { type: Boolean, default: false },
     deletedAt: { type: Date, default: null },
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },
     area_id: { type: Schema.Types.ObjectId, ref: 'tb_area' },

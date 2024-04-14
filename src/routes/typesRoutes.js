@@ -12,6 +12,6 @@ router.route('/:id')
 
 router.route('/')
     .post(protect, registerType)
-    .get(protect, getTypes)
+    .get( getTypes)
 
 export default router 

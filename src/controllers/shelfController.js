@@ -16,27 +16,131 @@ import { getMessaging } from "firebase-admin/messaging";
 
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
-        let featured = await Shelf.find({
-            deletedAt: null,
-            published: true,
-            featured: true
-        }).populate("town_id", "name")
-            .populate("area_id", "name")
-            .populate("type_id", "name")
-            .populate("features", "name")
-        let all = await Shelf.find({
-            deletedAt: null,
-            published: true 
-        }).populate("town_id", "name")
-            .populate("area_id", "name")
-            .populate("type_id", "name")
-            .populate("features", "name")
+        const { town, area, featured } = req.query
 
-        return res.status(200).json({ all, featured })
+        let data = []
+        if (town === "undefined" && area === "undefined" && featured === "false") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
 
+            return res.status(200).json(data)
+        } else if (town === "undefined" && area === "undefined" && featured === "true") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                featured: true,
+
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
+        else if (town !== "undefined" && area !== "undefined" && featured === "true") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                town_id: town,
+                area_id: area,
+                featured: true,
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
+        else if (town === "undefined" && area !== "undefined" && featured === "true") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                town_id: town,
+                area_id: area,
+                featured: true,
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
+        else if (town !== "undefined" && area === "undefined" && featured === "true") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                town_id: town,
+                area_id: area,
+                featured: true,
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
+        else if (town !== "undefined" && area !== "undefined" && featured === "false") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                town_id: town,
+                area_id: area,
+               
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
+        else if (town === "undefined" && area !== "undefined" && featured === "false") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                area_id: area
+               
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
+        else if (town !== "undefined" && area === "undefined" && featured === "false") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                town_id: town,
+                
+               
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
+        else if (town !== "undefined" && area == "undefined") {
+            data = await Shelf.find({
+                deletedAt: null,
+                published: true,
+                town_id: town,
+                featured: featured,
+            }).populate("town_id", "name")
+                .populate("area_id", "name")
+                .populate("type_id", "name")
+                .populate("features", "name")
+
+            return res.status(200).json(data)
+        }
 
     } catch (error) {
-
+        console.log(error)
         return res.status(400).json({ message: "Error Ocured try again", error })
 
 
@@ -70,7 +174,7 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
         await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
 
         res.status(200).json({ message: 'Shelf Updated successfully ', shel })
-       
+
         let adminRole = await role.findOne({ name: "admin" })
         let admins = await User.find({ role: adminRole._id })
         let tokensArray = []

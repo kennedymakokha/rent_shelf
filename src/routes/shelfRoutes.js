@@ -36,7 +36,7 @@ router.route('/publish/:id').put(protect, publishUnpublishShelf)
 router.route('/:id')
     .delete(protect, deleteShelf)
     .put(protect, updateShelf)
-    .get(protect, getShelf)
+    .get(getShelf)
 router.route('/user/:id').get(protect, getUsershelves)
 
 
