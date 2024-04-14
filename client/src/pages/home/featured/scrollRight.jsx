@@ -1,34 +1,33 @@
-import React from 'react'
+/* eslint-disable react/prop-types */
+
 import Contents from '../contents'
 import FeaturedCard from './components/featuredCard'
 import TitleContainer from '../../../containers/titleContainer'
 import { Link } from 'react-router-dom'
-import { Multiple } from '../../../utils/multiple'
-import ContentLoader, { Facebook } from 'react-content-loader'
-import { HandleConsole } from '../../../utils/selectFromapi'
+import { Multiple, Repeat } from '../../../utils/multiple'
+import ContentLoader from 'react-content-loader'
+import { ImagePlaceHolder } from '../../admin/shelfeDetailContainers/items'
 
 
 const MyLoader = () => (
 
-    <div className="w-[300px] h-[400px] relative z-0">
-        <div className='w-full flex items-center justify-center shrink-0 w-full h-full border border-slate-100 rounded-[20px]'>
+    <div className="w-[270px] h-[300px] rounded-md relative z-0">
+        <div className='w-full flex items-center justify-center rounded-md shrink-0 w-full h-full bg-primary-900'>
 
-            <ContentLoader viewBox="0 0 80 106">
+            <ContentLoader backgroundColor="#99a5b4" viewBox="0 0 80 90">
 
-                <rect x="0" y="0" rx="5" ry="5" width="80" height="106" />
+                <rect x="0" y="0" rx="5" ry="5" width="80" height="90" />
 
             </ContentLoader>
         </div>
-        <div className="absolute inset-0 flex justify-center items-center z-10">
-            <p className="text-xl font-semibold">Loading...</p>
-        </div>
+
     </div>
 
 )
 function ScrollRight(props) {
-    console.log(props.data)
+
     return (
-    
+
         <Contents bg={props.bgcontainer}>
             <div className={`flex w-full h-[400px] ${props.bgcontainer} flex-col`}>
                 <div className={`flex flex-row items-center ${props.goTo ? "justify-between" : "justify-center"}`}>
@@ -39,12 +38,28 @@ function ScrollRight(props) {
                 </div>
 
                 <div className="bg-transparent w-full h-full relative z-0">
-                    <div className=' w-full h-full  flex flex-row overflow-x-scroll scrollbar-hide'>
-                        {props?.data !== undefined && props?.data?.map((featured, i) => (
-                            <FeaturedCard noPrice={props.noPrice} left={props.left} opp={props.opp} feature={props.feature} key={i} text={props.text} bg={props.bg} showDetails={props.showDetails} featured={featured} />
-                        ))}
-                    </div>
-                    {props?.array?.length > 5 && <div className="absolute  top-[40%]  right-10 flex justify-between items-between z-10">
+                    {props.isFetching ?
+                        <div className=' w-full h-full  flex flex-row  overflow-x-scroll scrollbar-hide'>
+                            <Multiple count={5} row body={<MyLoader />} />
+
+                        </div>
+                        :
+                        <div className=' w-full h-full  flex flex-row overflow-x-scroll scrollbar-hide'>
+                            {props.data !== undefined && props.data.map((featured, i) => (
+                                <FeaturedCard noPrice={props.noPrice} left={props.left} opp={props.opp} feature={props.feature} key={i} text={props.text} bg={props.bg} showDetails={props.showDetails} featured={featured} />
+                            ))}
+                            {props.data.length < 5 &&
+                                <div className={`flex w-full sm:w-${5 - props.data.length}/4 h-[350px] `}>
+                                    <div className="w-full h-full gap-x-1 flex">
+                                        <Repeat count={5 - props.data.length} body={<ImagePlaceHolder details={props.data !== undefined && props.data} />
+                                        } />
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    {props?.data?.length > 5 && <div className="absolute  top-[40%]  right-10 flex justify-between items-between z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-8 h-8 text-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -53,6 +68,7 @@ function ScrollRight(props) {
                 {/* } */}
 
             </div>
+
         </Contents >
     )
 }

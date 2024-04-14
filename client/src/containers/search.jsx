@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import  { useState } from 'react'
 
 
 
@@ -7,23 +9,8 @@ import React, { useState } from 'react'
 function Search(props) {
     const [searchKey, setSearchKey] = useState('')
     const [typing, setTyping] = useState(false)
+    // eslint-disable-next-line no-unused-vars
     const [typingTimeout, setTypingTimeout] = useState(0)
-    const changeName = (event) => {
-        const self = this;
-
-        if (typingTimeout) {
-            clearTimeout(typingTimeout);
-        }
-        setSearchKey(event.target.value)
-        setTyping(false)
-        setTypingTimeout(
-            setTimeout(function () {
-                console.log(searchKey)
-
-            }, 5000)
-        )
-
-    }
     return (
         <div className='sm:flex hidden h-[40px]   border-slate-300 border bg-slate-100 justify-between items-center px-2 rounded-md '>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 ">
@@ -34,13 +21,9 @@ function Search(props) {
                 onChange={props.onchange}
                 placeholder='Search...'
                 className={`w-[95%] h-full focus:outline-none text-sm bg-slate-100`}
-                // style={{ width: '300px', padding: '8px 15px', fontSize: '16px' }}
+              
             />
-            {/* <input type='text'
-                onChange={changeName}
-                value={props.value}
-                placeholder={props.placeholder ? props.placeholder : 'Search'}
-                className={`w-[95%] h-full focus:outline-none text-sm bg-slate-100`} /> */}
+           
         </div>
     )
 }

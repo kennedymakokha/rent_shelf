@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Ratings } from '../../../../utils/multiple'
 
 function Bottom(props) {

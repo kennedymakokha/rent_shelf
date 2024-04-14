@@ -1,69 +1,44 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react'
 import Contents from '../home/contents'
 import Shelves from './../../assets/logo.png'
-import { FeaturedArray } from '../data'
-import TitleContainer from '../../containers/titleContainer'
-import { Link } from 'react-router-dom'
 import { socket } from '../../App'
 import { useFetchshelvesQuery } from '../../features/slices/shelfSlice'
 import { useFetchQuery } from '../../features/slices/townsSlice'
 import { useFetchTownAreasQuery } from '../../features/slices/areaSlice'
-import { HandleArray, HandleConsole } from '../../utils/selectFromapi'
+import { HandleArray } from '../../utils/selectFromapi'
 import ErrorImage from './error.gif'
 import { Multiple } from '../../utils/multiple'
 import { useFetchTypeQuery } from '../../features/slices/typeSlice'
-import { useFetchFeatureQuery } from '../../features/slices/featureSlice'
-
-const FilterTitle = ({ title }) => {
-  return (
-    <div className='w-full h-6 px-2  bg-slate-100 border border-slate-200 shadow-3xl text-xs font-bold capitalize items-center tracking-wider justify-center flex  text-primary-100'>{title}</div>
-  )
+import { FilterItem, FilterItemLoader, FilterTitle, ShelveComponent, ShelveLoader } from './components'
+// import { useFetchFeatureQuery } from '../../features/slices/featureSlice'
+// eslint-disable-next-line react-refresh/only-export-components
+export const initialState = {
+  town: undefined,
+  area: undefined,
+  type: undefined,
+  featured: false,
+  warehouse: false
 }
-const FilterItem = (props) => {
-  const { data, onChange } = props
 
-  return (
-    <div className='gap-x-2 flex flex-row'>
-      <div onClick={onChange} className='flex w-3 h-3 items-center justify-center border  border-primary-900'>{data.state ? <div className='w-full rounded-full flex h-full bg-primary-200'>
-      </div> : ""}</div>
-      <div className='flex  h-3 items-center justify-center text-[12px] text-slate-400 '>{data.name}</div>
-    </div>
-  )
-}
-const FilterItemLoader = () => {
-
-
-  return (
-    <div className='gap-x-2 flex flex-row'>
-      <div className='flex w-3 h-3 items-center justify-center border  bg-slate-200  border-primary-900'></div>
-      <div className='flex w-[80px] h-3 items-center justify-center text-[12px] text-slate-400 bg-slate-200 '></div>
-    </div>
-  )
-}
-function index() {
+function Index() {
   const [town, setTown] = useState({})
   const [area, setArea] = useState({})
   const [featured, setfeatured] = useState(false)
-  const [item, setItem] = useState({
-    town: undefined,
-    area: undefined,
-    type: undefined,
-    featured: false,
-    warehouse: false
-  })
+  const [item, setItem] = useState(initialState)
   const [townsArr, settowns] = useState([])
-  const [areasArr, setAreas] = useState([])
+  // const [areasArr, setAreas] = useState([])
   const [typesArr, settypes] = useState([])
   let paths =
     [
       { title: "shelves", path: 'shelves' },
       // { title:"hOME", path: `shelves/${data?.name?.replace(/\s+/g, "-").toLowerCase()}` }
     ]
-  const { data, refetch, isFetching, isSuccess, isLoading } = useFetchshelvesQuery(item)
-  const { data: towns, refetch: refetchTown, isFetching: townFeching, isLoading: loadingTown } = useFetchQuery()
-  const { data: areas, refetch: { refetchAreas }, isFetching: areaFetching, isSuccess: success, } = useFetchTownAreasQuery(town._id)
-  const { data: types, isSuccess: typesuccess, } = useFetchTypeQuery()
-  const { data: features, isSuccess: fearesuccess, } = useFetchFeatureQuery()
+  const { data, refetch, isFetching, isSuccess } = useFetchshelvesQuery(item)
+  const { data: towns, isFetching: townFeching } = useFetchQuery()
+  const { data: areas, isFetching: areaFetching, } = useFetchTownAreasQuery(town._id)
+  const { data: types, } = useFetchTypeQuery()
+  // const { data: features, isSuccess: fearesuccess, } = useFetchFeatureQuery()
   let TownsArray = HandleArray(towns)
   let AreaArray = HandleArray(areas)
   let TypesArray = HandleArray(types)
@@ -129,13 +104,15 @@ function index() {
   useEffect(() => {
     settowns(TownsArray)
     settypes(TypesArray)
-    socket.on("publishing", (data) => {
+    refetch()
+    socket.on("publishing", () => {
       refetch()
 
     });
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [towns, types])
-
+  console.log(featured)
   return (
     <Contents backDrop={Shelves} title="shelves" path={paths} bg="bg-slate-50">
       <div className="flex w-full h-auto flex-col  ">
@@ -151,7 +128,7 @@ function index() {
             <div className='flex m-2 flex-col gap-y-2 overflow-hidden'>
               {townFeching ? <Multiple count={7} col body={<FilterItemLoader />} />
                 : townsArr !== undefined && townsArr.map((town, i) => (
-                  <FilterItem data={town} onChange={() => { changeTown(town); handleTowns(town._id) }} />
+                  <FilterItem key={i} data={town} onChange={() => { changeTown(town); handleTowns(town._id) }} />
                 ))}
             </div>
             {areas && <FilterTitle title="Areas" />}
@@ -159,7 +136,7 @@ function index() {
               <div className='flex m-2 flex-col gap-y-2'>
                 {areaFetching ? <Multiple count={7} col body={<FilterItemLoader />} />
                   : AreaArray.map((area, i) => (
-                    <FilterItem data={area} onChange={() => {
+                    <FilterItem key={i} data={area} onChange={() => {
                       setArea(area); handleArea(area._id); setItem(prevState => ({
                         ...prevState, area: area._id
                       }))
@@ -191,22 +168,9 @@ function index() {
             {isSuccess && data && data.length === 0 && <div className="flex w-full ">
               <img src={ErrorImage} alt='' className='w-full h-1/4 object-cover' />
             </div>}
-            {isFetching ? <Multiple count={4} body={
-              <div className='w-[320px] h-[200px] p-1'>
-                <div className='w-full h-full bg-slate-200 rounded-md'></div>
-              </div>} /> :
+            {isFetching ? <ShelveLoader /> :
               data !== undefined && data?.map((dat, i) => (
-                <div className='w-1/4 h-[200px] p-1'>
-                  <div class="group w-full h-full rounded-md relative z-0">
-                    <img src={dat.files[0]} alt="" className='w-full rounded-md h-full object-cover ' />
-                    <div class=" bg-black top-0  w-full h-full opacity-60 absolute group-hover:flex hidden   justify-center items-center z-10">
-                    </div>
-                    <div class=" bg-primary-200 rounded-t-md w-full h-8 px-2  top-0  text-slate-100 text-sm absolute flex  group-hover:hidden    justify-between items-center z-10">
-                      {dat.name}{dat.featured && <div className='text-xs px-2 rounded-sm shadow-3xl bg-secondary-100'>Featured</div>}
-                    </div>
-
-                  </div>
-                </div>
+                <ShelveComponent key={i} dat={dat} />
               ))}
           </div>
 
@@ -216,14 +180,14 @@ function index() {
   )
 }
 
-export default index
+export default Index
 
-{/* <div class="group w-1/4 h-[200px] rounded-md relative z-0">
+{/* <div className="group w-1/4 h-[200px] rounded-md relative z-0">
 <img src={dat.files[0]} alt="" className='w-full rounded-md h-full object-cover ' />
-<div class=" bg-black top-0  w-full h-full opacity-60 absolute group-hover:flex hidden   justify-center items-center z-10">
+<div className=" bg-black top-0  w-full h-full opacity-60 absolute group-hover:flex hidden   justify-center items-center z-10">
 
 </div>
-<div class=" bg-primary-200 rounded-t-md w-full h-8 px-2  top-0  text-slate-100 text-sm absolute flex  group-hover:hidden    justify-between items-center z-10">
+<div className=" bg-primary-200 rounded-t-md w-full h-8 px-2  top-0  text-slate-100 text-sm absolute flex  group-hover:hidden    justify-between items-center z-10">
   {dat.name}
 </div>
 

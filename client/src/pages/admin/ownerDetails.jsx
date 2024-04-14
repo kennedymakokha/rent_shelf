@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Link, useLocation } from 'react-router-dom'
 import { HandleConsole } from '../../utils/selectFromapi'
 import { ScrollImagesRight } from '../home/featured/scrollRight'

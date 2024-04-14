@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 
-import React, { useEffect, useState } from "react";
-import Button from "./Buttons";
+import  { useEffect } from "react";
+
 
 
 const Modal = (props) => {

@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable react/prop-types */
+
 import Underline from './underline.png'
 function TitleContainer(props) {
     return (

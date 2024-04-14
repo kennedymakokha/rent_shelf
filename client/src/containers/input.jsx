@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable react/prop-types */
+import  { useState } from 'react'
 
 
 export function SearchContaine(props) {
@@ -12,9 +13,9 @@ export function SearchContaine(props) {
                     type={props.type ? props.type : "text"} placeholder={props.placeholder} name={props.name}
                     onChange={props.onChange}
                     value={props.value}
-                    className="shadow h-10 appearance-none text-[14px] border rounded w-full  px-1 text-black" /> : <div className='flex w-full gap-x-2 px-1'>
+                    className="shadow h-10 appearance-none text-[18px] border rounded w-full  px-1 text-black" /> : <div className='flex w-full gap-x-2 px-1'>
                     < input type="radio" name="name1" value="value1"
-                        className='float-left flex text-[14px] border rounded  text-black' />
+                        className='float-left flex text-[18px] border rounded  text-black' />
                     <span className='block text-black text-sm  mb-1 flex'>{props.label}</span>
                 </div> :
                 <input
@@ -22,13 +23,13 @@ export function SearchContaine(props) {
                     onChange={props.onChange}
                     onBlur={props.onBlur}
                     value={props.value}
-                    className="shadow h-10 appearance-none text-[14px] border rounded w-full  px-1 text-black" />}
+                    className="shadow h-10 appearance-none text-[18px] border rounded w-full  px-1 text-black" />}
         </div>
     )
 }
 const fixedInputclassName = "rounded-md appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm"
 
-export const TextArea = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
+export const TextArea = ({ value, id, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
             <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
@@ -50,7 +51,7 @@ export const TextArea = ({ value, id, multiple, name, required, type, placeholde
         </>
     )
 }
-const InputContainer = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
+const InputContainer = ({ value, id, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
             <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
@@ -73,7 +74,7 @@ const InputContainer = ({ value, id, multiple, name, required, type, placeholder
     )
 }
 
-export const SelectContainer = ({ value, multiple, array, id, name, required, type, placeholder, label, handleChange }) => {
+export const SelectContainer = ({ multiple, array, name, required, label, handleChange }) => {
     return (
         <>
             <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
@@ -95,7 +96,7 @@ export const SelectContainer = ({ value, multiple, array, id, name, required, ty
 
 
 export function SelectInput(props) {
-    let { options, value, onChange, label } = props
+    let { options, value, onChange } = props
     const [data, setData] = useState(options)
 
 
@@ -156,8 +157,8 @@ export function SelectInput(props) {
                     type={props.type ? props.type : "text"} placeholder={props.placeholder} name={props.name}
                     onChange={(e) => changeName(e.target.value)}
                     value={props.value}
-                    className="shadow h-10 appearance-none text-[14px] border rounded w-full  px-1 text-black" />
-                : <select className="shadow h-10 appearance-none text-[14px] border rounded w-full  px-1 text-black"
+                    className="shadow h-10 appearance-none text-[18px] border rounded w-full  px-1 text-black" />
+                : <select className="shadow h-10 appearance-none text-[18px] border rounded w-full  px-1 text-black"
                     value={value} onChange={onChange}>
                     {data.map((option) => (
                         <option key={option.value} value={option.value}>{option.label}</option>

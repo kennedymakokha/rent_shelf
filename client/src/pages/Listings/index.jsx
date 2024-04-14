@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { useFetchQuery } from "../../features/slices/townsSlice";
 import { useFetchAreasQuery } from "../../features/slices/areaSlice";
 import List from './list';

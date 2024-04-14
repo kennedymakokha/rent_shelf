@@ -1,4 +1,4 @@
-import React from 'react'
+
 import TitleContainer from '../../../../containers/titleContainer';
 
 import { Multiple, Ratings } from '../../../../utils/multiple';

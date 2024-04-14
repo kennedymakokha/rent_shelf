@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import Home from './pages/home'
-import { toast } from 'react-toastify'
 // import './containers/layout/navbar/style.'
 import { getToken, onMessage } from "firebase/messaging";
 import { messaging } from "./firebase/firebaseConfig";
@@ -11,11 +10,7 @@ import { useSubcribeMutation } from './features/slices/FCmSlice';
 import { HandleConsole } from './utils/selectFromapi';
 import { io } from 'socket.io-client'
 export const socket = io("http://localhost:5000");
-const rootFontStyle = {
-  fontSize: '18px',
-  fontFamily: "RalewayDots-Regular",
-  color: "#d4ebc4"
-};
+
 const { VITE_APP_VAPID_KEY } = import.meta.env;
 function App() {
   // const socket = io(`https://localhost:5000`);
@@ -37,16 +32,13 @@ function App() {
       await subcribe({ token, topic: "general" }).unwrap()
       localStorage.setItem("token", token)
     } else if (permission === "denied") {
-      //notifications are blocked
-      // await Notification.requestPermission()
+      
       HandleConsole("You denied for the notification");
     }
   }
   useEffect(() => {
     requestPermission();
     onMessage(messaging, payload => {
-      // console.log(payload)
-      // console.log(messaging)
       setShow(true)
       setData(payload.notification)
     })
@@ -54,13 +46,13 @@ function App() {
 
   }, []);
   useEffect(() => {
-    console.log("first")
+   
     socket.on("connect", () => {
       console.log(socket.id); // x8WIv7-mJelg7on_ALbx
     });
 
     socket.on("disconnect", () => {
-      console.log(socket.id); // undefined
+      // console.log(socket.id); // undefined
     });
   }, [])
 

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import AdminLayout from '../../containers/layout/admin/adminLayout'
 import { HandleConsole } from '../../utils/selectFromapi'
 import { useLocation } from 'react-router-dom'
@@ -39,7 +39,7 @@ function shelfDetails() {
                 </div>
                 <div className='flex items-center gap-x-2 '>
                     <Ratings small row width={6} count={details?.ratings} />
-                    <div className={`px-2  ${data?.published ? "border border-secondary-200 bg-secondary-300 text-primary-100" : "border bg-primary-300 text-white  border-primary-200"}  rounded-md text-[14px]`} onClick={() => publish()}> {!data?.published ? "Unpublish" : "Publish"}</div>
+                    <div className={`px-2  ${data?.published ? "border border-secondary-200 bg-secondary-300 text-primary-100" : "border bg-primary-300 text-white  border-primary-200"}  rounded-md text-[18px]`} onClick={() => publish()}> {!data?.published ? "Unpublish" : "Publish"}</div>
                 </div>
 
             </div>

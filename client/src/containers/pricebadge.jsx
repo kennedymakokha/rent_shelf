@@ -1,6 +1,7 @@
-import React from 'react'
+/* eslint-disable react/prop-types */
+
 import priceTag from './price.png'
-function Pricebadge({ featured, feature, opp, noPrice }) {
+function Pricebadge({ featured, opp, noPrice }) {
     return (
         <>
             <div className={`absolute mx-2 ${featured?.featured ? "-left-[20%]" : "-left-[35%]"} top-[5%] w-full h-12 flex justify-center   px-4 items-center z-10 `}>

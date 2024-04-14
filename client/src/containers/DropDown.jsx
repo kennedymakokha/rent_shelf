@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export const DropDown = ({ title, array }) => {
     return (
         <div className="px-10 text-[18px]">

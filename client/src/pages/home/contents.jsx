@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Breadcrump from '../../containers/breadcrump'
 
 function Contents(props) {

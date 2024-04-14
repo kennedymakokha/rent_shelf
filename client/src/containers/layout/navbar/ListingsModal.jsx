@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Multiple } from "../../../utils/multiple";
-import { useFetchQuery } from "../../../features/slices/townsSlice";
-import { HandleConsole, SelectFromAPI } from "../../../utils/selectFromapi";
+/* eslint-disable react/prop-types */
+import  { useEffect, useState } from "react";
+import { SelectFromAPI } from "../../../utils/selectFromapi";
 import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
 import InputContainer, { SelectContainer, TextArea } from "../../input.jsx";
 
 
-const Modal = ({ showModal, town, changeTown, setShowModal, featuresArray, towns, types, areas, typesuccess, }) => {
+const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, types, areas, }) => {
     const [files, setFiles] = useState([])
     const [typesArr, setTypesArr] = useState([])
     const [featuresArr, setFeaturesArr] = useState([])

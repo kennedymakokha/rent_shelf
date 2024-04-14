@@ -6,7 +6,7 @@ import Logo from './../../../assets/logo.png'
 import MobileNav from './components/MobileNav.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import ListingModal from './ListingsModal.jsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFetchQuery } from '../../../features/slices/townsSlice.jsx';
 
@@ -15,7 +15,7 @@ import { useFetchTownAreasQuery } from '../../../features/slices/areaSlice.jsx';
 import { useFetchTypeQuery } from '../../../features/slices/typeSlice.js';
 import { useFetchFeatureQuery } from '../../../features/slices/featureSlice.jsx';
 import { useLogoutMutation } from '../../../features/slices/usersApiSlice.js';
-import { HandleArray, HandleConsole } from '../../../utils/selectFromapi.jsx';
+import { HandleArray } from '../../../utils/selectFromapi.jsx';
 import { DropDown } from '../../DropDown.jsx';
 // import { Dropdown } from './../../DropDown.jsx';
 const Header = () => {
@@ -27,10 +27,10 @@ const Header = () => {
   const navigate = useNavigate()
   const [logoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch()
-  const { data: towns, refetch, isSuccess, isLoading } = useFetchQuery()
-  const { data: areas, refetch: { refetchAreas }, isSuccess: success, } = useFetchTownAreasQuery(town)
+  const { data: towns, isSuccess } = useFetchQuery()
+  const { data: areas, } = useFetchTownAreasQuery(town)
   const { data: types, isSuccess: typesuccess, } = useFetchTypeQuery()
-  const { data: features, isSuccess: fearesuccess, } = useFetchFeatureQuery()
+  const { data: features, } = useFetchFeatureQuery()
 
 
   const changeTown = (town) => {

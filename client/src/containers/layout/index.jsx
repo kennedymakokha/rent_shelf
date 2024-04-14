@@ -8,7 +8,7 @@ export default function page(props) {
    
     return (
         <>
-            {/* <Navbar /> */}
+         
             <Header />
             <main>
                 <div className={`h-auto min-h-[538px] bg-slate-100 px-10 pt-[70px]`}>
@@ -17,9 +17,5 @@ export default function page(props) {
             </main>
             <Footer />
         </>
-        // <div className="h-auto min-h-screen bg-red-200">
-        //     <Navbar />
-        //     {props.children}
-        // </div>
-    );
+    
 }

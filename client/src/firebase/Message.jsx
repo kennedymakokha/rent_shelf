@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-// import { Button, div } from 'react-bootstrap';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unknown-property */
+
 
 function Message({ show, data, setShow }) {
 

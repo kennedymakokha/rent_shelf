@@ -1,4 +1,7 @@
-import React from 'react'
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
+
 import TitleContainer from './titleContainer'
 
 function Tab(props) {

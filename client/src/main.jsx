@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import './../src/fonts/LexendDeca-VariableFont_wght.ttf'
-import { BrowserRouter, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Errorpage from './pages/errorpage.jsx'
 import Services from './pages/services.jsx'
 import About from './pages/about'
@@ -24,7 +24,7 @@ import SignUp from './pages/authentication/signup.jsx'
 import Activate from './pages/authentication/activate.jsx'
 import { store } from './store.jsx'
 import { Provider } from 'react-redux'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const rootFontStyle = {
   fontSize: '20px',

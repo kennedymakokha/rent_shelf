@@ -1,4 +1,4 @@
-import React from 'react'
+
 import AdminLayout from '../../containers/layout/admin/adminLayout'
 import Affiliates from './affiliates'
 import AffiliateCharts from './charts/affiliatesCharts.jsx'
