@@ -5,12 +5,12 @@ function ErrorModal({ image, msg, show }) {
     return (
         <>
             {show &&
-                <div className="fixed w-[300px] h-[400px] right-3 bottom-0 flex flex-col -z-1 bg-red-200 opacity-80 rounded-md">
-                    <img src={image ? image : disconnect} alt='' className='flex h-1/2 w-full  rounded-t-md  justify-center items-center' />
+                <div className="fixed sm:w-[300px] group sm:pb-0 pb-2 w-full sm:h-[400px] h-auto sm:right-3 right-0 bottom-0 flex flex-col -z-1  bg-red-200 opacity-90 sm:rounded-md">
+                    <img src={image ? image : disconnect} alt='' className='sm:flex hidden h-1/2 w-full  sm:rounded-t-md  justify-center items-center' />
 
-                    <div className='flex flex-col h-1/2 w-full text-center px-2 rounded-t-md  justify-center items-center'>
-                        <span> {msg ? msg : "Error connecting to the server kindly try again later"}</span>
-                        <div className='flex items-center justify-center px-2 shadow-2xl bg-primary-100 rounded-md font-bold  mt-10'>Refresh</div>
+                    <div className='flex flex-col h-1/2 group-hover:bg-secondary-100 w-full text-center px-2 rounded-t-md  justify-center items-center'>
+                        <span className='group-hover:text-primary-100 text-slate-900'> {msg ? msg : "Error connecting to the server kindly try again later"}</span>
+                        <div className='flex items-center justify-center px-2 shadow-2xl bg-primary-100  group-hover:bg-slate-300 group-hover:text-primary-100 text-white rounded-md font-bold  sm:mt-10'>Refresh</div>
                     </div>
                 </div>}
         </>
