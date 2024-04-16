@@ -1,8 +1,5 @@
 
-import TitleContainer from '../../containers/titleContainer'
 import { FeaturedArray } from '../data'
-import Contents from './contents'
-import FeaturedCard from './featured/components/featuredCard'
 import ScrollRight from './featured/scrollRight'
 
 function index(props) {

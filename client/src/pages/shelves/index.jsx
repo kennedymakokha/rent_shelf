@@ -10,6 +10,7 @@ import { HandleArray } from '../../utils/selectFromapi'
 import ErrorImage from './error.gif'
 import { Multiple } from '../../utils/multiple'
 import { useFetchTypeQuery } from '../../features/slices/typeSlice'
+
 import { FilterItem, FilterItemLoader, FilterTitle, ShelveComponent, ShelveLoader } from './components'
 // import { useFetchFeatureQuery } from '../../features/slices/featureSlice'
 // eslint-disable-next-line react-refresh/only-export-components
@@ -24,7 +25,7 @@ export const initialState = {
 function Index() {
   const [town, setTown] = useState({})
   const [area, setArea] = useState({})
-  const [featured, setfeatured] = useState(false)
+  // const [featured, setfeatured] = useState(false)
   const [item, setItem] = useState(initialState)
   const [townsArr, settowns] = useState([])
   // const [areasArr, setAreas] = useState([])
@@ -112,7 +113,7 @@ function Index() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [towns, types])
-  console.log(featured)
+  console.log(isSuccess)
   return (
     <Contents backDrop={Shelves} title="shelves" path={paths} bg="bg-slate-50">
       <div className="flex w-full h-auto flex-col  ">
@@ -126,7 +127,7 @@ function Index() {
           <div className=' w-[12%] h-auto  pt-0 border-r border-l sm:flex hidden flex-col '>
             <FilterTitle title="towns" />
             <div className='flex m-2 flex-col gap-y-2 overflow-hidden'>
-              {townFeching ? <Multiple count={7} col body={<FilterItemLoader />} />
+              {townFeching || !isSuccess ? <Multiple count={7} col body={<FilterItemLoader />} />
                 : townsArr !== undefined && townsArr.map((town, i) => (
                   <FilterItem key={i} data={town} onChange={() => { changeTown(town); handleTowns(town._id) }} />
                 ))}
@@ -146,19 +147,22 @@ function Index() {
             </div>
             <FilterTitle title="Featured" />
             <div className='flex m-2 flex-col gap-y-2'>
-              <FilterItem data={{ name: "Featured", state: item.featured }} onChange={() => {
-                setfeatured(prevState => (!prevState)); setItem(prevState => ({
-                  ...prevState, featured: !prevState.featured
-                }))
-              }} />
+              {!isSuccess ? <Multiple count={1} col body={<FilterItemLoader />} /> :
+                <FilterItem data={{ name: "Featured", state: item.featured }} onChange={() => {
+                  // setfeatured(prevState => (!prevState)); 
+                  setItem(prevState => ({
+                    ...prevState, featured: !prevState.featured
+                  }))
+                }} />}
             </div>
             <FilterTitle title="Werehouse" />
             <div className='flex m-2 flex-col gap-y-2'>
-              <FilterItem data={{ name: "Warehouses" }} onChange={() => { changeTown(town); handleTowns(town._id) }} />
+              {!isSuccess ? <Multiple count={1} col body={<FilterItemLoader />} /> :
+                <FilterItem data={{ name: "Warehouses" }} onChange={() => { changeTown(town); handleTowns(town._id) }} />}
             </div>
             <FilterTitle title="Types" />
             <div className='flex m-2 flex-col gap-y-2'>
-              {townFeching ? <Multiple count={7} col body={<FilterItemLoader />} />
+              {!isSuccess ? <Multiple count={7} col body={<FilterItemLoader />} />
                 : typesArr !== undefined && typesArr.map((type, i) => (
                   <FilterItem key={i} data={type} onChange={() => { handleTypes(type._id) }} />
                 ))}
@@ -168,7 +172,7 @@ function Index() {
             {isSuccess && data && data.length === 0 && <div className="flex w-full ">
               <img src={ErrorImage} alt='' className='w-full h-1/4 object-cover' />
             </div>}
-            {isFetching ? <ShelveLoader /> :
+            {isFetching || !isSuccess ? <ShelveLoader /> :
               data !== undefined && data?.map((dat, i) => (
                 <ShelveComponent key={i} dat={dat} />
               ))}
@@ -176,6 +180,7 @@ function Index() {
 
         </div>
       </div>
+     
     </Contents>
   )
 }

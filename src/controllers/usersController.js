@@ -23,11 +23,11 @@ const login_user = expressAsyncHandler(async (req, res) => {
         let phone = await Format_phone_number(email)
         const user = await User.findOne({ $or: [{ email: email }, { ID_no: email }, { phone: phone }] }).populate('role', 'name')
         // 
-        
+
         if (user && (await user.matchPassword(password))) {
             let token = generateToken(res, user._id)
-            if (req.body.token !== null ) {
-               
+            if (req.body.token !== null) {
+
                 user.tokens.indexOf(req.body.token) === -1 ? user.tokens.push(req.body.token) : console.log("This item already exists");
             }
             await User.findOneAndUpdate({ $or: [{ email }, { ID_no: email }] }, { tokens: user.tokens }, { new: true, useFindAndModify: false })
@@ -48,9 +48,8 @@ const login_user = expressAsyncHandler(async (req, res) => {
 
         }
     } catch (error) {
-
-        return res.status(401).json({ message: "Invalid password  or email entered " })
-
+        console.log(error)
+        return res.status(401).json({ message: "Erronous password  or email entered " })
     }
 
 })
@@ -89,7 +88,7 @@ const register_User = expressAsyncHandler(async (req, res) => {
         } else {
             textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code}\nand your referal code is ${req.body.referal_no}  ` }
         }
-console.log(textbody)
+        console.log(textbody)
         // await SendMessage(textbody)
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
@@ -224,7 +223,7 @@ const getUser = expressAsyncHandler(async (req, res) => {
 })
 const logoutUser = expressAsyncHandler(async (req, res) => {
     try {
-       
+
         const user = await User.findOne({ _id: req.user._id })
         const index = user?.tokens.indexOf(req.body.token);
         if (index > -1) { // only splice array when item is found

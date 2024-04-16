@@ -1,8 +1,12 @@
+import ErrorModal from "../containers/errorModal"
 
 
 function Services() {
   return (
-    <div>Services</div>
+    <div>
+
+      <ErrorModal show={true} />
+    </div>
   )
 }
 

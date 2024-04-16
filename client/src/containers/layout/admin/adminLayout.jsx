@@ -29,7 +29,7 @@ function AdminLayout(props) {
     }
 
     return (
-        <div className='flex h-auto  min-h-screen flex-col'>
+        <div className='flex  h-auto  min-h-screen flex-col'>
             <div className='flex h-auto min-h-screen '>
                 <div className={`${open ? "sm:w-72 w-20" : "w-20"} duration-300 p-5 pt-8  bg-slate-600 relative`}>
                     {open ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"

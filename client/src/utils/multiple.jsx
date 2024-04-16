@@ -4,7 +4,7 @@ export const Multiple = (props) => {
         count.push(index)
     }
     return (
-        <div className={`${props.row && "flex-row gap-x-2"} ${props.col && "flex-col gap-y-1"}  flex transition duration-50 fade-in`} >
+        <div className={`${props.row && "flex-row gap-x-2"} ${props.col && "flex-col gap-y-1"} ${props.width ? props.width : "w-full"}  ${props.wrap && "flex-wrap"}  flex transition duration-50 fade-in`} >
             {count.map((user, i) => (
                 <div i={i} key={i}>
                     {props.body}

@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 
-import { Ratings } from '../../../../utils/multiple'
 import Bottom, { Bottom1 } from './bottom'
 import Pricebadge from '../../../../containers/pricebadge'
 import { Link } from 'react-router-dom'

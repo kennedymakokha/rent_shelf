@@ -38,7 +38,7 @@ function ScrollRight(props) {
                 </div>
 
                 <div className="bg-transparent w-full h-full relative z-0">
-                    {props.isFetching ?
+                    {props.isFetching || !props.isSuccess ?
                         <div className=' w-full h-full  flex flex-row  overflow-x-scroll scrollbar-hide'>
                             <Multiple count={5} row body={<MyLoader />} />
 
@@ -48,7 +48,7 @@ function ScrollRight(props) {
                             {props.data !== undefined && props.data.map((featured, i) => (
                                 <FeaturedCard noPrice={props.noPrice} left={props.left} opp={props.opp} feature={props.feature} key={i} text={props.text} bg={props.bg} showDetails={props.showDetails} featured={featured} />
                             ))}
-                            {props.data.length < 5 &&
+                            {props.isSuccess && props.data.length < 5 &&
                                 <div className={`flex w-full sm:w-${5 - props.data.length}/4 h-[350px] `}>
                                     <div className="w-full h-full gap-x-1 flex">
                                         <Repeat count={5 - props.data.length} body={<ImagePlaceHolder details={props.data !== undefined && props.data} />
@@ -59,7 +59,7 @@ function ScrollRight(props) {
                             }
                         </div>
                     }
-                    {props?.data?.length > 5 && <div className="absolute  top-[40%]  right-10 flex justify-between items-between z-10">
+                    {props.isSuccess && props?.data?.length > 5 && <div className="absolute  top-[40%]  right-10 flex justify-between items-between z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-8 h-8 text-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>

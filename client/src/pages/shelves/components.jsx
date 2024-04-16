@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 
+// import ContentLoader from "react-content-loader"
+import ContentLoader from "react-content-loader"
 import { Multiple } from "../../utils/multiple"
 
 // eslint-disable-next-line react/prop-types
@@ -19,22 +21,36 @@ export const FilterItem = (props) => {
         </div>
     )
 }
+
 export const FilterItemLoader = () => {
-
-
     return (
         <div className='gap-x-2 flex flex-row'>
-            <div className='flex w-3 h-3 items-center justify-center border  bg-slate-200  border-primary-900'></div>
-            <div className='flex w-[80px] h-3 items-center justify-center text-[12px] text-slate-400 bg-slate-200 '></div>
+
+            {/* <Cloader w={3} h={3}/> */}
+            <div className='flex w-3 h-3 items-center justify-center   '>
+                <ContentLoader backgroundColor="#99a5b4" viewBox="0 0 40 40">
+                    <rect x="0" y="0" rx="0" ry="1" width="40" height="40" />
+                </ContentLoader>
+            </div>
+            <div className='flex w-[150px] h-3 items-center justify-center text-[12px] text-slate-400 bg-slate-200 '>
+                <ContentLoader backgroundColor="#99a5b4" viewBox="0 0 150 13">
+                    <rect x="0" y="0" rx="0" ry="1" width="150" height="40" />
+                </ContentLoader>
+            </div>
         </div>
     )
 }
 
+
 export const ShelveLoader = () => {
     return (
-        <Multiple count={4} body={
-            <div className='w-[320px] h-[200px] p-1'>
-                <div className='w-full h-full bg-slate-200 rounded-md'></div>
+
+        <Multiple wrap width="w-[1280px]" count={12} body={
+            <div className='w-[300px] h-[200px] p-1'>
+                <ContentLoader backgroundColor="#99a5b4" viewBox="0 0 318 200">
+                    <rect x="0" y="0" rx="5" ry="5" width="318" height="200" />
+                </ContentLoader>
+            
             </div>} />
     )
 }
