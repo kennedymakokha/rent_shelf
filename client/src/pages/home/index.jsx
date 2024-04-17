@@ -33,6 +33,8 @@ function Index() {
 
     }, [data, refetch])
 
+    }, [data, refetch])
+
     return (
         <div className='overflow-hidden'>
             {!data ? <Slider /> :
@@ -48,4 +50,5 @@ function Index() {
     )
 }
 
+export default Index
 export default Index

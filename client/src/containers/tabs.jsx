@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
+=======
+>>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
 
 import TitleContainer from './titleContainer'
 
