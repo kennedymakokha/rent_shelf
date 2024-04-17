@@ -2,6 +2,7 @@
 import { GoogleMap, Marker, useJsApiLoader, Autocomplete, DirectionsRenderer } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import BullsEye from './../../assets/bulls.png'
+import { HandleConsole } from "../../utils/selectFromapi";
 
 const { VITE_APP_GOOGLE_API_KEY } = import.meta.env;
 
@@ -35,7 +36,8 @@ function MapswithDirection() {
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
   const [origin, setorigin] = useState("");
-
+  /** @type React.MutableRefObje<HTMLInputElement> */
+  const originRef = useRef()
   /** @type React.MutableRefObje<HTMLInputElement> */
   const destinationRef = useRef()
 
@@ -52,7 +54,7 @@ function MapswithDirection() {
   }
   const getLatLong = async (name) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${name}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
-      .then(res => res.json().then(data => {
+      .then(res => res.json().then(data => { 
         let loc = data.results[0].geometry.location
         setLocation(loc)
         map.panTo(loc)

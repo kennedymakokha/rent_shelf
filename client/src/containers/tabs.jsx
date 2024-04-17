@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-=======
->>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
 
 import TitleContainer from './titleContainer'
 
@@ -21,7 +18,7 @@ function Tab(props) {
             </div>
 
             <div className='w-auto sm:hidden flex  float-right  '>
-                <select onChange={(e) => props.onChange(menu.title)} className='h-10 w-auto capitalize flex items-center text-[20px] px-2 text-primary-100 font-semi-bold  rounded-sm shadow-[inset_-12px_-8px_40px_#46464620]'>
+                <select onChange={() => props.onChange(menu.title)} className='h-10 w-auto capitalize flex items-center text-[20px] px-2 text-primary-100 font-semi-bold  rounded-sm shadow-[inset_-12px_-8px_40px_#46464620]'>
                     {props.data.map((sub, i) => (
                         <option value={sub.title} sub key={i}>{sub.title}</option>
                     ))

@@ -1,11 +1,11 @@
 
 
-import MapswithDirection from '../../containers/maps/mapswithDirection';
+import MyMap from '../../containers/maps/map';
 
 function index() {
     return (
         <div className=' h-[800px] ' >
-            <MapswithDirection />
+            <MyMap />
 
         </div>
     );

@@ -10,13 +10,9 @@ import { HandleArray } from '../../utils/selectFromapi'
 import ErrorImage from './error.gif'
 import { Multiple } from '../../utils/multiple'
 import { useFetchTypeQuery } from '../../features/slices/typeSlice'
-<<<<<<< HEAD
 
 import { FilterItem, FilterItemLoader, FilterTitle, ShelveComponent, ShelveLoader } from './components'
 import ErrorModal from '../../containers/errorModal'
-=======
-import { FilterItem, FilterItemLoader, FilterTitle, ShelveComponent, ShelveLoader } from './components'
->>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
 // import { useFetchFeatureQuery } from '../../features/slices/featureSlice'
 // eslint-disable-next-line react-refresh/only-export-components
 export const initialState = {
@@ -30,11 +26,7 @@ export const initialState = {
 function Index() {
   const [town, setTown] = useState({})
   const [area, setArea] = useState({})
-<<<<<<< HEAD
   // const [featured, setfeatured] = useState(false)
-=======
-  const [featured, setfeatured] = useState(false)
->>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
   const [item, setItem] = useState(initialState)
   const [townsArr, settowns] = useState([])
   // const [areasArr, setAreas] = useState([])
@@ -44,11 +36,7 @@ function Index() {
       { title: "shelves", path: 'shelves' },
       // { title:"hOME", path: `shelves/${data?.name?.replace(/\s+/g, "-").toLowerCase()}` }
     ]
-<<<<<<< HEAD
   const { data, refetch, isFetching, isSuccess, isError } = useFetchshelvesQuery(item)
-=======
-  const { data, refetch, isFetching, isSuccess } = useFetchshelvesQuery(item)
->>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
   const { data: towns, isFetching: townFeching } = useFetchQuery()
   const { data: areas, isFetching: areaFetching, } = useFetchTownAreasQuery(town._id)
   const { data: types, } = useFetchTypeQuery()
@@ -126,11 +114,7 @@ function Index() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [towns, types])
-<<<<<<< HEAD
-  console.log(isSuccess)
-=======
-  console.log(featured)
->>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
+
   return (
     <Contents backDrop={Shelves} title="shelves" path={paths} bg="bg-slate-50">
       <div className="flex w-full h-auto flex-col  ">
@@ -189,11 +173,7 @@ function Index() {
             {isSuccess && data && data.length === 0 && <div className="flex w-full ">
               <img src={ErrorImage} alt='' className='w-full h-1/4 object-cover' />
             </div>}
-<<<<<<< HEAD
             {isFetching || !isSuccess ? <ShelveLoader /> :
-=======
-            {isFetching ? <ShelveLoader /> :
->>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
               data !== undefined && data?.map((dat, i) => (
                 <ShelveComponent key={i} dat={dat} />
               ))}
@@ -207,17 +187,3 @@ function Index() {
 }
 
 export default Index
-<<<<<<< HEAD
-=======
-
-{/* <div className="group w-1/4 h-[200px] rounded-md relative z-0">
-<img src={dat.files[0]} alt="" className='w-full rounded-md h-full object-cover ' />
-<div className=" bg-black top-0  w-full h-full opacity-60 absolute group-hover:flex hidden   justify-center items-center z-10">
-
-</div>
-<div className=" bg-primary-200 rounded-t-md w-full h-8 px-2  top-0  text-slate-100 text-sm absolute flex  group-hover:hidden    justify-between items-center z-10">
-  {dat.name}
-</div>
-
-</div> */}
->>>>>>> 59fc9bed9da4654943385819c24b7321efeb484d
