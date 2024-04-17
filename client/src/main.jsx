@@ -7,6 +7,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Errorpage from './pages/errorpage.jsx'
 import Services from './pages/services.jsx'
 import About from './pages/about'
+import Contact from './pages/contacts'
 import Root from './pages/root.jsx'
 import ShelveDetails from './pages/shelves/shelveDetails/details'
 import Shelves from './pages/shelves'
@@ -46,8 +47,12 @@ const router = createBrowserRouter([
         element: <Services />,
       },
       {
-        path: "about",
+        path: "about-us",
         element: <About />,
+      },
+      {
+        path: "contact-us",
+        element: <Contact />,
       },
       {
         path: "shelves/:name",

@@ -11,7 +11,7 @@ function Footer() {
     return (
 
 
-        <div className="flex  flex-col w-full sm:bg-primary-300 bg-white lg: px-12 ">
+        <div className="flex  flex-col w-full sm:bg-primary-300 bg-white lg:px-12 overflow-hidden ">
             <div className="w-full sm:h-[250px] sm:flex hidden sm:flex-row flex-col py-2  ">
                 <FooterItemContainer
                     body={<div className='flex  flex-col '>
