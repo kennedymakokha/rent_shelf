@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { socket } from '../../App.jsx'
 import { initialState } from '../shelves/index.jsx'
 import ErrorModal from '../../containers/errorModal.jsx'
+import MapswithDirection from '../../containers/maps/mapswithDirection.jsx'
 
 
 function Index() {
@@ -34,7 +35,8 @@ function Index() {
 
     return (
         <div className='overflow-hidden'>
-            <Slider />
+            {!data ? <Slider /> :
+                <MapswithDirection />}
             <div className=" w-full h-full relative z-0">
                 <Featured data={data?.filter(e => e.featured === true)} isFetching={isFetching} isSuccess={isSuccess} />
                 <Shelves data={data} isFetching={isFetching} isSuccess={isSuccess} />

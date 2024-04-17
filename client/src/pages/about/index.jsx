@@ -1,13 +1,11 @@
 
-import Icons from './components/Icons';
-import Welcome from './components/Welcome';
-import Card from './components/Card';
-import Feedback from './components/Feedback';
-import SimpleMap from '../../containers/map';
+
+import MapswithDirection from '../../containers/maps/mapswithDirection';
+
 function index() {
     return (
         <div className=' h-[800px] ' >
-            <SimpleMap />
+            <MapswithDirection />
 
         </div>
     );
