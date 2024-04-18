@@ -20,7 +20,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
         price: 0,
         features: [],
         building: "",
-        area_id: "",
+        area: "",
         town_id: "",
         location: {},
         description: "",
@@ -84,7 +84,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
     const handleSubmit = async () => {
 
         try {
-          
+
             // eslint-disable-next-line no-unreachable
             item.type_id = availabletypes
             item.features = availablefeatures
@@ -106,7 +106,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
             formData.append("price", item.price);
             formData.append("description", item.description);
             formData.append("building", item.building);
-            formData.append("area_id", item.area_id);
+            formData.append("area", actualname);
             formData.append("town_id", item.town_id);
 
             await createshelve(formData)
@@ -137,6 +137,9 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                 console.log(data)
                 let T = data.results[0].formatted_address.split(",")
                 setActualname(`${T[T.length - 2]},${T[T.length - 1]}`)
+                setItem((prevState) => ({
+                    ...prevState, area: `${T[T.length - 2]},${T[T.length - 1]}`
+                }))
             }).catch((e) => {
                 console.log(e)
             })
@@ -152,6 +155,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                 });
                 setItem((prevState) => ({
                     ...prevState,
+
                     location: {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude

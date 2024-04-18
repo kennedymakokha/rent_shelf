@@ -24,7 +24,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 deletedAt: null,
                 published: true,
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -36,7 +36,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 featured: true,
 
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -50,7 +50,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 area_id: area,
                 featured: true,
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -64,7 +64,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 area_id: area,
                 featured: true,
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -78,7 +78,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 area_id: area,
                 featured: true,
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -92,7 +92,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 area_id: area,
 
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -105,7 +105,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 area_id: area
 
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -119,7 +119,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
 
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -132,7 +132,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 town_id: town,
                 featured: featured,
             }).populate("town_id", "name")
-                .populate("area_id", "name")
+                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -172,8 +172,8 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
             lat: req.body.lat,
             lng: req.body.lng,
         }
-        console.log(req.body)
-        
+
+
         let shel = await Shelf.create(req.body)
         let rol = await role.findOne({ name: "owner" })
         await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
@@ -220,14 +220,19 @@ const getShelf = expressAsyncHandler(async (req, res) => {
     return res.status(200).json(ShelV)
 })
 const getUsershelves = expressAsyncHandler(async (req, res) => {
+    console.log(req.params.id)
+    try {
+        const ShelV = await Shelf.find({ createdBy: req.params.id }).populate('town_id', 'name')
+            // .populate('area_id', 'name')
+            .populate('features', 'name')
+            .populate('createdBy', 'name,phone')
+            .populate('type_id', 'name')
 
-    const ShelV = await Shelf.find({ createdBy: req.params.id }).populate('town_id', 'name')
-        .populate('area_id', 'name')
-        .populate('features', 'name')
-        .populate('createdBy', 'name,phone')
-        .populate('type_id', 'name')
-
-    return res.status(200).json(ShelV)
+        return res.status(200).json(ShelV)
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json(error)
+    }
 })
 const publishUnpublishShelf = expressAsyncHandler(async (req, res) => {
     try {

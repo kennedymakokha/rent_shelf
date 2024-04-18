@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 
 import Loader from './Loader.jsx'
@@ -64,7 +65,7 @@ export function TBody(props) {
 }
 export const Tdata = (props) => {
 
-    return (<td className={`px-6 py-1 text-sm  text-gray-500 font-normal whitespace-nowrap`}>
+    return (<td className={`px-6 py-1 text-sm   text-gray-500 font-normal whitespace-nowrap`}>
         {props.array ?
             <ul>
                 {props?.array?.map((arr, i) => (
@@ -73,7 +74,7 @@ export const Tdata = (props) => {
 
             </ul> :
 
-            <div className={`${props.badge ? `border ${props.boolean?"border-green-200 bg-green-100":"border-red-200  text-primary-100 bg-red-100"} text-[10px] flex items-center justify-center px-2 rounded-full ` : ""}`}> {props.title}</div>}
+            <div onClick={() => props.onClick(props.id)} className={`${props.onClick && "hover:bg-green-200 cursor-pointer"} ${props.badge ? `border ${props.boolean ? "border-green-200 bg-green-100" : "border-red-200  text-primary-100 bg-red-100"} text-[10px] flex items-center justify-center px-2 rounded-full ` : ""}`}> {props.loading ? "Loading" : props.title}</div>}
 
     </td>)
 }

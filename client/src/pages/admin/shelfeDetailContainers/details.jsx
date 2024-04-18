@@ -7,11 +7,11 @@ function Details({ details }) {
             <div className='w-full border-b border-dotted border-slate-300 pb-2 flex '>
                 <div className='w-[25%] border-r items-center flex-col flex'>
                     <Title title="Details" />
-                  
+
                     <div className='flex w-full flex-col'>
                         <DetailItem label="Name" value={details.name} />
                         <DetailItem label="Town" value={details.town_id.name} />
-                        <DetailItem label="Area" value={details.area_id.name} />
+                        <DetailItem label="Area" value={details?.area?.split('+').join(' ')} />
                         <DetailItem label="Building" value={details.building} />
                         <DetailItem label="Price" value={details.price} />
                     </div>

@@ -25,7 +25,7 @@ const townSchema = new Schema({
     warehouse: { type: Boolean, default: false },
     deletedAt: { type: Date, default: null },
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },
-    // area_id: { type: Schema.Types.ObjectId, ref: 'tb_area' },
+    area: { type: String },
     town_id: { type: Schema.Types.ObjectId, ref: 'tb_town' },
     type_id: [
         { type: Schema.Types.ObjectId, ref: 'tb_types' }

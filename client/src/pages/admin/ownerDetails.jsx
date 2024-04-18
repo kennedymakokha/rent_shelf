@@ -1,24 +1,37 @@
 
 import { Link, useLocation } from 'react-router-dom'
-import { HandleConsole } from '../../utils/selectFromapi'
-import { ScrollImagesRight } from '../home/featured/scrollRight'
-import Image from './../../assets/logo.png'
-import { ImageContainer } from '../shelfTypes/serviceCard'
 import AdminLayout from '../../containers/layout/admin/adminLayout'
 import { MetaDatacontainer } from './detailsContainers/metaData'
-import Loader from '../../containers/layout/admin/Loader'
 import Table, { TBody, TH, TableContainer, TableHead, TableTitle, Tdata } from '../../containers/layout/admin/table'
-import { SearchContaine } from '../../containers/input'
 import { ShelvesTableHead } from './data.json'
-import { useFetchUsershelvesQuery } from '../../features/slices/shelfSlice'
+import { useFetchUsershelvesQuery, usePublishshelveMutation } from '../../features/slices/shelfSlice'
+import { useState } from 'react'
+import { socket } from '../../App'
+import { toast } from 'react-toastify'
 
-function ownerDetails() {
+function OwnerDetails() {
     // useFetchUsershelvesQuery
 
     const location = useLocation()
     const { details } = location.state
-    const { data, refetch, isFetching } = useFetchUsershelvesQuery(details._id)
+    const [loading, setLoading] = useState(false)
+    const [publishshelve,] = usePublishshelveMutation();
 
+    const { data, refetch, isFetching } = useFetchUsershelvesQuery(details._id)
+    const publish = async (id) => {
+        try {
+            setLoading(true)
+            await publishshelve(id).unwrap();
+            socket.emit('publishing', id);
+            await refetch()
+            setLoading(false)
+            toast.success(`Success`)
+        } catch (error) {
+            console.log(error)
+            toast.error(error)
+        }
+
+    }
     return (
         <AdminLayout>
             <div className=' flex w-full h-[200px] '>
@@ -28,12 +41,14 @@ function ownerDetails() {
                     </div>
                 </div>
 
-                <div className='w-3/4 h-[200px] pr-0 flex items-between justify-between bg-slate-100 inner-shadow shadow-xl rounded-md'>
-                    <div>
+                <div className='w-3/4 h-full flex-col  flex bg-slate-100 inner-shadow shadow-xl rounded-md'>
+                    <div className='flex p-2 h-full gap-y-2 flex-col'>
                         <MetaDatacontainer title="Name" value={`${details?.name}`} />
                         <MetaDatacontainer title="Phone" value={details?.phone} />
+
                         <MetaDatacontainer title="Email" value={details?.email} />
                         <MetaDatacontainer title="ID_NO" value={details?.ID_no} />
+
                     </div>
 
                 </div>
@@ -71,8 +86,8 @@ function ownerDetails() {
                                 <Tdata title={shelf?.area_id?.name} />
                                 <Tdata title={shelf?.building} />
                                 <Tdata title={shelf?.building} array={shelf.features} />
-                                <Tdata  array={shelf.types} />
-                                <Tdata title={shelf?.published ? "Published" : "Not Published"} badge boolean={shelf.published} />
+                                <Tdata array={shelf.types} />
+                                <Tdata loading={loading} onClick={publish} id={shelf._id} title={shelf?.published ? "Published" : "Not Published"} badge boolean={shelf.published} />
                                 <Tdata title={shelf?.featured ? "Featured" : "Not Featured"} badge boolean={shelf.features} />
 
                             </tr>
@@ -92,4 +107,4 @@ function ownerDetails() {
     )
 }
 
-export default ownerDetails
+export default OwnerDetails

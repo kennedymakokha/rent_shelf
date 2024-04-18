@@ -1,23 +1,22 @@
 
 import AdminLayout from '../../containers/layout/admin/adminLayout'
-import { HandleConsole } from '../../utils/selectFromapi'
 import { useLocation } from 'react-router-dom'
 import TitleContainer from '../../containers/titleContainer'
-import { Multiple, Ratings } from '../../utils/multiple'
+import { Ratings } from '../../utils/multiple'
 import { useFetchshelvesByIDQuery, usePublishshelveMutation } from '../../features/slices/shelfSlice'
 import { toast } from 'react-toastify'
 import { socket } from '../../App'
 import { DetailItem, RateItem } from './shelfeDetailContainers/items'
 
-function shelfDetails() {
+function ShelfDetails() {
     const location = useLocation()
     const { details } = location.state
     const [publishshelve] = usePublishshelveMutation();
-    const { data, refetch, isFetching } = useFetchshelvesByIDQuery(details._id)
+    const { data, refetch } = useFetchshelvesByIDQuery(details._id)
 
     const publish = async () => {
         try {
-            // await publishshelve(details._id).unwrap();
+            await publishshelve(details._id).unwrap();
             socket.emit('publishing', details._id);
             await refetch()
             toast.success(` ${data.published ? "publication done" : "Unpublication done"}`)
@@ -107,4 +106,4 @@ function shelfDetails() {
     )
 }
 
-export default shelfDetails
+export default ShelfDetails
