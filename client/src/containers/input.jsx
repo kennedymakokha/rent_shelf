@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import  { useState } from 'react'
+import { useState } from 'react'
 
 
 export function SearchContaine(props) {
@@ -27,7 +27,7 @@ export function SearchContaine(props) {
         </div>
     )
 }
-const fixedInputclassName = "rounded-md appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm"
+export const fixedInputclassName = "rounded-md h-9 appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm"
 
 export const TextArea = ({ value, id, name, required, type, placeholder, label, handleChange }) => {
     return (
@@ -51,14 +51,45 @@ export const TextArea = ({ value, id, name, required, type, placeholder, label, 
         </>
     )
 }
-const InputContainer = ({ value, id, name, required, type, placeholder, label, handleChange }) => {
+export const CheckBoxContainer = ({ title, checked, onClick }) => {
+    return (
+        <div onClick={onClick} className='flex w-full items-center'>
+            <div className='rounded-md  h-5 w-5 appearance-none my-1  relative flex items-center justify-center  border border-gray-300 placeholder-gray-500 bg-white text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm'>
+                {checked && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="5.5" stroke="currentColor" className="w-3 h-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>}
+
+            </div>
+            <span className='rounded-md appearance-none my-1 mx-2 relative block w-full px-3 py-1  placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm'>
+                {title}
+            </span>
+        </div>
+    )
+}
+const InputContainer = ({ value, id, name, btnaction, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
+            <label className="block text-primary-500 uppercase text-sm ml-1  font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
+            <div className='rounded-md appearance-none my-2  h-9 justify-between  flex w-full  bg-white border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm'>
+                <input
+                    onChange={handleChange}
+                    value={value}
+                    id={id}
+                    name={name}
 
-            <input
+                    multiple
+                    type={type}
+                    required={required}
+                    className="h-full focus:outline-none focus:ring-secondary-100 px-2 rounded-md"
+                    placeholder={placeholder}
+                />  {btnaction && <div onClick={btnaction} className='flex  items-center pr-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+                </div>}
+            </div>
+            {/* <input
                 onChange={handleChange}
                 value={value}
                 id={id}
@@ -69,7 +100,8 @@ const InputContainer = ({ value, id, name, required, type, placeholder, label, h
                 required={required}
                 className={fixedInputclassName}
                 placeholder={placeholder}
-            />
+            /> */}
+
         </>
     )
 }
@@ -77,7 +109,7 @@ const InputContainer = ({ value, id, name, required, type, placeholder, label, h
 export const SelectContainer = ({ multiple, array, name, required, label, handleChange }) => {
     return (
         <>
-            <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
+            <label className="block text-primary-500 uppercase text-sm ml-1 font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
             <select multiple={multiple} className={fixedInputclassName} onChange={handleChange}>
@@ -99,7 +131,7 @@ export function SelectInput(props) {
     let { options, value, onChange } = props
     const [data, setData] = useState(options)
 
-
+    console.log(setData, searchKey)
 
     const [searchKey, setSearchKey] = useState('')
     const [typing, setTyping] = useState(true)

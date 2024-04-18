@@ -17,7 +17,7 @@ function Affiliates() {
     const [searchKey, setsearchKey] = useState("");
     const [item, setitem] = useState({ firstName: "", lastName: "", ID_no: "", phone: '', email: "" });
     const { userInfo } = useSelector((state) => state.auth)
-    const { data, refetch, isFetching } =  ("affiliate")
+    const { data, refetch, isFetching } = ("affiliate")
     const { data: affiliates, isSuccess } = useFetchaffiliatesQuery()
     const [register] = useRegisterMutation();
     // const [updatePatient] = useUpdatePatientMutation();
@@ -146,15 +146,15 @@ function Affiliates() {
                 </Table>
             </TableContainer> :
 
-                <div class="bg-gray-400 w-full  relative z-0">
-                    
-                    <div class="absolute top-[20%] w-full flex justify-center items-center z-20">
+                <div className="bg-gray-400 w-full  relative z-0">
+
+                    <div className="absolute top-[20%] w-full flex justify-center items-center z-20">
                         <div className='w-full border border-primary-200'>
                             {affiliates?.map((affil, i) => (
-                                <div className='w-full flex-col'>
+                                <div key={i} className='w-full flex-col'>
                                     <div className='w-full py-1 shadow-sm text-sm px-2 bg-primary-300 text-white'>{affil.label}</div>
                                     {affil?.affiliates?.map((af, i) => (
-                                        <div className='flex'>
+                                        <div key={i} className='flex'>
                                             <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{af.name}</div>
                                             <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{moment(af.date).format("Do MMM YYYY")}</div>
                                         </div>
@@ -163,7 +163,7 @@ function Affiliates() {
                             ))}
                         </div>
                     </div>
-                    <div class="absolute bg-black  flex justify-center items-center z-10">
+                    <div className="absolute bg-black  flex justify-center items-center z-10">
                     </div>
                 </div>
 

@@ -7,6 +7,15 @@ const townSchema = new Schema({
     description: { type: String, },
     files: { type: Array, },
     price: { type: Number, },
+    location: {
+        lng: {
+            type: String,
+        },
+        lat: {
+            type: String,
+
+        },
+    },
     ratings: { type: Number, default: 2 },
     features:
         [{ type: Schema.Types.ObjectId, ref: 'tb_feature' }]

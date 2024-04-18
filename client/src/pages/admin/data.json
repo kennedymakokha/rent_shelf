@@ -5,6 +5,17 @@
         "phone No",
         "Action"
     ],
+    "TownsTableHead": [
+        "name",
+        "Created On",
+        "Action"
+    ],
+    "AreaTableHead": [
+        "name",
+        "Town",
+        "Created On",
+        "Action"
+    ],
     "ShelvesTableHead": [
         "name",
         "price",

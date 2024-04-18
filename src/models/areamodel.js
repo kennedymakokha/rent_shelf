@@ -4,6 +4,15 @@ const Schema = mongoose.Schema;
 const townSchema = new Schema({
     name: { type: String, },
     deletedAt: { type: Date, default: null },
+    location: {
+        lng: {
+            type: String,
+        },
+        lat: {
+            type: String,
+
+        },
+    },
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },
     town_id: { type: Schema.Types.ObjectId, ref: 'tb_town' },
 }, { timestamps: true });

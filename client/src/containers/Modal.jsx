@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 
-import  { useEffect } from "react";
+import { useEffect } from "react";
 
 
 
 const Modal = (props) => {
-    const { closeModal, title,handleSubmit } = props
+    const { closeModal, title, handleSubmit, buttontitle } = props
     const { showModal, item } = props
 
     useEffect(() => {
@@ -16,11 +16,11 @@ const Modal = (props) => {
 
             {showModal ? (
                 <>
-                    <div className="flex  overflow-x-hidden  fixed top-[12%] sm:left-[10%] sm:right-[10%] z-50 outline-none focus:outline-none">
-                        <div className="relative  w-full my-2 mx-auto ">
+                    <div className="flex  overflow-x-hidden  fixed top-[12%] sm:left-[10%] sm:right-[10%] z-50 text-[18px] outline-none focus:outline-none">
+                        <div className={`relative  ${props.width ? props.width : "w-full"} my-2 mx-auto`}>
                             <div className="border-0 rounded-lg  relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 <div className="flex items-start justify-between px-5 py-2 border-b border-solid border-gray-300 rounded-t ">
-                                    <h3 className="text-2xl font=semibold">{title} </h3>
+                                    <h3 className="text-[18px] font-semibold">{title} </h3>
                                     <div onClick={() => closeModal(false)} className="h-8 w-8 p-1  border flex items-center justify-center rounded-full text-center text-2xl font-bold">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="hover:text-secondary-500 text-primary-100 w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -28,8 +28,8 @@ const Modal = (props) => {
 
                                     </div>
                                 </div>
-                                <div className="relative px-6 bg-secondary-900 flex-auto">
-                                    <div className=" rounded px-8 pt-6 pb-1 w-full">
+                                <div className={`relative ${props.fullwidth ? "px-0" : "px-6"} bg-secondary-900 flex-auto`}>
+                                    <div className={` rounded ${props.fullwidth ? "px-0 pt-0" : "px-8 pt-6"}   pb-1 w-full`}>
                                         {props.body}
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@ const Modal = (props) => {
                                         type="button"
                                         onClick={() => { handleSubmit(item) }}
                                     >
-                                        Submit
+                                        {buttontitle}
                                     </button>
                                 </div>
                             </div>

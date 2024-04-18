@@ -17,6 +17,8 @@ import Listings from './pages/Listings'
 import Admin from './pages/admin'
 import Affiliate from './pages/admin/affiliates.jsx'
 import Owners from './pages/admin/owners.jsx'
+import Towns from './pages/admin/towns'
+import Areas from './pages/admin/areas/index.jsx'
 import OwnerDetails from './pages/admin/ownerDetails.jsx'
 import ShelfDetails from './pages/admin/shelfDetails.jsx'
 import Customers from './pages/admin/users.jsx'
@@ -98,6 +100,14 @@ const router = createBrowserRouter([
       {
         path: "admin/affiliate",
         element: <Affiliate />,
+      },
+      {
+        path: "admin/towns",
+        element: <Towns />,
+      },
+      {
+        path: "admin/areas",
+        element: <Areas />,
       },
       {
         path: "admin/customers",

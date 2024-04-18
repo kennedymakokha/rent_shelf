@@ -11,7 +11,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
     const [typesArr, setTypesArr] = useState([])
     const [featuresArr, setFeaturesArr] = useState([])
     const [availabletypes, setavailableTypes] = useState([])
-    const [createshelve, isSuccess] = useCreateshelveMutation();
+    const [createshelve] = useCreateshelveMutation();
     let initialState = {
         name: "",
         price: 0,

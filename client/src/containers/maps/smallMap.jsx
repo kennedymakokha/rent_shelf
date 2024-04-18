@@ -1,40 +1,18 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
-import { GoogleMap,  useJsApiLoader, Autocomplete, DirectionsRenderer } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, Autocomplete, DirectionsRenderer } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import BullsEye from './../../assets/bulls.png'
 
 const { VITE_APP_GOOGLE_API_KEY } = import.meta.env;
 
-function MapswithDirection() {
-  const shelves = [
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
+function MapInput(props) {
 
-        lat: -1.142666096, lng: 36.95416285
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-        lat: - 1.286389, lng: 36.817223
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-        lat: -3.97682910, lng: -3.97682910
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-
-        lat: -1.0333, lng: 37.0693
-      }
-    }
-  ];
   const [location, setLocation] = useState(null);
   const [directionalResponse, setDirectionalResponse] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
-  const [origin, setorigin] = useState("");
+
 
   /** @type React.MutableRefObje<HTMLInputElement> */
   const destinationRef = useRef()
@@ -43,8 +21,8 @@ function MapswithDirection() {
   const getName = async (lat, lng) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
       .then(res => res.json().then(data => {
-        let T = data.results[0].formatted_address.split(",")
-        setorigin(`${T[T.length - 2]},${T[T.length - 1]}`)
+        // let T = data.results[0].formatted_address.split(",")
+        // setorigin(`${T[T.length - 2]},${T[T.length - 1]}`)
       }).catch((e) => {
         console.log(e)
       })
@@ -54,8 +32,8 @@ function MapswithDirection() {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${name}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
       .then(res => res.json().then(data => {
         let loc = data.results[0].geometry.location
-        setLocation(loc)
-        map.panTo(loc)
+        props.onChange(loc)
+        props.setActualname(name)
 
       }).catch((e) => {
         console.log(e)
@@ -85,17 +63,9 @@ function MapswithDirection() {
   const culculate = async () => {
 
     if (destinationRef.current.value === "") return
-    const directionService = new google.maps.DirectionsService()
+
     getLatLong(destinationRef.current.value.replace(/ /g, '+'))
-    const results = await directionService.route({
-      origin: origin,
-      destination: destinationRef.current.value,
-      travelMode: google.maps.TravelMode.DRIVING
-    })
-  
-    setDirectionalResponse(results)
-    setDistance(results.routes[0].legs[0].distance.text)
-    setDuration(results.routes[0].legs[0].duration.text)
+
   }
   const clearRoute = () => {
     setDirectionalResponse(null)
@@ -110,7 +80,7 @@ function MapswithDirection() {
       {isLoaded && location &&
 
         <>
-          <div className="flex relative flex-col  z-0 items-center h-[100vh] w-[100vw]">
+          <div className="flex relative flex-col  z-0 items-center h-full w-full">
             <div className="absolute left-0 top-0 h-[100%] w-[100%]">
               <GoogleMap
                 zoom={15}
@@ -126,17 +96,17 @@ function MapswithDirection() {
                 onLoad ={map => setMap(map)}
               </GoogleMap>
             </div>
-            <div className="p-2 rounded-md sm:w-1/2  w-3/4 flex-col  bg-white border flex m-4  z-10 shadow-md ">
+            <div className="px-2 text-[18px]  py-1 rounded-md sm:w-1/2  w-3/4 flex-col  bg-white border flex m-4  z-10 shadow-md ">
               <div className="w-full flex">
-               
+
                 <div className="sm:w-[60%] w-[80%]">
                   <Autocomplete>
-                    <input type="text" ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Destination" />
+                    <input type="text" ref={destinationRef} className="flex w-full text-[18px] px-2 focus:outline-none " placeholder={props.placeholder} />
                   </Autocomplete>
                 </div>
                 <div className="w-[40%]  flex gap-x-2 justify-between  ">
-                  {!directionalResponse ? <div className="w-[90%] flex justify-end  ">
-                    <div className="w-1/2 flex items-center justify-center border shadow-3xl bg-primary-100 text-secondary-100 rounded-md " onClick={culculate}> Find  </div>
+                  {!directionalResponse ? <div className="w-[90%] flex justify-end  items-center ">
+                    <div className="w-1/2 flex h-6 p  items-center justify-center border shadow-3xl bg-primary-100 text-secondary-100 text-[14px] rounded-md " onClick={culculate}> Find  </div>
 
                   </div> :
                     <div className="w-[100%] float-end ">
@@ -166,4 +136,4 @@ function MapswithDirection() {
   )
 }
 
-export default MapswithDirection
+export default MapInput

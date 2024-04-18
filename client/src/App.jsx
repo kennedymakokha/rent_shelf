@@ -32,7 +32,7 @@ function App() {
       await subcribe({ token, topic: "general" }).unwrap()
       localStorage.setItem("token", token)
     } else if (permission === "denied") {
-      
+
       HandleConsole("You denied for the notification");
     }
   }
@@ -46,15 +46,14 @@ function App() {
 
   }, []);
   useEffect(() => {
-   
     socket.on("connect", () => {
       console.log(socket.id); // x8WIv7-mJelg7on_ALbx
     });
-
     socket.on("disconnect", () => {
       // console.log(socket.id); // undefined
     });
   }, [])
+ 
 
   return (
     <>

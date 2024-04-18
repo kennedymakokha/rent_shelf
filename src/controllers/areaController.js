@@ -7,7 +7,7 @@ import { validateAreaInput } from "../Validators/areaValidator.js";
 
 const getAreas = expressAsyncHandler(async (req, res) => {
     try {
-        const Areas = await Area.find({ deletedAt: null })
+        const Areas = await Area.find({ deletedAt: null }).populate("town_id","name")
         return res.status(200).json(Areas)
     } catch (error) {
         return res.status(400).json({ message: "Error Ocured try again", error })
