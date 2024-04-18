@@ -90,7 +90,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 published: true,
                 town_id: town,
                 area_id: area,
-               
+
             }).populate("town_id", "name")
                 .populate("area_id", "name")
                 .populate("type_id", "name")
@@ -103,7 +103,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 deletedAt: null,
                 published: true,
                 area_id: area
-               
+
             }).populate("town_id", "name")
                 .populate("area_id", "name")
                 .populate("type_id", "name")
@@ -116,8 +116,8 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 deletedAt: null,
                 published: true,
                 town_id: town,
-                
-               
+
+
             }).populate("town_id", "name")
                 .populate("area_id", "name")
                 .populate("type_id", "name")
@@ -168,7 +168,12 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
         }
         req.body.files = reqFiles
         req.body.createdBy = req.user._id
-
+        req.body.location = {
+            lat: req.body.lat,
+            lng: req.body.lng,
+        }
+        console.log(req.body)
+        
         let shel = await Shelf.create(req.body)
         let rol = await role.findOne({ name: "owner" })
         await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
@@ -179,11 +184,11 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
         let admins = await User.find({ role: adminRole._id })
         let tokensArray = []
         for (let index = 0; index < admins.length; index++) {
-            // const element = array[index];
+
             tokensArray = tokensArray.concat(admins[index].tokens)
 
         }
-        console.log(tokensArray)
+
         let payload = {
             notification: {
                 title: `New Shelf In Town `,

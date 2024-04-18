@@ -1,16 +1,19 @@
 /* eslint-disable react/prop-types */
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SelectFromAPI } from "../../../utils/selectFromapi";
 import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
-import InputContainer, { SelectContainer, TextArea } from "../../input.jsx";
+import InputContainer, { CheckBoxContainer, SelectContainer, TextArea } from "../../input.jsx";
+import MapInput from "../../maps/smallMap.jsx";
 
 
-const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, types, areas, }) => {
+const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, types, }) => {
     const [files, setFiles] = useState([])
     const [typesArr, setTypesArr] = useState([])
     const [featuresArr, setFeaturesArr] = useState([])
     const [availabletypes, setavailableTypes] = useState([])
+    const [currentLocation, setCurrentLocation] = useState(true);
+    const [actualname, setActualname] = useState("");
     const [createshelve] = useCreateshelveMutation();
     let initialState = {
         name: "",
@@ -19,6 +22,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
         building: "",
         area_id: "",
         town_id: "",
+        location: {},
         description: "",
         type_id: [],
         files: []
@@ -80,13 +84,12 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
     const handleSubmit = async () => {
 
         try {
-
+          
+            // eslint-disable-next-line no-unreachable
             item.type_id = availabletypes
             item.features = availablefeatures
 
             const formData = new FormData();
-
-
             for (let index = 0; index < files.length; index++) {
                 formData.append("files", files[index]);
             }
@@ -98,6 +101,8 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
             }
 
             formData.append("name", item.name);
+            formData.append("lat", item.location.lat);
+            formData.append("lng", item.location.lng);
             formData.append("price", item.price);
             formData.append("description", item.description);
             formData.append("building", item.building);
@@ -114,11 +119,48 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
 
     }
 
+    const setLocation = (position) => {
+        setItem((prevState) => ({
+            ...prevState,
+            location: position,
+        }));
+        setCurrentLocation(true)
+
+    }
     useEffect(() => {
         setTypesArr(types)
         setFeaturesArr(featuresArray)
     }, [types, featuresArray])
-
+    const getName = async (lat, lng) => {
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
+            .then(res => res.json().then(data => {
+                console.log(data)
+                let T = data.results[0].formatted_address.split(",")
+                setActualname(`${T[T.length - 2]},${T[T.length - 1]}`)
+            }).catch((e) => {
+                console.log(e)
+            })
+            )
+    }
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                getName(position.coords.latitude, position.coords.longitude)
+                setLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+                setItem((prevState) => ({
+                    ...prevState,
+                    location: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                }));
+            },
+            error => console.error('Error getting location:', error)
+        );
+    }, []);
     return (
         <>
 
@@ -136,7 +178,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
 
                                     </div>
                                 </div>
-                                <div className="relative px-6 bg-slate-100 flex-auto">
+                                {!currentLocation ? <MapInput setActualname={setActualname} onChange={setLocation} placeholder="Search the area" /> : <div className="relative px-6 bg-slate-100 flex-auto">
                                     <div className=" rounded px-8 pt-6 pb-1 w-full">
                                         <div className="flex w-full  sm:flex-row flex-col ">
 
@@ -213,7 +255,16 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                                                     id="town"
                                                     required={true}
                                                 />
-                                                <SelectContainer
+                                                <div className='w-full px-2'>
+                                                    {currentLocation ? <div className='flex flex-col'>
+                                                        <CheckBoxContainer title="Use my current location" checked={currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+                                                        <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+                                                    </div> :
+                                                        <InputContainer cancel btnaction={() => { setActualname(""); setCurrentLocation((prevState) => (!prevState)) }} value={actualname} required name="Location" label="Location" placeholder="Name" handleChange={(e) => changeInput(e)} />}
+
+
+                                                </div>
+                                                {/* <SelectContainer
                                                     name="Area"
                                                     array={SelectFromAPI({
                                                         array: areas
@@ -226,7 +277,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                                                     value={item.town_id}
                                                     id="town"
                                                     require={true}
-                                                />
+                                                /> */}
                                                 <InputContainer
                                                     name="files[]"
                                                     multiple={true}
@@ -237,6 +288,8 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                                                     value={item.images}
                                                     id="price"
                                                 />
+
+
 
                                                 <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
                                                     Types
@@ -255,7 +308,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
 
 
                                     </div>
-                                </div>
+                                </div>}
                                 <div className="flex items-center justify-end px-6 py-2 border-t border-solid border-blueGray-200 rounded-b">
                                     <button
                                         className="text-secondary-500 hover:text-primary-100 hover:border-secondary-100 border-primary-100 border rounded-md background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"

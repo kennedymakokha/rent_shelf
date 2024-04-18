@@ -81,7 +81,7 @@ function MapInput(props) {
       {isLoaded && location &&
 
         <>
-          <div className="flex relative flex-col  z-0 items-center h-full w-full">
+          <div className="flex relative flex-col  z-0 items-center h-full min-h-[300px] w-full">
             <div className="absolute left-0 top-0 h-[100%] w-[100%]">
               <GoogleMap
                 zoom={15}
