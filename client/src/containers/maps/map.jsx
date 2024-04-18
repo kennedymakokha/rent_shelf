@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { GoogleMap, Marker, useJsApiLoader, Autocomplete, DirectionsRenderer, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, Autocomplete,  MarkerF } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import BullsEye from './../../assets/bulls.png'
 
@@ -39,6 +39,7 @@ function MapswithDirection() {
   /** @type React.MutableRefObje<HTMLInputElement> */
   const destinationRef = useRef()
 
+  // eslint-disable-next-line no-unused-vars
   const [map, setMap] = useState(/**@type google.maps.Map */(null));
   const getName = async (lat, lng) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
@@ -90,6 +91,7 @@ function MapswithDirection() {
     const results = await directionService.route({
       origin: origin,
       destination: destinationRef.current.value,
+
       travelMode: google.maps.TravelMode.DRIVING
     })
     console.log(results)
@@ -110,16 +112,18 @@ function MapswithDirection() {
       {isLoaded && location &&
 
         <>
-          <div className="flex relative flex-col  z-0 items-center h-[100vh] w-[100vw]">
-            <div className="absolute left-0 top-0 h-[100%] w-[100%]">
+          <div className="flex rounded-md relative flex-col  z-0 items-center h-full w-full">
+            <div className="absolute rounded-full left-0 top-0 h-[100%] w-[100%]">
               <GoogleMap
                 zoom={15}
                 center={location}
-                mapContainerClassName="w-full h-full"
+                options={{ mapTypeControl: false, zoomControl: false, fullscreenControl: false }}
+
+                mapContainerClassName="w-full h-full rounded-md"
               >
                 <MarkerF position={location} />
                 {shelves.map((shelf, i) => (
-                  <MarkerF key={i}  onMouseOver={()=>alert("test")} onHover={()=>alert("test")} position={shelf.location} />
+                  <MarkerF key={i} onMouseOver={() => alert("test")} onHover={() => alert("test")} position={shelf.location} />
                 ))}
 
               </GoogleMap>
@@ -127,14 +131,14 @@ function MapswithDirection() {
             <div className="p-2 rounded-md sm:w-1/2  w-3/4 flex-col  bg-white border flex m-4  z-10 shadow-md ">
               <div className="w-full flex">
 
-                <div className="sm:w-[60%] w-[80%]">
+                <div className="sm:w-[60%]  w-[80%]">
                   <Autocomplete>
-                    <input type="text" ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Destination" />
+                    <input type="text" ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Other places" />
                   </Autocomplete>
                 </div>
                 <div className="w-[40%]  flex gap-x-2 justify-between  ">
                   {!directionalResponse ? <div className="w-[90%] flex justify-end  ">
-                    <div className="w-1/2 flex items-center justify-center border shadow-3xl bg-primary-100 text-secondary-100 rounded-md " onClick={culculate}> Find  </div>
+                    <div className="w-1/2 h-7 flex items-center justify-center border shadow-3xl bg-primary-100 text-secondary-100 rounded-md " onClick={culculate}> Find  </div>
 
                   </div> :
                     <div className="w-[100%] float-end ">

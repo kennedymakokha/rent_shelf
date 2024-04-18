@@ -21,6 +21,7 @@ function MapInput(props) {
   const getName = async (lat, lng) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
       .then(res => res.json().then(data => {
+        console.log(data)
         // let T = data.results[0].formatted_address.split(",")
         // setorigin(`${T[T.length - 2]},${T[T.length - 1]}`)
       }).catch((e) => {
