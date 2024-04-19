@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import Home from './pages/home'
 // import './containers/layout/navbar/style.'
+import Cookie from './assets/Mail.gif'
 import { getToken, onMessage } from "firebase/messaging";
 import { messaging } from "./firebase/firebaseConfig";
 import CookieConsent from "react-cookie-consent";
@@ -53,14 +54,26 @@ function App() {
       // console.log(socket.id); // undefined
     });
   }, [])
- 
+
 
   return (
     <>
       <Home />
-      <CookieConsent debug={true}>
-
-        This site uses cookies.</CookieConsent>
+      <CookieConsent
+        style={{ width: "", borderRadius: '5px', backgroundColor: "transparent", display: 'flex', flexDirection: "column",marginRight: "15px", float: "right", position: 'fixed' }}
+        buttonStyle={{ color: "#199e9e", borderRadius: '5px', position: "absolute", right: "0", bottom: '2px', zIndex: 120, fontSize: "13px" }}
+        expires={150}
+        debug={false}>
+        <div className="bg-gray-400 w-[300px]  rounded-[5px] h-full relative z-0">
+          <img src={Cookie} alt="" />
+          <div className="absolute top-[55%] -rotate-[19deg] left-[50px]  w-full flex justify-center items-center z-20">
+            <p className="text-[12px]  text-[yellow]  font-bold">We love Cookies </p>
+          </div>
+          <div className="absolute rounded-[5px] opacity-50 inset-0  bg-primary-100 flex justify-center items-center z-10">
+            {/* <p className="text-2xl font-bold">This should be on top of the map</p> */}
+          </div>
+        </div>
+      </CookieConsent>
       <Message show={show} data={data} setShow={setShow} />
     </>
 

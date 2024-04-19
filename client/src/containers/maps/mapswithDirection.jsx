@@ -6,30 +6,7 @@ import BullsEye from './../../assets/bulls.png'
 const { VITE_APP_GOOGLE_API_KEY } = import.meta.env;
 
 function MapswithDirection() {
-  const shelves = [
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
 
-        lat: -1.142666096, lng: 36.95416285
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-        lat: - 1.286389, lng: 36.817223
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-        lat: -3.97682910, lng: -3.97682910
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-
-        lat: -1.0333, lng: 37.0693
-      }
-    }
-  ];
   const [location, setLocation] = useState(null);
   const [directionalResponse, setDirectionalResponse] = useState(null);
   const [distance, setDistance] = useState("");

@@ -3,6 +3,8 @@ import slider from './../../assets/slider1.jpg'
 import slider1 from './sliderImages/slider1.jpg'
 import slider2 from './sliderImages/slider2.jpg'
 import MyMap from './../../containers/maps/map'
+import MapClust from '../../containers/maps/mapClust.jsx'
+// import Clustermap from '../../containers/maps/clustermap'
 
 // eslint-disable-next-line react/prop-types
 function Slider({ data }) {
