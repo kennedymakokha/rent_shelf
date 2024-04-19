@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
+import  { useEffect, useState } from "react";
 
 import { toast } from 'react-toastify';
-import { HandleArray, HandleConsole, SelectFromAPI } from "../../utils/selectFromapi";
+import { HandleArray, SelectFromAPI } from "../../utils/selectFromapi";
 import { useCreateshelveMutation } from "../../features/slices/shelfSlice";
-import { useFetchQuery } from "../../features/slices/townsSlice";
-import { useFetchAreasQuery } from "../../features/slices/areaSlice";
 import { useFetchTypeQuery } from "../../features/slices/typeSlice";
 import { useFetchFeatureQuery } from "../../features/slices/featureSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const fixedInputclassName = "rounded-md appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm"
 
-const InputContainer = ({ value, id, multiple, name, required, type, placeholder, label, handleChange }) => {
+const InputContainer = ({ value, id, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
             <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
@@ -33,7 +33,7 @@ const InputContainer = ({ value, id, multiple, name, required, type, placeholder
     )
 }
 
-const SelectContainer = ({ value, multiple, array, id, name, required, type, placeholder, label, handleChange }) => {
+const SelectContainer = ({ multiple, array, name, required, label, handleChange }) => {
     return (
         <>
             <label className=" w-full  text-primary-100 uppercase text-sm font-bold mb-1">
@@ -59,8 +59,8 @@ const List = ({ towns, areas, isSuccess }) => {
     const [createshelve] = useCreateshelveMutation();
     // const { data: towns, refetch, isSuccess, isLoading } = useFetchQuery()
     // const { data: areas, isSuccess: success, } = useFetchAreasQuery()
-    const { data: types, isSuccess: typesuccess, } = useFetchTypeQuery()
-    const { data: features, isSuccess: fearesuccess, } = useFetchFeatureQuery()
+    const { data: types, } = useFetchTypeQuery()
+    const { data: features, } = useFetchFeatureQuery()
     const { userInfo } = useSelector((state) => state.auth)
     const navigate = useNavigate()
     let typesArray = HandleArray(types)
@@ -164,7 +164,7 @@ const List = ({ towns, areas, isSuccess }) => {
         }
 
     }
-    HandleConsole(towns, "ta")
+
     useEffect(() => {
         if (!userInfo) {
             navigate('login')

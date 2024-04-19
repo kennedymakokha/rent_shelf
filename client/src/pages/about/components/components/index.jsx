@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-export const SocialComponent = ({ color, title, path }) => {
+export const SocialComponent = ({ color, title, path, sm }) => {
     return (<div className={`flex sm:w-auto w-8 h-8 sm:p-3 p-1 ${color}  items-center justify-center  sm:rounded-r-full sm:rounded-none rounded-full`}>
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@ export const SocialComponent = ({ color, title, path }) => {
             <path d={path}
             />
         </svg>
-        <div className="sm:flex hidden text-white  items-center justify-center font-medium 
-                uppercase leading-normal text-white text-[12px]"> {title}</div>
+        {!sm && <div className={`sm:flex hidden text-white  items-center justify-center font-medium 
+                uppercase leading-normal text-white text-[12px]`}> {title}</div>}
     </div>)
 }

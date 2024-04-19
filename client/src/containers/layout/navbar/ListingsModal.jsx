@@ -86,6 +86,19 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
         try {
 
             // eslint-disable-next-line no-unreachable
+            for (const key in {
+                name: "",
+                building: "",
+                town_id: "",
+                description: "",
+            }) {
+
+                if (item[key] === "") {
+                    return toast.error(`${key} is a required field`)
+                }
+
+            }
+            // return
             item.type_id = availabletypes
             item.features = availablefeatures
 

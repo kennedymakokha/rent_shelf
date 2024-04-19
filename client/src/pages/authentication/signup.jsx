@@ -7,7 +7,7 @@ import { useRegisterMutation, } from './../../features/slices/usersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { HandleConsole } from '../../utils/selectFromapi';
+
 
 
 const fields = signupFields;
@@ -23,14 +23,14 @@ export default function Signup() {
 
   const [signUp] = useRegisterMutation();
   const { userInfo } = useSelector((state) => state.auth)
-  // HandleConsole(userInfo)
+
   const urlParams = new URLSearchParams(window.location.search);
   const affiliate = urlParams.get('affiliate');
   signupState.ref_no = affiliate
   const handleSubmit = async () => {
     try {
-      // HandleConsole(signupState)
-      await signUp(signupState).unwrap();
+
+      let res = await signUp(signupState).unwrap();
 
       localStorage.setItem("activated", false)
 

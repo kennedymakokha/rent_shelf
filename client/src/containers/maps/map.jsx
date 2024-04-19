@@ -1,35 +1,16 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
-import { GoogleMap, useJsApiLoader, Autocomplete,  MarkerF } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, Autocomplete, MarkerF } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
-import BullsEye from './../../assets/bulls.png'
+import pin1 from './../../assets/pin1.png'
+import pin2 from './../../assets/pin2.png'
 
 const { VITE_APP_GOOGLE_API_KEY } = import.meta.env;
 
-function MapswithDirection() {
-  const shelves = [
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
+function MapswithDirection({ data }) {
 
-        lat: -1.142666096, lng: 36.95416285
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-        lat: - 1.286389, lng: 36.817223
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
-        lat: -3.97682910, lng: -3.97682910
-      }
-    },
-    {
-      cluster: false, crimeId: 1, category: "cate", location: {
 
-        lat: -1.0333, lng: 37.0693
-      }
-    }
-  ];
   const [location, setLocation] = useState(null);
   const [directionalResponse, setDirectionalResponse] = useState(null);
   const [distance, setDistance] = useState("");
@@ -94,7 +75,7 @@ function MapswithDirection() {
 
       travelMode: google.maps.TravelMode.DRIVING
     })
-    console.log(results)
+    // console.log()
     // setDirectionalResponse(results)
     // setDistance(results.routes[0].legs[0].distance.text)
     // setDuration(results.routes[0].legs[0].duration.text)
@@ -107,6 +88,7 @@ function MapswithDirection() {
     destinationRef.current.value = ""
   }
 
+
   return (
     <>
       {isLoaded && location &&
@@ -115,15 +97,26 @@ function MapswithDirection() {
           <div className="flex rounded-md relative flex-col  z-0 items-center h-full w-full">
             <div className="absolute rounded-full left-0 top-0 h-[100%] w-[100%]">
               <GoogleMap
-                zoom={15}
+                zoom={14}
                 center={location}
-                options={{ mapTypeControl: false, zoomControl: false, fullscreenControl: false }}
+                options={{ mapTypeControl: false, zoomControl: true, fullscreenControl: false }}
 
                 mapContainerClassName="w-full h-full rounded-md"
               >
-                <MarkerF position={location} />
-                {shelves.map((shelf, i) => (
-                  <MarkerF key={i} onMouseOver={() => alert("test")} onHover={() => alert("test")} position={shelf.location} />
+                <MarkerF
+
+                  position={location}
+                  options={{
+                    icon: pin1
+                  }}
+                />
+
+                {data.map((shelf, i) => (
+                  <MarkerF key={i} position={shelf.location}
+                    options={{
+                      icon: pin2
+                    }}
+                  />
                 ))}
 
               </GoogleMap>
@@ -154,7 +147,7 @@ function MapswithDirection() {
                   <div className="sm:w-1/2  w-full flex items-center justify-between px-2 "><span>Duration:</span> {duration}</div>
                 </div>
                 <div onClick={() => map.panTo(location)} className="w-[10%]">
-                  <img src={BullsEye} className=" h-10 bg-secondary-00 w-10 rounded-full" alt="" />
+                  <img src={pin1} className=" h-10 bg-secondary-00 w-10 rounded-full" alt="" />
                 </div>
 
               </div>}

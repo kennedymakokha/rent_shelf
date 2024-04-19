@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 import { Ratings } from '../../../../utils/multiple'
 
@@ -7,13 +8,14 @@ function Bottom(props) {
             <div className='w-full h-full rounded-tl-md flex flex-col   px-2 justify-center items-center '>
                 <span className={`font-bold  flex justify-center  ${props.text ? props.text : "text-primary-900"}  px-1 gap-x-1 items-center`}>
                     {props?.featured?.name}</span>
+                <span className={`font-bold  flex justify-center text-[12px]   text-secondary-400 px-1 gap-x-1 items-center`}>
+                    ({props?.featured?.town_id?.name})</span>
                 <span className={`font-bold  flex justify-center text-[12px]  ${props.text ? props.text : "text-primary-900"} px-1 gap-x-1 items-center`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-3 h-3 text-primary-900">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                     </svg>
-
-                    {props?.featured?.area_id?.name} {props?.featured?.town_id?.name}</span>
+                    {props?.featured?.area?.split('+').join(' ').substr(0, 20)}</span>
                 <Ratings row count={props?.featured?.ratings} />
             </div>
         </div >

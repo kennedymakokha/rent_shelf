@@ -9,10 +9,10 @@ const townSchema = new Schema({
     price: { type: Number, },
     location: {
         lng: {
-            type: String,
+            type: Number,
         },
         lat: {
-            type: String,
+            type: Number,
 
         },
     },
@@ -21,7 +21,7 @@ const townSchema = new Schema({
         [{ type: Schema.Types.ObjectId, ref: 'tb_feature' }]
     ,
     featured: { type: Boolean, default: false },
-    published: { type: Boolean, default: false },
+    published: { type: Boolean, default: true },
     warehouse: { type: Boolean, default: false },
     deletedAt: { type: Date, default: null },
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },

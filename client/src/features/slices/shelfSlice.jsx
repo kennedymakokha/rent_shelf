@@ -21,7 +21,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             query: (data) => ({
                 url: `${USER_URL}/publish/${data}`,
                 method: "PUT",
-                body: data
+                // body: data
             })
         }),
         fetchshelves: builder.query({

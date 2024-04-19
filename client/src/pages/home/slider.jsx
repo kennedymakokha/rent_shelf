@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import slider from './../../assets/slider1.jpg'
 import slider1 from './sliderImages/slider1.jpg'
 import slider2 from './sliderImages/slider2.jpg'
@@ -6,18 +6,14 @@ import MyMap from './../../containers/maps/map'
 
 // eslint-disable-next-line react/prop-types
 function Slider({ data }) {
-    // const [items, setItems] = useState([
-    //     { state: true, icon: slider, title: "Enough Space for you " },
-    //     { state: false, icon: slider1, title: "warehouse sapce for you" },
-    //     { state: false, icon: slider2, title: "Proximity to your shelf" },
-    //     { state: false, icon: slider1, title: "Instant Support  " }
-    // ])
-    const items = [
+    // eslint-disable-next-line no-unused-vars
+    const [items, setItems] = useState([
         { state: true, icon: slider, title: "Enough Space for you " },
         { state: false, icon: slider1, title: "warehouse sapce for you" },
         { state: false, icon: slider2, title: "Proximity to your shelf" },
         { state: false, icon: slider1, title: "Instant Support  " }
-    ]
+    ])
+
     const [active, setactive] = useState(0)
     const next = () => {
 
@@ -90,14 +86,14 @@ function Slider({ data }) {
 
                     </div>
                 </div>
-                {/* MyMap */}
+
                 <div className="absolute  bottom-[5%] left-[25%]  space-x-2 right-[25%] mx-20 flex justify-center items-center z-10">
                     {items.map((item, i) => (
                         <span key={i} className={`${item.state === true ? 'bg-secondary-1000 sm:w-3 sm:h-3 h-1 w-1 rounded-full border border-2 border-white' : 'bg-primary-1000  sm:w-3 sm:h-3 h-1 w-1 rounded-full'}`}></span>
                     ))}
                 </div>
                 {data !== undefined && data && <div className="absolute rounded-md  w-1/2 h-3/4  top-[5%] right-[2%]  mx-0 flex justify-center items-center z-10">
-                    <MyMap />
+                    <MyMap data={data} />
                 </div>}
                 <div className="absolute  inset-0  bg-gradient-to-t from-primary-100  mx-0 flex justify-center  items-center -z-5">
 

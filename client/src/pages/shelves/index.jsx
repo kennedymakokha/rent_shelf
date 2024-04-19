@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import Contents from '../home/contents'
@@ -84,24 +85,24 @@ function Index() {
     newArr[index].state = !newArr[index].state
     settypes(newArr);
   }
-  const handleArea = index => {
-    let newArr = [...AreaArray];
-    const temp = AreaArray.map((item) => {
-      if (index === item._id) {
-        setItem(prevState => ({
-          ...prevState, area: item._id
-        }))
-        item.state = !item.state
-        refetch()
-        return { ...item, state: true };
-      } else {
-        return { ...item, state: false };
-      }
-    });
-    AreaArray = temp
-    newArr[index].state = !newArr[index].state
-    AreaArray = newArr
-  }
+  // const handleArea = index => {
+  //   let newArr = [...AreaArray];
+  //   const temp = AreaArray.map((item) => {
+  //     if (index === item._id) {
+  //       setItem(prevState => ({
+  //         ...prevState, area: item._id
+  //       }))
+  //       item.state = !item.state
+  //       refetch()
+  //       return { ...item, state: true };
+  //     } else {
+  //       return { ...item, state: false };
+  //     }
+  //   });
+  //   AreaArray = temp
+  //   newArr[index].state = !newArr[index].state
+  //   AreaArray = newArr
+  // }
 
   useEffect(() => {
     settowns(TownsArray)
@@ -125,15 +126,15 @@ function Index() {
 
         </div>
         <div className=' w-full h-full  flex flex-row '>
-          <div className=' w-[12%] h-auto  pt-0 border-r border-l sm:flex hidden flex-col '>
-            <FilterTitle title="towns" />
+          <div className=' w-[12%] h-auto  pt-1  sm:flex hidden flex-col '>
+            <FilterTitle topRounded  title="towns" />
             <div className='flex m-2 flex-col gap-y-2 overflow-hidden'>
               {townFeching || !isSuccess ? <Multiple count={7} col body={<FilterItemLoader />} />
                 : townsArr !== undefined && townsArr.map((town, i) => (
                   <FilterItem key={i} data={town} onChange={() => { changeTown(town); handleTowns(town._id) }} />
                 ))}
             </div>
-            {areas && <FilterTitle title="Areas" />}
+            {/* {areas && <FilterTitle title="Areas" />}
             <div className=' w-full   flex flex-row overflow-x-hidden scrollbar-hide'>
               <div className='flex m-2 flex-col gap-y-2'>
                 {areaFetching ? <Multiple count={7} col body={<FilterItemLoader />} />
@@ -145,8 +146,8 @@ function Index() {
                     }} />
                   ))}
               </div>
-            </div>
-            <FilterTitle title="Featured" />
+            </div> */}
+            <FilterTitle  title="Featured" />
             <div className='flex m-2 flex-col gap-y-2'>
               {!isSuccess ? <Multiple count={1} col body={<FilterItemLoader />} /> :
                 <FilterItem data={{ name: "Featured", state: item.featured }} onChange={() => {

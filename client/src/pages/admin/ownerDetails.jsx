@@ -4,34 +4,19 @@ import AdminLayout from '../../containers/layout/admin/adminLayout'
 import { MetaDatacontainer } from './detailsContainers/metaData'
 import Table, { TBody, TH, TableContainer, TableHead, TableTitle, Tdata } from '../../containers/layout/admin/table'
 import { ShelvesTableHead } from './data.json'
-import { useFetchUsershelvesQuery, usePublishshelveMutation } from '../../features/slices/shelfSlice'
+import { useFetchUsershelvesQuery } from '../../features/slices/shelfSlice'
 import { useState } from 'react'
-import { socket } from '../../App'
-import { toast } from 'react-toastify'
 
 function OwnerDetails() {
     // useFetchUsershelvesQuery
 
     const location = useLocation()
     const { details } = location.state
-    const [loading, setLoading] = useState(false)
-    const [publishshelve,] = usePublishshelveMutation();
+    const [loading] = useState(false)
+    // const [publishshelve,] = usePublishshelveMutation();
 
-    const { data, refetch, isFetching } = useFetchUsershelvesQuery(details._id)
-    const publish = async (id) => {
-        try {
-            setLoading(true)
-            await publishshelve(id).unwrap();
-            socket.emit('publishing', id);
-            await refetch()
-            setLoading(false)
-            toast.success(`Success`)
-        } catch (error) {
-            console.log(error)
-            toast.error(error)
-        }
-
-    }
+    const { data, isFetching } = useFetchUsershelvesQuery(details._id)
+   
     return (
         <AdminLayout>
             <div className=' flex w-full h-[200px] '>
@@ -83,11 +68,12 @@ function OwnerDetails() {
                                 </td>
                                 <Tdata title={shelf?.price} />
                                 <Tdata title={shelf?.town_id?.name} />
-                                <Tdata title={shelf?.area_id?.name} />
+                                <Tdata title={shelf?.area?.split('+').join(' ')} />
                                 <Tdata title={shelf?.building} />
                                 <Tdata title={shelf?.building} array={shelf.features} />
                                 <Tdata array={shelf.types} />
-                                <Tdata loading={loading} onClick={publish} id={shelf._id} title={shelf?.published ? "Published" : "Not Published"} badge boolean={shelf.published} />
+                                {/* <div onClick={() => publish(shelf._id)} className={` hover:bg-green-200 cursor-pointer border ${shelf.published ? "border-green-200 bg-green-100" : "border-red-200  text-primary-100 bg-red-100"} text-[10px] flex items-center justify-center px-2 rounded-full `}> {loading ? "Loading" : "Published"}</div> */}
+                                <Tdata loading={loading} id={shelf._id} title={shelf?.published ? "Published" : "Not Published"} badge boolean={shelf.published} />
                                 <Tdata title={shelf?.featured ? "Featured" : "Not Featured"} badge boolean={shelf.features} />
 
                             </tr>

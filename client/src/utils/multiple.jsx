@@ -18,7 +18,7 @@ export const Multiple = (props) => {
 
 export const Repeat = ({ count, body }) => {
     const repeatedElements = [...Array(count)].map((_, i) => (
-        <>{body}</>
+        <div key={i}>{body}</div>
     ))
     return repeatedElements
 

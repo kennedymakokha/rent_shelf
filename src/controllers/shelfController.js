@@ -19,99 +19,107 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
         const { town, area, featured } = req.query
 
         let data = []
-        if (town === "undefined" && area === "undefined" && featured === "false") {
+        // data = await Shelf.find({
+        //     deletedAt: null,
+        //     published: true,
+        // }).populate("town_id", "name")
+
+        //     .populate("type_id", "name")
+        //     .populate("features", "name")
+
+        // return res.status(200).json(data)
+        if (town === "undefined" && featured === "false") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
             }).populate("town_id", "name")
-                
                 .populate("type_id", "name")
                 .populate("features", "name")
 
             return res.status(200).json(data)
-        } else if (town === "undefined" && area === "undefined" && featured === "true") {
+        } else if (town === "undefined" && featured === "true") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
                 featured: true,
 
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
             return res.status(200).json(data)
         }
-        else if (town !== "undefined" && area !== "undefined" && featured === "true") {
+        else if (town !== "undefined" && featured === "true") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
                 town_id: town,
-                area_id: area,
+
                 featured: true,
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
             return res.status(200).json(data)
         }
-        else if (town === "undefined" && area !== "undefined" && featured === "true") {
+        else if (town === "undefined" && featured === "true") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
                 town_id: town,
-                area_id: area,
+
                 featured: true,
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
             return res.status(200).json(data)
         }
-        else if (town !== "undefined" && area === "undefined" && featured === "true") {
+        else if (town !== "undefined" && featured === "true") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
                 town_id: town,
-                area_id: area,
+
                 featured: true,
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
             return res.status(200).json(data)
         }
-        else if (town !== "undefined" && area !== "undefined" && featured === "false") {
+        else if (town !== "undefined" && featured === "false") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
                 town_id: town,
-                area_id: area,
+
 
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
             return res.status(200).json(data)
         }
-        else if (town === "undefined" && area !== "undefined" && featured === "false") {
+        else if (town === "undefined" && featured === "false") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
                 area_id: area
 
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
             return res.status(200).json(data)
         }
-        else if (town !== "undefined" && area === "undefined" && featured === "false") {
+        else if (town !== "undefined" && featured === "false") {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
@@ -119,7 +127,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
 
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -132,7 +140,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
                 town_id: town,
                 featured: featured,
             }).populate("town_id", "name")
-                
+
                 .populate("type_id", "name")
                 .populate("features", "name")
 
@@ -220,7 +228,7 @@ const getShelf = expressAsyncHandler(async (req, res) => {
     return res.status(200).json(ShelV)
 })
 const getUsershelves = expressAsyncHandler(async (req, res) => {
-    console.log(req.params.id)
+
     try {
         const ShelV = await Shelf.find({ createdBy: req.params.id }).populate('town_id', 'name')
             // .populate('area_id', 'name')
@@ -237,9 +245,11 @@ const getUsershelves = expressAsyncHandler(async (req, res) => {
 const publishUnpublishShelf = expressAsyncHandler(async (req, res) => {
     try {
         let Shelve = await Shelf.findById(req.params.id)
+        console.log("B", Shelve)
         let Owner = await User.findById(Shelve.createdBy)
         let updates = await Shelf.findOneAndUpdate({ _id: req.params.id }, { published: !Shelve.published }, { new: true, useFindAndModify: false })
 
+        // let updates = await Shelf.findOneAndUpdate({_id: req.params.id }, { $set: { published: !Shelve.published } }, { new: true })
         let payload = {
             notification: {
                 title: `${updates.published ? "Published " : "Unpublished"}`,
@@ -258,7 +268,7 @@ const publishUnpublishShelf = expressAsyncHandler(async (req, res) => {
             tokens: Owner.tokens
         }
 
-        let v = await firebaseAdmin.messaging().sendEachForMulticast(payload)
+        await firebaseAdmin.messaging().sendEachForMulticast(payload)
 
         return res.status(200).json({ message: 'Shelf Updated successfully ', updates })
     } catch (error) {

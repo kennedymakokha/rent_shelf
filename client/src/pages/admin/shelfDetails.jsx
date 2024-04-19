@@ -1,25 +1,23 @@
 
 import AdminLayout from '../../containers/layout/admin/adminLayout'
-import { HandleConsole } from '../../utils/selectFromapi'
 import { useLocation } from 'react-router-dom'
 import TitleContainer from '../../containers/titleContainer'
-import { Multiple, Ratings } from '../../utils/multiple'
+import { Ratings } from '../../utils/multiple'
 import { useFetchshelvesByIDQuery, usePublishshelveMutation } from '../../features/slices/shelfSlice'
 import { toast } from 'react-toastify'
 import { socket } from '../../App'
-import { DetailItem, RateItem } from './shelfeDetailContainers/items.jsx'
 import ImageWrap from './shelfeDetailContainers/imageWrap.jsx'
 import Details from './shelfeDetailContainers/details.jsx'
 
-function shelfDetails() {
+function ShelfDetails() {
     const location = useLocation()
     const { details } = location.state
     const [publishshelve] = usePublishshelveMutation();
-    const { data, refetch, isFetching } = useFetchshelvesByIDQuery(details._id)
+    const { data, refetch } = useFetchshelvesByIDQuery(details._id)
 
     const publish = async () => {
         try {
-            // await publishshelve(details._id).unwrap();
+            await publishshelve(details._id).unwrap();
             socket.emit('publishing', details._id);
             await refetch()
             toast.success(` ${data.published ? "publication done" : "Unpublication done"}`)
@@ -39,16 +37,16 @@ function shelfDetails() {
                 </div>
                 <div className='flex items-center gap-x-2 '>
                     <Ratings small row width={6} count={details?.ratings} />
-                    <div className={`px-2  ${data?.published ? "border border-secondary-200 bg-secondary-300 text-primary-100" : "border bg-primary-300 text-white  border-primary-200"}  rounded-md text-[18px]`} onClick={() => publish()}> {!data?.published ? "Unpublish" : "Publish"}</div>
+                    <div className={`px-2  ${data?.published ? "border border-secondary-200 bg-secondary-300 text-primary-100" : "border bg-primary-300 text-white  border-primary-200"}  rounded-md text-[18px]`} onClick={() => publish()}> {data?.published ? "Unpublish" : "Publish"}</div>
                 </div>
 
             </div>
 
             <ImageWrap details={details} />
             <Details details={details} />
-           
+
         </AdminLayout>
     )
 }
 
-export default shelfDetails
+export default ShelfDetails

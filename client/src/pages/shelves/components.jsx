@@ -5,9 +5,9 @@ import ContentLoader from "react-content-loader"
 import { Multiple } from "../../utils/multiple"
 
 // eslint-disable-next-line react/prop-types
-export const FilterTitle = ({ title }) => {
+export const FilterTitle = ({ title, topRounded }) => {
     return (
-        <div className='w-full h-6 px-2  bg-primary-100 border border-slate-200 shadow-3xl text-[18px] font-bold capitalize items-center tracking-wider justify-center flex  text-slate-100'>{title}</div>
+        <div className={`w-full  px-1  bg-primary-100 border border-slate-200 shadow-3xl text-[18px] font-bold ${topRounded ? " rounded-t-md h-[32px]":"h-6"} capitalize items-center tracking-wider justify-center flex  text-slate-100`}>{title}</div>
     )
 }
 export const FilterItem = (props) => {
@@ -50,7 +50,7 @@ export const ShelveLoader = () => {
                 <ContentLoader backgroundColor="#99a5b4" viewBox="0 0 318 200">
                     <rect x="0" y="0" rx="5" ry="5" width="318" height="200" />
                 </ContentLoader>
-            
+
             </div>} />
     )
 }

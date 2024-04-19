@@ -5,8 +5,8 @@ export const menuItemsData = [
   },
 
   {
-    title: 'Services',
-    url: '/services',
+    title: 'Shalves',
+    url: '/shelves',
     // submenu: [
     //   {
     //     title: 'Rent Type',
