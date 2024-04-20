@@ -4,14 +4,14 @@ import Breadcrump from './breadcrump'
 function index(props) {
     return (
 
-        <div className="bg-gray-400 w-full h-[200px] relative z-0">
+        <div className="bg-gray-400 w-full sm:h-[200px] h-[100px] relative z-0">
             <img src={props?.backDrop} alt='' className='w-full h-full object-cover ' />
             <div className="absolute top-0 left-0 w-full  h-full sm:opacity-70 opacity-10 sm:bg-black bg-white z-4">
 
             </div>
 
             <div className={`absolute sm:w-[26%]  w-[80%]   
-             ${props.detailed ? "sm:top-4 top-6  sm:left-[10%] left-10  shadow-md opacity-90  text-white bg-black" : "sm:top-28 top-40  sm:left-10 -left-20  shadow-md opacity-90  shadow-md   text-primary-100 bg-white   flex justify-center items-center"}    z-40`}>
+             ${props.detailed ? "sm:top-4 top-1  sm:left-[10%] left-10  shadow-md opacity-90  text-white bg-black" : "sm:top-28 top-40  sm:left-10 -left-20  shadow-md opacity-90  shadow-md   text-primary-100 bg-white   flex justify-center items-center"}    z-40`}>
                 <div className={`absolute  text-center   ${props.detailed ? "text-secondary-100 sm:text-2xl font-semibold tracking-wider  text-xl  " : "text-black bg-white opacity-60 sm:rounded-bl-[5px] sm:rounded-tr-[5px] sm:py-2 px-3 text-2xl font-bold capitalize"} sm:px-10 px-2 flex-col  flex justify-center items-center z-44`}>
                     <span>{props.detailed ? props.detailed?.name : props.title}</span>
                 </div>
@@ -26,7 +26,7 @@ function index(props) {
                         {props.detailed.town_id?.name}</span>
                     <span className='flex gap-x-1 justify-center items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
-                            <path fill-rule="evenodd" d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" />
+                            <path fillRule="evenodd" d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clipRule="evenodd" />
                         </svg>
                         {props.detailed.area_id?.name}</span>
                     <span className='flex gap-x-1 justify-center items-center'>
@@ -38,7 +38,7 @@ function index(props) {
                 </div>}
 
             </div>}
-            <div className="absolute -bottom-6  sm:right-20 right-[15%] flex justify-center items-center z-10">
+            <div className="absolute sm:-bottom-6 -bottom-4  sm:right-20 right-[15%] flex justify-center items-center z-10">
                 <Breadcrump paths={props.paths} />
             </div>
         </div>

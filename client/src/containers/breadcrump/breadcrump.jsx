@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 
 import { Link } from 'react-router-dom'
 
 function Breadcrump(props) {
     return (
         <>
-            <div className="bg-white py-4 flex items-center sm:px-10 px-4 rounded-md shadow-2xl flex-wrap">
+            <div className="bg-white sm:py-4 py-1 flex items-center sm:px-10 px-4 rounded-md shadow-2xl flex-wrap">
                 <ul className="flex items-center">
                     <li className="inline-flex items-center">
                         <Link to="/" className="text-gray-600 hover:text-blue-500">

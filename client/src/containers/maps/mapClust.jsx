@@ -1,32 +1,98 @@
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useRef, useState } from 'react';
+import { GoogleMap, Marker, MarkerClustererF, MarkerF, useJsApiLoader, MarkerClusterer } from '@react-google-maps/api';
+// import { MarkerClusterer } from '@googlemaps/markerclusterer';
+const { VITE_APP_GOOGLE_API_KEY } = import.meta.env;
+const MapComponent = () => {
 
+  const [map, setMap] = useState(null);
+  const onLoad = React.useCallback(function callback(map) {
+    // This is just an example of getting and using the map instance!!! don't just blindly copy!
+    const bounds = new window.google.maps.LatLngBounds({
+      lat: -1.286389,
+      lng: 36.817223,
+    });
+    map.fitBounds(bounds);
 
-import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
-import {MarkerClusterer} from '@googlemaps/markerclusterer';
-const { VITE_APP_GOOGLE_API_KEY, VITE_APP_GOOGLE_MAP_ID } = import.meta.env;
-const Map = () => {
-  const locations = [
-    { lat: 37.7749, lng: -122.4194 }, // Example location 1
-    { lat: 34.0522, lng: -118.2437 }, // Example location 2
-    // Add more locations as needed
-  ];
+    setMap(map)
+  }, [])
 
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: VITE_APP_GOOGLE_API_KEY, // Replace with your actual API key
+    libraries: ["places"]
+  });
+  console.log("Testing")
+  const clusterer = useRef(null)
+
+  useEffect(() => {
+    if (!map) return
+    if (!clusterer.current) {
+      clusterer.current = new MarkerClusterer({ map })
+    }
+  }, [map])
+  useEffect(() => {
+    if (clusterer.current) {
+      clusterer.current?.clearMarkers()
+      clusterer.current.addMarkers(
+        [{
+          lat: -1.286389,
+          lng: 36.817223,
+        }].map((location) => {
+
+          return (
+            <MarkerClustererF key={`${location.lat}-${location.lng}`} position={location} />
+          )
+        })
+      )
+    }
+
+  }, [])
   return (
-    <LoadScript googleMapsApiKey={VITE_APP_GOOGLE_API_KEY}>
-      <GoogleMap
-        mapContainerStyle={{ width: '100%', height: '400px' }}
-        center={{ lat: 37.7749, lng: -122.4194 }}
-        zoom={10}
+    <>
+      {isLoaded && <>
+        <GoogleMap
+          center={{
+            lat: -1.286389,
+            lng: 36.817223,
+          }} // Example center
+          // zoom={10}
+
+          // center={location}
+          options={{ mapTypeControl: false, zoomControl: true, fullscreenControl: false }}
+          onLoad={onLoad}
+          mapContainerClassName="w-full h-full rounded-md"
+        >
+          {[{
+            lat: -1.286389,
+            lng: 36.817223,
+          }].map((location) => {
+
+            return (
+              <Marker key={`${location.lat}-${location.lng}`} position={location} />
+            )
+          })}
+
+          {/* Initialize MarkerClusterer */}
+          {/* <MarkerClusterer
+        imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+        gridSize={10}
+        minimumClusterSize={2}
       >
-        < MarkerClusterer gridSize={60}>
-          {(clusterer) =>
-            locations.map((location, index) => (
-              <Marker key={index} position={location} clusterer={clusterer} />
-            ))
-          }
-        </MarkerClusterer>
-      </GoogleMap>
-    </LoadScript>
-  );
+        {(clusterer) =>
+          [{
+            lat: -1.286389,
+            lng: 36.817223,
+          }].map((location) => (
+            <Marker key={`${location.lat}-${location.lng}`} position={location} clusterer={clusterer} />
+          ))
+        }
+      </MarkerClusterer> */}
+        </GoogleMap>
+
+      </>}
+    </>
+  )
 };
 
-export default Map;
+export default MapComponent;

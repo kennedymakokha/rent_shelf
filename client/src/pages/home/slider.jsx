@@ -4,7 +4,7 @@ import slider1 from './sliderImages/slider1.jpg'
 import slider2 from './sliderImages/slider2.jpg'
 import MyMap from './../../containers/maps/map'
 import MapClust from '../../containers/maps/mapClust.jsx'
-// import Clustermap from '../../containers/maps/clustermap'
+import Clustermap from '../../containers/maps/clustermap'
 
 // eslint-disable-next-line react/prop-types
 function Slider({ data }) {
@@ -64,7 +64,7 @@ function Slider({ data }) {
     return (
         <div className="w-full  h-[300px] sm:h-[620px] bg-primary-300 flex justify-center items-center">
             <div className=" w-full h-full relative z-0">
-                <img src={items[active].icon} alt='' className='sm:h-[620px] h-full w-full  sm:object-cover object-contain' />
+                <img src={items[active].icon} alt='' className='sm:h-[620px] h-full sm:flex hidden w-full  sm:object-cover object-contain' />
                 <div className=
                     {`absolute right-[5%] left-[5%]  top-[15%]  sm:top-[85%] sm:mx-20 mx-2 flex justify-center items-center z-20`}>
                     {/* <div className='sm:bg-[#199e9e] h-20 px-8 flex item-center justify-center flex-col rounded-md '> */}
@@ -94,8 +94,8 @@ function Slider({ data }) {
                         <span key={i} className={`${item.state === true ? 'bg-secondary-1000 sm:w-3 sm:h-3 h-1 w-1 rounded-full border border-2 border-white' : 'bg-primary-1000  sm:w-3 sm:h-3 h-1 w-1 rounded-full'}`}></span>
                     ))}
                 </div>
-                {data !== undefined && data && <div className="absolute rounded-md  w-1/2 h-3/4  top-[5%] right-[2%]  mx-0 flex justify-center items-center z-10">
-                    <MyMap data={data} />
+                {data !== undefined && data && <div className="absolute rounded-md  w-full sm:w-1/2 sm:h-3/4 h-full  top:0 sm:top-[5%] right:0 sm:right-[2%]  mx-0 flex justify-center items-center z-40">
+                    <Clustermap data={data} />
                 </div>}
                 <div className="absolute  inset-0  bg-gradient-to-t from-primary-100  mx-0 flex justify-center  items-center -z-5">
 

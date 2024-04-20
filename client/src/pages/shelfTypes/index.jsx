@@ -3,7 +3,7 @@ import Contents from '../home/contents'
 import Bg from './Bg.jpg'
 import Tab from '../../containers/tabs.jsx'
 import FeaturedCard from '../home/featured/components/featuredCard.jsx'
-import { FeaturedArray, WarehouseArray, towns } from '../data.js'
+
 import { Multiple } from '../../utils/multiple.jsx'
 import ServiceCard from './serviceCard.jsx'
 import TitleContainer from '../../containers/titleContainer.jsx'
@@ -98,10 +98,10 @@ function index() {
                     <Search value={searchParams.keyword}
                         onchange={searchHandler} />
                     <TitleContainer title="Towns" />
-                    {towns.map((town, i) => (
+                    {[].map((town, i) => (
                         <select key={i} onChange={(e) => changeFilter(town, e)} className='h-10 w-full capitalize flex items-center text-[20px] px-2 text-primary-100 font-semi-bold  rounded-sm shadow-[inset_-12px_-8px_40px_#46464620]'>
                             <option> {town.title}</option>
-                            {town.subs.map((sub, i) => (
+                            {[].subs.map((sub, i) => (
                                 <option value={sub.title} sub key={i}>{sub}</option>
                             ))
                             }
@@ -110,7 +110,7 @@ function index() {
                 </div>
                 <div className=' sm:w-5/6 w-full pt-0 h-full gap-y-2  flex flex-row p-2 flex-wrap  '>
                    
-                    {FeaturedArray.map((featured, i) => (
+                    {[].map((featured, i) => (
                         <FeaturedCard noPriceBadge noPrice hide key={i} showDetails featured={featured} />
                     ))}
                 </div>

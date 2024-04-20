@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import { APIProvider, Map, useMap, AdvancedMarker } from '@vis.gl/react-google-maps'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
-// import { Marker } from '@googlemaps/markerclusterer'
-// import { Marker } from '@react-google-maps/api';
+
 import { useEffect, useState, useRef } from 'react'
 import { treesData } from './../../assets/trees.js'
 import pin2 from './../../assets/pin2.png'
@@ -13,11 +12,11 @@ const { VITE_APP_GOOGLE_API_KEY, VITE_APP_GOOGLE_MAP_ID } = import.meta.env;
 // { "type": "Feature", "properties": { "_id": 1, "OBJECTID": 1, "STRUCTID": "383604", "ADDRESS": 1550, "STREETNAME": "SANDHURST CRCL", "CROSSSTREET1": "BRIMWOOD BLVD", "CROSSSTREET2": "FINCH AVE E", "SUFFIX": "", "UNIT_NUMBER": "0", "TREE_POSITION_NUMBER": 60, "SITE": "ALBERT CAMPELL CI", "WARD": "23", "BOTANICAL_NAME": "Acer x freemanii (A. rubrum x saccharinum) 'Autumn Blaze'", "COMMON_NAME": "Maple, Freeman Autumn Blaze", "DBH_TRUNK": 8 }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -79.272424472942006, 43.809262538314101 ] ] } },
 for (let index = 0; index < treesData.length; index++) {
     const element = treesData[index];
-    console.log(element)
+    // console.log(element)
 
 }
 function Clustermap({ data }) {
-    
+
     return (
         <>
             {data &&
@@ -31,7 +30,9 @@ function Clustermap({ data }) {
                                         mapTypeControl: false,
                                         zoomControl: false, fullscreenControl: false
                                     }}
-                                    center={{ lng: 36.9746209, lat: -1.1484236 }} zoom={10} >
+                                    center={{ lng: 36.9746209, lat: -1.1484236 }}
+                                     zoom={5}
+                                      >
                                     <Markers points={data} />
                                 </Map>
                             </APIProvider>
@@ -60,12 +61,12 @@ function Clustermap({ data }) {
 
             }
         </>
-      
+
     )
 }
 const Markers = ({ points }) => {
     const map = useMap()
-    // const markerCluster = new MarkerClusterer({ map, markers });
+
     const [markers, setMarkers] = useState({})
     const clusterer = useRef(null)
 
@@ -78,9 +79,11 @@ const Markers = ({ points }) => {
     useEffect(() => {
         clusterer.current?.clearMarkers()
         clusterer.current.addMarkers(Object.values(markers))
+
     }, [markers])
 
     const setMarkerRef = (marker, i) => {
+       
         if (marker && markers[i]) return
         if (!marker && !markers[i]) return
         setMarkers(prevState => {

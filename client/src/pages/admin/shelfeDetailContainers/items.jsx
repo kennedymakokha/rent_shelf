@@ -3,7 +3,7 @@ import { Multiple, Ratings } from "../../../utils/multiple"
 import Shelf from './../../../assets/shelf.svg'
 export const DetailItem = (props) => {
     return (
-        <div className='flex gap-x-2 -gap-y-10 h-5  items-center  py-3  text-[18px]'>
+        <div className='flex gap-x-2  h-auto  items-center    text-[18px]'>
             <div className='flex font-bold text-primary-100 w-[70px]'>{props.label}:</div>
             <div className='flex font-normal text-slate-400'>{props.value}</div>
         </div>
@@ -11,7 +11,7 @@ export const DetailItem = (props) => {
 }
 export const Title = ({ title, auto }) => {
     return (
-        <h2 className={`capitalize text-center ${auto && "w-auto" } font-bold border-b mb-3`}>{title}</h2>
+        <h2 className={`capitalize text-center ${auto && "w-auto"} font-bold sm:text-primary-100 text-secondary-100 border-b mb-3`}>{title}</h2>
     )
 }
 
@@ -30,7 +30,7 @@ export const RateItem = (props) => {
     return (
         <Multiple count={1} row body={
             <div className='flex items-center justify-center h-4  text-slate-500  font-bold text-[18px]'>
-                <Ratings small row width={2} count={props?.rate} />......................<span className=' text-slate-400 font-normal  text-[18px]'>{props.perc}%</span>
+                <Ratings small row width={2} count={props?.rate} />..................<span className=' text-slate-400 font-normal  text-[18px]'>{props.perc}%</span>
             </div>
         } />
     )

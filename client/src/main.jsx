@@ -129,30 +129,7 @@ const router = createBrowserRouter([
         path: "admin/shelves/:name",
         element: <ShelfDetails />,
       },
-      // {
-      //   path: "web-design",
-      //   element: <WebDesign />,
-      // },
-      // {
-      //   path: "web-dev",
-      //   element: <WebDev />,
-      // },
-      // {
-      //   path: "frontend",
-      //   element: <Frontend />,
-      // },
-      // {
-      //   path: "node",
-      //   element: <NodeJs />,
-      // },
-      // {
-      //   path: "php",
-      //   element: <Php />,
-      // },
-      // {
-      //   path: "seo",
-      //   element: <SEO />,
-      // },
+    
     ],
   },
 ]);
