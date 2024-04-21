@@ -14,7 +14,7 @@ function index() {
     const changeUrl = () => {
         if (urlSting !== lastSegment) {
             // window.location.reload(false)
-            console.log("first")
+           
             setUrl(lastSegment)
         }
     }

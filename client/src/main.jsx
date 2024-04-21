@@ -30,6 +30,7 @@ import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Categories from './pages/admin/categories/index.jsx'
+import SubCategories from './pages/admin/subCategories.jsx'
 const rootFontStyle = {
   fontSize: '20px',
   fontFamily: "RalewayDots-Regular",
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
         element: <Categories />,
       },
       {
+        path: "admin/space-sub-categories",
+        element: <SubCategories />,
+      },
+      {
         path: "admin/areas",
         element: <Areas />,
       },
@@ -134,7 +139,7 @@ const router = createBrowserRouter([
         path: "admin/shelves/:name",
         element: <ShelfDetails />,
       },
-    
+
     ],
   },
 ]);

@@ -101,7 +101,7 @@ export const menuItemsData = [
   {
     title: 'Add Listing',
     mobile: true,
-    // action: () => console.log("first"),
+    // action: () =>,
     url: '/add-listing',
   },
   {

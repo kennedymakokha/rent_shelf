@@ -53,7 +53,7 @@ function index() {
                 <div className='flex items-center w-full justify-between my-2 '>
                     <div className='flex items-center gap-x-2 '>
                         <TitleContainer title={data?.name} left />
-                        <div className={`px-2 leading-4 border rounded-full h-5 ${data?.featured ? "sm:flex hidden" : "hidden"} items-center justify-center text-white bg-primary-100 text-[10px]`} onClick={() => console.log("first")}> {data?.featured ? "Featured" : ""}</div>
+                        <div className={`px-2 leading-4 border rounded-full h-5 ${data?.featured ? "sm:flex hidden" : "hidden"} items-center justify-center text-white bg-primary-100 text-[10px]`} onClick={() =>console.log("first")}> {data?.featured ? "Featured" : ""}</div>
                     </div>
                     <div className='flex items-center gap-x-2 '>
                         <Ratings small row width={6} count={data?.ratings} />

@@ -57,7 +57,7 @@ export function TH(props) {
 export function TBody(props) {
     return (
 
-        <tbody className="bg-slate-50   text-gray-500 divide-y divide-gray-200">
+        <tbody className="bg-slate-50  w-[400px] text-gray-500 divide-y divide-gray-200">
             {props.children}
         </tbody>
 

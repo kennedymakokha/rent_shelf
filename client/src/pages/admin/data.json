@@ -5,6 +5,12 @@
         "phone No",
         "Action"
     ],
+    "SubCategoriesTableHead": [
+      
+        "Sub Category",
+        "Description",
+        "Action"
+    ],
     "TownsTableHead": [
         "name",
         "Created On",

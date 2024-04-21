@@ -16,7 +16,7 @@ import { getMessaging } from "firebase-admin/messaging";
 
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
-        const { town, area, featured } = req.query
+        const { town, area, featured, category, skip, subcategory, limit } = req.query
 
         let data = []
         // data = await Shelf.find({
@@ -28,14 +28,14 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
         //     .populate("features", "name")
 
         // return res.status(200).json(data)
-        if (town === "undefined" && featured === "false") {
+        if (town === "undefined" && featured === "false" && category === undefined && subcategory === undefined) {
             data = await Shelf.find({
                 deletedAt: null,
                 published: true,
-            }).populate("town_id", "name")
+            }).populate("town_id", "name").limit(limit).skip(skip)
                 .populate("type_id", "name")
                 .populate("features", "name")
-               
+
                 .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)

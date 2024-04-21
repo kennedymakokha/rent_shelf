@@ -5,6 +5,7 @@ const townSchema = new Schema({
     name: { type: String, },
     building: { type: String, },
     description: { type: String, },
+    dimension: { type: String, },
     files: { type: Array, },
     price: { type: Number, },
     location: {
@@ -27,6 +28,8 @@ const townSchema = new Schema({
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },
     area: { type: String },
     town_id: { type: Schema.Types.ObjectId, ref: 'tb_town' },
+    category_id: { type: Schema.Types.ObjectId, ref: 'tb_category' },
+    sub_category_id: { type: Schema.Types.ObjectId, ref: 'tb_sub_category' },
     type_id: [
         { type: Schema.Types.ObjectId, ref: 'tb_types' }
     ],

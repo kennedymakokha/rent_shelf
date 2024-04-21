@@ -25,6 +25,8 @@ import FeatureRoutes from './src/routes/featureRoutes.js'
 import AbuseRoutes from './src/routes/abuseRoutes.js'
 import FCMroutes from './src/routes/fcmAdminRoutes.js'
 import Categoryroutes from './src/routes/categoryRoutes.js'
+import SubCategoryroutes from './src/routes/subCategoryRoutes.js'
+import Propertyroutes from './src/routes/propertyRoutes.js'
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -50,6 +52,8 @@ app.use('/api/shelves', ShelfsRoutes)
 app.use('/api/features', FeatureRoutes)
 app.use('/api/abuses', AbuseRoutes)
 app.use('/api/categories', Categoryroutes)
+app.use('/api/sub-categories', SubCategoryroutes)
+app.use('/api/propeties', Propertyroutes)
 
 
 const __dirname = path.dirname(__filename);
