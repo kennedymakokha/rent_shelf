@@ -29,6 +29,7 @@ import { store } from './store.jsx'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Categories from './pages/admin/categories/index.jsx'
 const rootFontStyle = {
   fontSize: '20px',
   fontFamily: "RalewayDots-Regular",
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
       {
         path: "admin/towns",
         element: <Towns />,
+      },
+      {
+        path: "admin/space-categories",
+        element: <Categories />,
       },
       {
         path: "admin/areas",

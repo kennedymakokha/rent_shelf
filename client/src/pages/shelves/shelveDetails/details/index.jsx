@@ -31,10 +31,12 @@ function index() {
         ]
 
     useEffect(() => {
+        if (data === null) {
+            navigate(localStorage.getItem("lastUrl"))
+        }
         socket.on("publishing", () => {
             refetch()
-            console.log(details?.publish)
-            console.log(details?.publish)
+
             if (details !== undefined && details.published === false) {
                 toast(`${details.name} has been pulled down kindly check out our other shelves`)
                 navigate('/shelves')
