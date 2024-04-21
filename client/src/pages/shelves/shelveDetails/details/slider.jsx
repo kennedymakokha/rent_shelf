@@ -7,10 +7,10 @@ function Slider({ data, active, setActive }) {
 
         <div className=' w-full h-full  flex flex-row  overflow-x-hidden scrollbar-hide'>
             <div className="w-full relative z-0 shrink-0 h-[400px] bg-red-100">
-                <img src={data.files[active]} className='h-full w-full object-cover' alt="" />
+                <img src={data?.files[active]} className='h-full w-full object-cover' alt="" />
                 <div className="absolute bottom-1   h-14 w-full px-10 z-20 flex sm:hidden items-center justify-center">
 
-                    {data.files.map((file, i) => (
+                    {data?.files?.map((file, i) => (
                         <div key={i} className={`relative  h-full w-1/4 ${active === i && "border border-2 border-white"} bg-slate-50 shrink-0  `}>
                             <img src={file} className=' h-full w-full shrink-0 object-cover ' />
                             {data.files.length > 3 && i === 3 && <div className="absolute inset-0 z-30 bg-black opacity-50 text-white items-center justify-center flex ">

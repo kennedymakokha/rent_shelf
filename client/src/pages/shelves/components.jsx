@@ -3,11 +3,12 @@
 // import ContentLoader from "react-content-loader"
 import ContentLoader from "react-content-loader"
 import { Multiple } from "../../utils/multiple"
+import { Link } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
 export const FilterTitle = ({ title, topRounded }) => {
     return (
-        <div className={`w-full  px-1  bg-primary-100 border border-slate-200 shadow-3xl text-[18px] font-bold ${topRounded ? " rounded-t-md h-[32px]":"h-6"} capitalize items-center tracking-wider justify-center flex  text-slate-100`}>{title}</div>
+        <div className={`w-full  px-1  bg-primary-100 border border-slate-200 shadow-3xl text-[18px] font-bold ${topRounded ? " rounded-t-md h-[32px]" : "h-6"} capitalize items-center tracking-wider justify-center flex  text-slate-100`}>{title}</div>
     )
 }
 export const FilterItem = (props) => {
@@ -57,7 +58,7 @@ export const ShelveLoader = () => {
 
 export const ShelveComponent = ({ dat }) => {
     return (
-        <div className='w-1/4 h-[200px] p-1'>
+        <Link state={dat} to={`/shelves/${dat?.name?.replace(/\s+/g, "-").toLowerCase()}`} className='sm:w-1/4 w-full h-[200px] p-1'>
             <div className="group w-full h-full rounded-md relative z-0">
                 <img src={dat.files[0]} alt="" className='w-full rounded-md h-full object-cover ' />
                 <div className=" bg-black top-0  w-full h-full opacity-60 absolute group-hover:flex hidden   justify-center items-center z-10">
@@ -67,6 +68,6 @@ export const ShelveComponent = ({ dat }) => {
                 </div>
 
             </div>
-        </div>
+        </Link>
     )
 }

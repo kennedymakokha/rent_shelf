@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from 'react';
 import Dropdown from './Dropdown';
 import { Link } from 'react-router-dom';
@@ -31,7 +33,7 @@ const MenuItems = ({ items, depthLevel }) => {
             onClick={() => {
                 dropdown && setDropdown(false);
             }}
-            className="menu-items" ref={ref}>
+            className="menu-items   hover:underline" ref={ref}>
 
             {items.url && items.submenu ? (
                 <>

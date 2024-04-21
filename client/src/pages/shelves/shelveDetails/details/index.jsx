@@ -23,7 +23,7 @@ function index() {
     const [active, setActive] = useState(0)
     const navigate = useNavigate();
 
-    const { data: details, refetch, isFetching } = useFetchshelvesByIDQuery(data._id)
+    const { data: details, refetch, isFetching } = useFetchshelvesByIDQuery(data?._id)
     let paths =
         [
             { title: "shelves", path: 'shelves' },
@@ -50,7 +50,7 @@ function index() {
             <div className="flex w-full h-auto flex-col  ">
                 <div className='flex items-center w-full justify-between my-2 '>
                     <div className='flex items-center gap-x-2 '>
-                        <TitleContainer title={data.name} left />
+                        <TitleContainer title={data?.name} left />
                         <div className={`px-2 leading-4 border rounded-full h-5 ${data?.featured ? "sm:flex hidden" : "hidden"} items-center justify-center text-white bg-primary-100 text-[10px]`} onClick={() => console.log("first")}> {data?.featured ? "Featured" : ""}</div>
                     </div>
                     <div className='flex items-center gap-x-2 '>

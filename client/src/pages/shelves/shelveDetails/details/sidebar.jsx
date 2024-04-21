@@ -38,8 +38,8 @@ function Sidebar({ data }) {
             />
             <RateCard setrRatingsshow={setrRatingsshow} setshow={setshow} data={data} />
             <SafetyCard />
-            <RateModal show={rateShow} setshow={setrRatingsshow} id={data.createdBy._id} />
-            <ClaimModal show={show} setshow={setshow} id={data.createdBy._id} />
+            <RateModal show={rateShow} setshow={setrRatingsshow} id={data?.createdBy._id} />
+            <ClaimModal show={show} setshow={setshow} id={data?.createdBy._id} />
         </div>
     )
 }

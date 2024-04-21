@@ -22,7 +22,7 @@ import TownsRoutes from './src/routes/townsRoutes.js'
 import AreaRoutes from './src/routes/areaRoutes.js'
 import ShelfsRoutes from './src/routes/shelfRoutes.js'
 import FeatureRoutes from './src/routes/featureRoutes.js'
-
+import AbuseRoutes from './src/routes/abuseRoutes.js'
 import FCMroutes from './src/routes/fcmAdminRoutes.js'
 
 import { fileURLToPath } from 'url';
@@ -47,6 +47,7 @@ app.use('/api/towns', TownsRoutes)
 app.use('/api/areas', AreaRoutes)
 app.use('/api/shelves', ShelfsRoutes)
 app.use('/api/features', FeatureRoutes)
+app.use('/api/abuses', AbuseRoutes)
 
 
 const __dirname = path.dirname(__filename);

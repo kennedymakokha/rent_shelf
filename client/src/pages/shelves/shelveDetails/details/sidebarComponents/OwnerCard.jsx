@@ -14,14 +14,14 @@ function OwnerCard({ reveal, data, RevealContact }) {
 
                     </div>
                     <div className=''>
-                        <h2 className='text-[18px] text-slate-400 font-semibold'> {data.createdBy.name}</h2>
-                        <h2 className='text-[14px] gap-x-2'><span className='text-secondary-100 font-bold'>On space since</span>{moment(data.createdAt).format("Do MMM YYYY")}</h2>
+                        <h2 className='text-[18px] text-slate-400 font-semibold'> {data?.createdBy?.name}</h2>
+                        <h2 className='text-[14px] gap-x-2'><span className='text-secondary-100 font-bold'>On space since</span>{moment(data?.createdAt).format("Do MMM YYYY")}</h2>
                     </div>
 
                 </div>
                 <div className='text-[20px] group relative z-0  gap-x-2 items-center flex justify-center font-bold  w-[80%] h-10  px-2 rounded-md  border-[#00b53F]'>
                     <div className='flex items-center w-full border-primary-100 absolute border px-2  rounded-md justify-center z-10'>
-                        {data.createdBy.phone}
+                        {data?.createdBy?.phone}
                     </div>
                     <div onClick={RevealContact} className={`flex items-center inset-0 group-hover:bg-secondary-100 rounded-md bg-primary-100 group-hover:text-slate-100 text-white ${!reveal ? "flex" : "hidden"} absolute justify-center z-10`}>
                         <h2>Reveal  Contact </h2>

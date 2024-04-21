@@ -8,17 +8,17 @@ function Details({ details }) {
         // <Contents
         //     bg="bg-slate-50">
 
-            <div className='flex w-full min-h-[360px] border flex-col border-dotted border-primary-700  rounded-md p-2'>
+            <div className='flex w-full sm:min-h-[360px] border flex-col border-dotted border-primary-700  rounded-md p-2'>
                 <div className='w-full border-b border-dotted  border-slate-300 sm:flex-row flex-col pb-2 flex '>
                     <div className='sm:w-[25%] w-full sm:border-r items-center flex-col flex'>
                         <Title title="Details" />
 
                         <div className='flex w-full flex-col'>
-                            <DetailItem label="Name" value={truncateString(details.name, 100)} />
-                            <DetailItem label="Town" value={truncateString(details.town_id.name, 20)} />
+                            <DetailItem label="Name" value={truncateString(details?.name, 100)} />
+                            <DetailItem label="Town" value={truncateString(details?.town_id.name, 20)} />
                             <DetailItem label="Area" value={truncateString(details?.area?.split('+').join(' '), 100)} />
-                            <DetailItem label="Building" value={details.building} />
-                            <DetailItem label="Price" value={details.price} />
+                            <DetailItem label="Building" value={details?.building} />
+                            <DetailItem label="Price" value={details?.price} />
                         </div>
                     </div>
                     <div className='sm:w-[25%] w-full sm:border-r items-center flex-col flex'>

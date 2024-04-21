@@ -35,6 +35,8 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
             }).populate("town_id", "name")
                 .populate("type_id", "name")
                 .populate("features", "name")
+               
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         } else if (town === "undefined" && featured === "true") {
@@ -47,6 +49,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }
@@ -61,6 +64,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }
@@ -75,6 +79,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }
@@ -89,6 +94,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }
@@ -103,6 +109,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }
@@ -116,6 +123,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }
@@ -130,6 +138,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }
@@ -143,6 +152,7 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 
                 .populate("type_id", "name")
                 .populate("features", "name")
+                .populate("createdBy", "name phone email")
 
             return res.status(200).json(data)
         }

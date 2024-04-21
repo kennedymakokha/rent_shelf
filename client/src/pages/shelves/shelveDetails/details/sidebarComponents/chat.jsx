@@ -19,12 +19,12 @@ function Chat({ msg, setMessage, userInfo, chating, StartChat }) {
     }
     return (
         <div className={`flex w-full shadow-2xl	 ${!chating ? "bg-secondary-100" : "bg-primary-100"} items-center justify-center rounded-md  flex border border-slate-50 flex-col`}>
-            <h2 onClick={StartChat} className='text-[20px] text-slate-100 font-bold'>{chating ? "Close  Chat window" : "Start a Chat"}</h2>
+            <h2 onClick={()=>StartChat()} className='text-[20px] text-slate-100 font-bold'>{chating ? "Close  Chat window" : "Start a Chat"}</h2>
             <div className={`min-h-[100px] pt-10 bg-slate-100 ${chating ? "flex" : "hidden"} w-full relative`}>
                 <div className='flex items-center  text-[12px] text-slate-400 flex-col  absolute w-full p-2 bg-transparent  top-0'>
                     {chats.map((chat, i) => (
                         <>
-                            {chat.id === 1 ? <div className=' justify-start  w-full'>{chat.msg}</div> : <div className='items-center justify-end flex w-full'>{chat.msg}</div>}
+                            {chat.id === 1 ? <div key={i} className=' justify-start  w-full'>{chat.msg}</div> : <div className='items-center justify-end flex w-full'>{chat.msg}</div>}
                         </>
                     ))}
                 </div>
