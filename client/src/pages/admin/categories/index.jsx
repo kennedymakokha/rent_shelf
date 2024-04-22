@@ -1,28 +1,26 @@
 import { useState } from 'react'
 import Table, { TBody, TH, TableContainer, TableHead, TableTitle } from '../../../containers/layout/admin/table';
-import { TownsTableHead } from './../data.json'
+import { TownsTableHead } from '../data.json'
 import { toast } from 'react-toastify';
 // import { useSelector } from 'react-redux';
 import Button, { ButtonSM } from '../../../containers/Buttons';
 import AdminLayout from '../../../containers/layout/admin/adminLayout';
 import { Link } from 'react-router-dom';
 import InputContainer from '../../../containers/input';
-import { useCreateMutation, useFetchQuery, useDeleteMutation, useUpdateMutation } from '../../../features/slices/townsSlice';
-
-// import { useFetchQ uery, useGetusersQuery, useRegisterMutation } from '../../../features/slices/usersApiSlice';
 import Modal from '../../../containers/Modal';
 import moment from 'moment'
+import { useCreateCategoryMutation, useDeleteCategoryMutation, useFetchCategoryQuery, useUpdateCategoryMutation } from '../../../features/slices/categorySlice';
 
-function Towns() {
+function Categories() {
     const [showModal, setShowModal] = useState(false);
 
     // const [searchKey, setsearchKey] = useState("");
     const [item, setitem] = useState({ name: "" });
     // const { userInfo } = useSelector((state) => state.auth)
-    const { data, refetch, isFetching } = useFetchQuery()
-    const [register] = useCreateMutation();
-    const [updateTown] = useUpdateMutation();
-    const [deleteTown] = useDeleteMutation();
+    const { data, refetch, isFetching } = useFetchCategoryQuery()
+    const [register] = useCreateCategoryMutation();
+    const [update] = useUpdateCategoryMutation();
+    const [deleteCategory] = useDeleteCategoryMutation();
     const changeInput = (e) => {
 
         const { name, value } = e.target;
@@ -38,7 +36,7 @@ function Towns() {
     const submit = async () => {
         try {
             if (item._id) {
-                await updateTown(item).unwrap();
+                await update(item).unwrap();
                 refetch()
                 closeModal()
                 toast('Created Succesfully')
@@ -57,7 +55,7 @@ function Towns() {
     }
     const deleteHandler = async (id) => {
         try {
-            await deleteTown(id).unwrap();
+            await deleteCategory(id).unwrap();
             refetch()
             toast(`${item.name} Deleted Succesfully`)
         } catch (error) {
@@ -69,7 +67,7 @@ function Towns() {
         <AdminLayout>
 
             <TableContainer isFetching={isFetching}>
-                <TableTitle tableTitle="Towns " />
+                <TableTitle tableTitle="Categories " />
                 <div className='flex justify-between items-center m-2 '>
                     {/* <SearchContaine value={searchKey} name="name" placeholder="Search "
                     onChange={(e) => debounce(search(e), 1000)}
@@ -156,4 +154,4 @@ function Towns() {
     )
 }
 
-export default Towns
+export default Categories

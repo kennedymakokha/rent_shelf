@@ -6,10 +6,12 @@ import { activationFields } from './formFields';
 import Input from './input';
 import FormAction from './formActions';
 import AuthContainer from './authContainer';
-import { useActivateMutation } from '../../features/slices/usersApiSlice';
+import { useActivateMutation, useResendactivateMutation } from '../../features/slices/usersApiSlice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useFetchusersmslogsQuery } from '../../features/slices/logsSlice';
+
 
 const fields = activationFields;
 let fieldsState = {};
@@ -22,7 +24,10 @@ export default function Activate() {
         setActivateState({ ...activateState, [e.target.id]: e.target.value })
     }
     const { userInfo } = useSelector((state) => state.auth)
-    const [activate, isFetching] = useActivateMutation();
+    const [resend] = useResendactivateMutation({ id: localStorage.getItem("RegId") });
+    const [activate] = useActivateMutation();
+    const { data, refetch } = useFetchusersmslogsQuery(localStorage.getItem("RegId"));
+
     const handleSubmit = async () => {
         try {
             activateState.id = localStorage.getItem("RegId")
@@ -39,6 +44,23 @@ export default function Activate() {
         }
     }
 
+
+    const handleResend = async () => {
+        try {
+            activateState.id = localStorage.getItem("RegId")
+            await resend(activateState)
+            await refetch()
+            // localStorage.removeItem("RegId")
+            // localStorage.removeItem('activated')
+            // navigate('/login')
+            toast.info('Key sent again')
+            return
+        } catch (error) {
+            alert("error")
+            console.log("error")
+            // toast.error(error.message)
+        }
+    }
 
     useEffect(() => {
         if (userInfo) {
@@ -73,7 +95,7 @@ export default function Activate() {
                     }
                 </div>
 
-                <FormExtra second="Resend Code" />
+                <FormExtra ndAction={handleResend} second={`Resend Code ${3 - data?.length} More times today`} />
                 <FormAction handleSubmit={handleSubmit} text="Activate" />
 
             </div>

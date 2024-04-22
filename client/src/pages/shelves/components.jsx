@@ -4,6 +4,7 @@
 import ContentLoader from "react-content-loader"
 import { Multiple } from "../../utils/multiple"
 import { Link } from "react-router-dom"
+import { handleurl } from "../../utils/handleUrl"
 
 // eslint-disable-next-line react/prop-types
 export const FilterTitle = ({ title, topRounded }) => {
@@ -58,7 +59,7 @@ export const ShelveLoader = () => {
 
 export const ShelveComponent = ({ dat }) => {
     return (
-        <Link state={dat} to={`/shelves/${dat?.name?.replace(/\s+/g, "-").toLowerCase()}`} className='sm:w-1/4 w-full h-[200px] p-1'>
+        <Link onClick={() => localStorage.setItem("lastUrl", handleurl(location.pathname, 1))} state={dat} to={`/shelves/${dat?.name?.replace(/\s+/g, "-").toLowerCase()}`} className='sm:w-1/4 w-full h-[200px] p-1'>
             <div className="group w-full h-full rounded-md relative z-0">
                 <img src={dat.files[0]} alt="" className='w-full rounded-md h-full object-cover ' />
                 <div className=" bg-black top-0  w-full h-full opacity-60 absolute group-hover:flex hidden   justify-center items-center z-10">

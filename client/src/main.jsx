@@ -21,6 +21,7 @@ import Towns from './pages/admin/towns'
 import Areas from './pages/admin/areas/index.jsx'
 import OwnerDetails from './pages/admin/ownerDetails.jsx'
 import ShelfDetails from './pages/admin/shelfDetails.jsx'
+import Logs from './pages/admin/logs'
 import Customers from './pages/admin/users.jsx'
 import Login from './pages/authentication/login.jsx'
 import SignUp from './pages/authentication/signup.jsx'
@@ -29,6 +30,8 @@ import { store } from './store.jsx'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Categories from './pages/admin/categories/index.jsx'
+import SubCategories from './pages/admin/subCategories.jsx'
 const rootFontStyle = {
   fontSize: '20px',
   fontFamily: "RalewayDots-Regular",
@@ -106,6 +109,18 @@ const router = createBrowserRouter([
         element: <Towns />,
       },
       {
+        path: "admin/space-categories",
+        element: <Categories />,
+      },
+      {
+        path: "admin/logs",
+        element: <Logs />,
+      },
+      {
+        path: "admin/space-sub-categories",
+        element: <SubCategories />,
+      },
+      {
         path: "admin/areas",
         element: <Areas />,
       },
@@ -129,7 +144,7 @@ const router = createBrowserRouter([
         path: "admin/shelves/:name",
         element: <ShelfDetails />,
       },
-    
+
     ],
   },
 ]);

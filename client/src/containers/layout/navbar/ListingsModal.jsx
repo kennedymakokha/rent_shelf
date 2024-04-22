@@ -1,34 +1,50 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { SelectFromAPI } from "../../../utils/selectFromapi";
+import { HandleArray, SelectFromAPI } from "../../../utils/selectFromapi";
 import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
 import InputContainer, { CheckBoxContainer, SelectContainer, TextArea } from "../../input.jsx";
 import MapInput from "../../maps/smallMap.jsx";
+import { useFetchCategoryQuery } from "../../../features/slices/categorySlice.jsx";
+import { useFetchCategorySubsQuery, useFetchsingleSubQuery } from "../../../features/slices/subcategorySlice.jsx";
+import { useFetchsinglePropertyQuery } from "../../../features/slices/propertySlice.jsx";
 
 
-const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, types, }) => {
+const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresArray, towns, types, }) => {
     const [files, setFiles] = useState([])
+
     const [typesArr, setTypesArr] = useState([])
     const [featuresArr, setFeaturesArr] = useState([])
     const [availabletypes, setavailableTypes] = useState([])
     const [currentLocation, setCurrentLocation] = useState(true);
     const [actualname, setActualname] = useState("");
     const [createshelve] = useCreateshelveMutation();
+    const { data, } = useFetchCategoryQuery()
+
+
     let initialState = {
         name: "",
         price: 0,
         features: [],
+        dimension: "",
         building: "",
         area: "",
+        sub_category_id: "",
         town_id: "",
+        category_id: "",
         location: {},
         description: "",
         type_id: [],
         files: []
     }
     const [item, setItem] = useState(initialState)
+
     const [availablefeatures, setavailaFeatures] = useState([])
+
+    const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(item.category_id)
+    const { data: sub, refetch: fetchsub, } = useFetchsingleSubQuery(item.sub_category_id)
+    const { data: prop, refetch: fetchprop, } = useFetchsinglePropertyQuery(item.sub_category_id)
+
 
 
     const changeInput = (e) => {
@@ -80,7 +96,18 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
         newArr[index].state = !newArr[index].state
         setFeaturesArr(newArr);
     }
+    const handleCategory = async () => {
 
+        await fetchsubs()
+
+    }
+    const handleSubCategory = async (e) => {
+        await fetchsub();
+        await fetchprop()
+        setsubCategory(e)
+        HandleArray(prop)
+
+    }
     const handleSubmit = async () => {
 
         try {
@@ -112,6 +139,9 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
             for (let index = 0; index < item.type_id.length; index++) {
                 formData.append("type_id", item.type_id[index]);
             }
+            if (sub && sub.name === "office space" && item.dimension === "") {
+                return toast.error(`Dimension is a required field`)
+            }
 
             formData.append("name", item.name);
             formData.append("lat", item.location.lat);
@@ -131,6 +161,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
         }
 
     }
+
 
     const setLocation = (position) => {
         setItem((prevState) => ({
@@ -178,6 +209,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
             error => console.error('Error getting location:', error)
         );
     }, []);
+
     return (
         <>
 
@@ -199,12 +231,27 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                                     <div className=" rounded px-8 pt-6 pb-1 w-full">
                                         <div className="flex w-full  sm:flex-row flex-col ">
 
-                                            <div className="sm:w-1/2 px-2 w-full flex flex-col">
+                                            <div className="sm:w-1/3 px-2 w-full flex flex-col">
+                                                <SelectContainer
+                                                    name="Categories"
+                                                    array={SelectFromAPI({
+                                                        array: data !== undefined && data
+                                                        , name: "category_id"
+                                                    })}
+                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, category_id: e.target.value })); await handleCategory(e.target.value) }}
+                                                    placeholder="category"
+                                                    label="category"
+                                                    type="select"
+                                                    value={item.category_id}
+                                                    id="category"
+                                                    required={true}
+                                                />
+
                                                 <InputContainer
                                                     name="name"
                                                     handleChange={changeInput}
-                                                    placeholder="shelf name"
-                                                    label="shelf Name"
+                                                    placeholder=" name"
+                                                    label=" Name"
                                                     type="text"
                                                     value={item.name}
                                                     id="name"
@@ -231,6 +278,35 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                                                     required={true}
                                                 />
 
+
+
+                                            </div>
+                                            <div className="sm:w-1/3 px-2 w-full flex-col flex">
+                                                {isSuccess && subs !== undefined && < SelectContainer
+                                                    name="Sub Categories"
+                                                    array={SelectFromAPI({
+                                                        array: subs
+                                                        , name: "sub_category_id"
+                                                    })}
+                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, sub_category_id: e.target.value })); await handleSubCategory(e.target.value) }}
+                                                    placeholder="Sub category"
+                                                    label="Sub category"
+                                                    type="select"
+                                                    value={item.category_id}
+                                                    id="sub category"
+                                                    required={true}
+                                                />}
+                                                {sub && sub.name === "office space" && <InputContainer
+                                                    name="dimension"
+                                                    handleChange={changeInput}
+                                                    placeholder="Space dimension eg 50* 100"
+                                                    label="Dimension"
+                                                    type="text"
+                                                    value={item.dimension}
+                                                    id="dimension"
+                                                    required={true}
+                                                />}
+
                                                 <div className={`flex flex-row  gap-2 flex-wrap my-1`}>
                                                     <TextArea
                                                         name="description"
@@ -244,20 +320,21 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
                                                     />
                                                 </div>
 
-                                                <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
+                                                <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
                                                     Features
                                                 </label>
                                                 <div className="flex flex-row  gap-2 flex-wrap my-1">
                                                     {featuresArr.map((feature, i) => (
                                                         <div key={i}
                                                             onClick={() => handlefeature(i)}
-                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-primary-100 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
+                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-slate-400 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                                     ))}
                                                 </div>
 
 
+
                                             </div>
-                                            <div className="sm:w-1/2 px-2 w-full flex-col flex">
+                                            <div className="sm:w-1/3 px-2 w-full flex-col flex">
                                                 <SelectContainer
                                                     name="Town"
                                                     array={SelectFromAPI({
@@ -308,7 +385,7 @@ const Modal = ({ showModal, changeTown, setShowModal, featuresArray, towns, type
 
 
 
-                                                <label className="block text-primary-100 uppercase text-sm ml-1 font-bold mb-1">
+                                                <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
                                                     Types
                                                 </label>
                                                 <div className={`flex flex-row  gap-2 flex-wrap my-1`}>

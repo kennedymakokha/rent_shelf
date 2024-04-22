@@ -1,25 +1,26 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import Table, { TBody, TH, TableContainer, TableHead, TableTitle } from '../../containers/layout/admin/table';
-import { AffiliatesTableHead } from './data.json'
+import { SubCategoriesTableHead } from './data.json'
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import Button, { ButtonSM } from '../../containers/Buttons';
 import AdminLayout from '../../containers/layout/admin/adminLayout';
 import { Link } from 'react-router-dom';
 import InputContainer, { SearchContaine } from '../../containers/input';
-import { useFetchaffiliatesQuery, useGetusersQuery, useRegisterMutation } from '../../features/slices/usersApiSlice';
+import { useRegisterMutation } from '../../features/slices/usersApiSlice';
 import Modal from '../../containers/Modal';
 import moment from 'moment'
 import AffiliatesCharts from './charts/affiliatesCharts';
-function Affiliates() {
+import { useFetchsubCategoryQuery } from '../../features/slices/subcategorySlice';
+import { useFetchCategoryQuery } from '../../features/slices/categorySlice';
+function SubCategories() {
     const [showModal, setShowModal] = useState(false);
     const [affils, setaffils] = useState(false);
     const [searchKey, setsearchKey] = useState("");
     const [item, setitem] = useState({ firstName: "", lastName: "", ID_no: "", phone: '', email: "" });
     const { userInfo } = useSelector((state) => state.auth)
-    const { data, refetch, isFetching } = ("affiliate")
-    const { data: affiliates, isSuccess } = useFetchaffiliatesQuery()
+    // const { data, refetch, isFetching } = useFetchCategoryQuery()
+    const { data, isSuccess, refetch, isFetching } = useFetchsubCategoryQuery()
     const [register] = useRegisterMutation();
     // const [updatePatient] = useUpdatePatientMutation();
     // const [deletePatient] = useDeletePatientMutation();
@@ -68,7 +69,7 @@ function Affiliates() {
     }
     const deleteHandler = async (id) => {
         try {
-            // await deletePatient(id).unwrap();
+            await deletePatient(id).unwrap();
             refetch()
             toast(`${item.lastName} Deleted Succesfully`)
         } catch (error) {
@@ -79,8 +80,8 @@ function Affiliates() {
     return (
         <AdminLayout>
 
-            {!affils ? <TableContainer isFetching={isFetching}>
-                <TableTitle tableTitle="Affiliates " />
+            <TableContainer isFetching={isFetching}>
+                <TableTitle tableTitle="Sub Categories " />
                 <div className='flex justify-between items-center m-2 '>
                     <SearchContaine value={searchKey} name="name" placeholder="Search "
                     // onChange={(e) => debounce(search(e), 1000)}
@@ -98,78 +99,41 @@ function Affiliates() {
                 </div>
                 <Table>
                     <TableHead>
-                        {AffiliatesTableHead.map((head, i) => (<TH key={i} title={head} />))}
+                        {SubCategoriesTableHead.map((head, i) => (<TH key={i} title={head} />))}
                     </TableHead>
                     <TBody>
-                        {data?.map(person => (
-                            <tr key={person?._id}>
+                        {data?.map(sub => (
+                            <tr key={sub?._id}>
+                                
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
-
-                                        <Link
-                                            to={`/patients/${person?.name?.replace(/\s+/g, '')
-                                                }`} state={{ details: person }}
-
-                                        >
                                             <div className="ml-4">
-                                                <div className="text-sm font-medium text-gray-900">{person?.name}</div>
-
+                                                <div className="text-sm font-medium text-gray-900">{sub?.name}({sub?.category_id?.name})</div>
                                             </div>
-                                        </Link>
+                                      
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900">{person?.ID_no}</div>
+                                    <div className="text-sm text-gray-900">{sub?.description}</div>
 
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        className="px-2 inline-flex text-sm leading-5
-      font-semibold rounded-full "
-                                    >
-                                        {person?.phone}
-                                    </span>
-                                </td>
+                               
 
 
 
                                 <td className="px-6 py-4 whitespace-nowrap  flex  gap-x-1 text-sm font-medium">
                                     <div className="text-indigo-600 hover:text-indigo-900">
-                                        <ButtonSM primary title="Edit" onClick={() => { setitem(person); setShowModal(true); }} height={2} width={8} />
+                                        <ButtonSM primary title="Edit" onClick={() => { setitem(sub); setShowModal(true); }} height={2} width={8} />
                                     </div>
                                     <div className="text-indigo-600 hover:text-indigo-900">
-                                        <ButtonSM danger title="Delete" onClick={() => { deleteHandler(person?._id); }} height={2} width={8} />
+                                        <ButtonSM danger title="Delete" onClick={() => { deleteHandler(sub?._id); }} height={2} width={8} />
                                     </div>
                                 </td>
                             </tr>
                         ))}
                     </TBody>
                 </Table>
-            </TableContainer> :
-
-                <div className="bg-gray-400 w-full  relative z-0">
-
-                    <div className="absolute top-[20%] w-full flex justify-center items-center z-20">
-                        <div className='w-full border border-primary-200'>
-                            {affiliates?.map((affil, i) => (
-                                <div key={i} className='w-full flex-col'>
-                                    <div className='w-full py-1 shadow-sm text-sm px-2 bg-primary-300 text-white'>{affil.label}</div>
-                                    {affil?.affiliates?.map((af, i) => (
-                                        <div key={i} className='flex'>
-                                            <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{af.name}</div>
-                                            <div className='w-full text-sm bg-primary-1000 border border-slate-100 px-2 py-1 text-primary-400 '>{moment(af.date).format("Do MMM YYYY")}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="absolute bg-black  flex justify-center items-center z-10">
-                    </div>
-                </div>
-
-                // 
-            }
+            </TableContainer>
             <Modal
                 showModal={showModal}
                 closeModal={closeModal}
@@ -212,4 +176,4 @@ function Affiliates() {
     )
 }
 
-export default Affiliates
+export default SubCategories

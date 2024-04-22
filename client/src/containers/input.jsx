@@ -27,12 +27,12 @@ export function SearchContaine(props) {
         </div>
     )
 }
-export const fixedInputclassName = "rounded-md h-9 appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-sm"
+export const fixedInputclassName = "rounded-md h-9 appearance-none my-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-[18px] text-sm"
 
 export const TextArea = ({ value, id, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-primary-100 uppercase text-sm ml-1  font-bold mb-1">
+            <label className="block text-slate-500 uppercase text-[18px] ml-1  font-bold mb-0">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
 
@@ -69,7 +69,7 @@ export const CheckBoxContainer = ({ title, checked, onClick }) => {
 const InputContainer = ({ value, id, name, btnaction, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-primary-500 uppercase text-sm ml-1  font-bold mb-1">
+            <label className="block text-primary-500 uppercase text-[18px] ml-1  font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
             <div className='rounded-md appearance-none my-2  h-9 justify-between items-center  flex w-full  bg-white border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm'>
@@ -109,7 +109,7 @@ const InputContainer = ({ value, id, name, btnaction, required, type, placeholde
 export const SelectContainer = ({ multiple, array, name, required, label, handleChange }) => {
     return (
         <>
-            <label className="block text-primary-500 uppercase text-sm ml-1 font-bold mb-1">
+            <label className="block text-primary-500 uppercase text-[18px] ml-1 font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
             <select multiple={multiple} className={fixedInputclassName} onChange={handleChange}>

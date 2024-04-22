@@ -12,7 +12,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         }),
         register: builder.mutation({
             query: (data) => {
-                console.log(USER_URL)
+
                 return {
                     url: `${USER_URL}`,
                     method: "POST",
@@ -20,7 +20,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
-        
+
         editUserDetails: builder.mutation({
             query: (data) => ({
                 url: `${USER_URL}/${data.id}`,
@@ -49,6 +49,17 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data
             })
         }),
+        Resendactivate: builder.mutation({
+            query: (data) => {
+                return (
+                    {
+                        url: `${USER_URL}/sms/resend-activation-key/${data.id}`,
+                        method: "POST",
+
+                    }
+                )
+            }
+        }),
         getusers: builder.query({
             query: (data) => `${USER_URL}/role-users/${data}`
         }),
@@ -62,4 +73,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const { useLoginMutation, useActivateMutation, useFetchaffiliatesQuery, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice
+export const { useLoginMutation, useResendactivateMutation, useActivateMutation, useFetchaffiliatesQuery, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice

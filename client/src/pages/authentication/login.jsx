@@ -8,10 +8,10 @@ import FormAction from './formActions';
 import AuthContainer from './authContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useLoginMutation, useRegisterMutation, } from './../../features/slices/usersApiSlice';
+import { useLoginMutation, } from './../../features/slices/usersApiSlice';
 import { setCredentials } from './../../features/slices/authSlice';
 import { toast } from 'react-toastify';
-import { HandleConsole } from '../../utils/selectFromapi';
+import { getMe } from '../../utils/handleLocation';
 
 const fields = loginFields;
 let fieldsState = {};
@@ -19,32 +19,46 @@ fields.forEach(field => fieldsState[field.id] = '');
 
 export default function Login() {
     const [loginState, setLoginState] = useState(fieldsState);
+    const [location, setLocations] = useState()
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [login, isFetching] = useLoginMutation();
+    const [ipAddress, setIPAddress] = useState('')
     const { userInfo } = useSelector((state) => state.auth)
     const handleChange = (e) => {
         setLoginState({ ...loginState, [e.target.id]: e.target.value })
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
         try {
-
+            getMe(setLocations)
+            loginState.location = location
+            loginState.ip = ipAddress
             loginState.token = localStorage.getItem("token")
             const res = await login(loginState).unwrap();
             dispatch(setCredentials({ ...res }))
             localStorage.removeItem("token")
             navigate('/')
         } catch (error) {
-           
+
             toast.error(error.data.message)
         }
     }
+
+
     useEffect(() => {
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => setIPAddress(`${data.ip}`))
+            .catch(error => console.log(error))
+    }, []);
+
+    useEffect(() => {
+
         if (userInfo) {
             navigate('/')
         }
-    })
+    }, [location])
     return (
         <AuthContainer
             heading="Login to your account"

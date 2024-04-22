@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export const SelectFromAPI = (data) => {
     const { array, name, } = data
   
@@ -6,9 +7,10 @@ export const SelectFromAPI = (data) => {
         key: i,
         value: item?._id,
         label: `${item?.name}`,
-        // name: "user_id"
+        name: name
       }
     ))
+ 
     return t
   }
 

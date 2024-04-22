@@ -20,7 +20,7 @@ function Slider({ data, active, setActive }) {
                     ))}
 
                 </div>
-                {data.files.length - 1 !== active && <div onClick={() => setActive(prev => prev + 1)} className="absolute right-2 top-[50%]  h-10 z-10 flex items-center justify-center">
+                {data?.files?.length - 1 !== active && <div onClick={() => setActive(prev => prev + 1)} className="absolute right-2 top-[50%]  h-10 z-10 flex items-center justify-center">
                     <div className='bg-primary-100 rounded-full h-full flex items-center justify-center  h-[40px]  w-[40px]'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-6 h-6 text-secondary-100">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
@@ -37,7 +37,7 @@ function Slider({ data, active, setActive }) {
                 </div>}
                 <div onClick={() => setActive(prev => prev + 1)} className="absolute right-2 bottom-[5%]  h-10 z-44 flex items-center justify-center">
                     <div className=' h-full flex items-center justify-center gap-x-1  h-[40px]  w-[40px]'>
-                        <div className='flex flex-row text-white text-sm '><span>{active + 1}</span>  /{data.files.length}</div>
+                        <div className='flex flex-row text-white text-sm '><span>{active + 1}</span>  /{data?.files?.length}</div>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-slate-100">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
