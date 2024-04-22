@@ -18,10 +18,13 @@ import ErrorModal from '../../containers/errorModal'
 // eslint-disable-next-line react-refresh/only-export-components
 export const initialState = {
   town: undefined,
-  area: undefined,
   type: undefined,
   featured: false,
-  warehouse: false
+  warehouse: false,
+  category: undefined,
+  subcategory: undefined,
+  skip: 0,
+  limit: 1
 }
 
 function Index() {
@@ -127,7 +130,7 @@ function Index() {
         </div>
         <div className=' w-full h-full  flex flex-row '>
           <div className=' w-[12%] h-auto  pt-1  sm:flex hidden flex-col '>
-            <FilterTitle topRounded  title="towns" />
+            <FilterTitle topRounded title="towns" />
             <div className='flex m-2 flex-col gap-y-2 overflow-hidden'>
               {townFeching || !isSuccess ? <Multiple count={7} col body={<FilterItemLoader />} />
                 : townsArr !== undefined && townsArr.map((town, i) => (
@@ -147,7 +150,7 @@ function Index() {
                   ))}
               </div>
             </div> */}
-            <FilterTitle  title="Featured" />
+            <FilterTitle title="Featured" />
             <div className='flex m-2 flex-col gap-y-2'>
               {!isSuccess ? <Multiple count={1} col body={<FilterItemLoader />} /> :
                 <FilterItem data={{ name: "Featured", state: item.featured }} onChange={() => {

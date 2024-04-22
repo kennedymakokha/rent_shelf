@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 
 const Modal = (props) => {
-    const { closeModal, title, handleSubmit, buttontitle } = props
+    const { closeModal, title, handleSubmit, buttontitle, nosubmit } = props
     const { showModal, item } = props
 
     useEffect(() => {
@@ -41,13 +41,13 @@ const Modal = (props) => {
                                     >
                                         Close
                                     </button>
-                                    <button
+                                    {!nosubmit && <button
                                         className="text-white bg-primary-100 hover:bg-primary-300 hover:text-secondary-100 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
                                         onClick={() => { handleSubmit(item) }}
                                     >
                                         {buttontitle}
-                                    </button>
+                                    </button>}
                                 </div>
                             </div>
                         </div>

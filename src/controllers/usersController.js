@@ -57,8 +57,9 @@ const register_User = expressAsyncHandler(async (req, res) => {
     try {
 
         const { ID_no } = req.body
-        let PhoneNumber = await Format_phone_number(req.body.phone)
-        const UserExists = await User.findOne({ $or: [{ ID_no: ID_no }, { phone: PhoneNumber }] })
+        req.body.phone = await Format_phone_number(req.body.phone)
+
+        const UserExists = await User.findOne({ $or: [{ ID_no: ID_no }, { phone: req.body.phone }] })
         if (UserExists) {
             return res.status(401).json({ message: "User Exists" })
         }
@@ -76,20 +77,20 @@ const register_User = expressAsyncHandler(async (req, res) => {
         }
         let userobj = await User.create(req.body)
         let { _id } = userobj
-        if (req.body.referal_no) {
+        if (req.body.ref_no !== null) {
             let affiliate = await User.findOne({ referal_no: req.body.ref_no })
-
             await UserAfiliate.create({ user: userobj._id, affiliate: affiliate._id })
         }
         let textbody
         if (roleName === "affiliate") {
-            textbody = { address: `${req.body.phone}`, Body: `Hi \nYour referal link is http://localhost:3000?affiliate=${req.body.referal_no}  ` }
+            textbody = { subject: "affiliate Link", id: _id, address: `${req.body.phone}`, Body: `Hi \nYour referal link is http://localhost:3000?affiliate=${req.body.referal_no}  ` }
 
         } else {
-            textbody = { address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code}\nand your referal code is ${req.body.referal_no}  ` }
+            textbody = { id: _id, subject: "Activation key", address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code}  ` }
         }
+
+        await SendMessage(textbody)
         console.log(textbody)
-        // await SendMessage(textbody)
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
         console.log(error)
@@ -153,7 +154,7 @@ const getAffiliateCounts = expressAsyncHandler(async (req, res) => {
         }
 
     }
-    // console.log(affiliatesArray)
+
     return res.status(200).json(affiliatesArray)
 })
 const getUsers1 = expressAsyncHandler(async (req, res) => {
@@ -163,20 +164,34 @@ const getUsers1 = expressAsyncHandler(async (req, res) => {
     return res.status(200).json(users)
 
 })
+const ResendActivation = expressAsyncHandler(async (req, res) => {
+    try {
+      
+        const user = await User.findById(req.params.id)
+    
+       let  textbody = { id: user._id, subject: "Resend Activation key", address: `${user.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${user.verification_code}  ` }
+        await SendMessage(textbody)
+        return res.status(200).json(user)
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json(error)
+    }
+
+})
 const Whatsap = expressAsyncHandler(async (req, res) => {
 
     try {
-        var data = getTemplatedMessageInput(process.env.RECIPIENT_WAID, 'Welcome to the Movie Ticket Demo App for Node.js!');
+        // var data = getTemplatedMessageInput(process.env.RECIPIENT_WAID, 'Welcome to the Movie Ticket Demo App for Node.js!');
 
-        sendMessage(data)
-            .then(function (response) {
-                // console.log(response)
-                return res.status(200).json("response")
-            })
-            .catch(function (error) {
-                console.log(error.response);
-                return;
-            });
+        // sendMessage(data)
+        //     .then(function (response) {
+        //         // console.log(response)
+        //         return res.status(200).json("response")
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error.response);
+        //         return;
+        //     });
 
     } catch (error) {
         console.log(error)
@@ -270,5 +285,5 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    login_user, activate_User, Whatsap, getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
+    login_user, ResendActivation, activate_User, Whatsap, getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
 }

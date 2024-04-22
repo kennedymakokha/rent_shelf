@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function FormExtra(props) {
   return (
     <div className="flex items-center justify-between ">
@@ -13,10 +14,10 @@ export default function FormExtra(props) {
         </label>
       </div>}
 
-      {props.second && <div className="text-sm">
-        <a href="#" className="font-medium text-secondary-100 hover:text-primary-100">
+      {props.second && <div onClick={()=>props.ndAction()} className=" cursor-pointer text-sm">
+        <div  className="font-medium text-secondary-100 hover:text-primary-100">
           {props.second}
-        </a>
+        </div>
       </div>}
     </div>
 

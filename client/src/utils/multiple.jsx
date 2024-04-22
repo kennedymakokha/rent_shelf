@@ -23,6 +23,17 @@ export const Repeat = ({ count, body }) => {
     return repeatedElements
 
 }
+export const Paginator = ({ count, page }) => {
+    const repeatedElements = [...Array(count)].map((_, i) => (
+        <div key={i}>
+            <div onClick={() => page(i + 1)} className='flex items-center text-slate-400 justify-center px-2 h-5  rounded-md text-sm'>
+                {i + 1}
+            </div>
+        </div>
+    ))
+    return repeatedElements
+
+}
 
 export const Ratings = (props) => {
     let count = []

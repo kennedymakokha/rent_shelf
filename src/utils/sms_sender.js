@@ -1,3 +1,4 @@
+import Logs from './../models/logsmodel.js'
 import Africastalking from 'africastalking';
 // import africastalking from 'africastalking'
 // const credentials = {
@@ -25,8 +26,11 @@ export const SendMessage = async (data) => {
             from: "PikUpMtaani",
         }
         let r = await sms.send(options)
-        console.log(r)
+        let body = { target: data.id, success: true, subject: data.subject, sent_to: data.address }
+        await Logs.create(body)
     } catch (error) {
+        let body = { target: data.id, success: false, subject: data.subject, sent_to: data.address, failure_reason: error }
+        await Logs.create(body)
         console.log(error)
 
     }

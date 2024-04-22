@@ -11,7 +11,7 @@ router.route('/:id')
     .get(protect, getRole)
 
 router.route('/')
-    .post(protect, registerRole)
+    .post( registerRole)
     .get(protect, getRoles)
 
 export default router 

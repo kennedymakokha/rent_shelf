@@ -29,17 +29,14 @@ export default function Signup() {
   signupState.ref_no = affiliate
   const handleSubmit = async () => {
     try {
-
       let res = await signUp(signupState).unwrap();
-
       localStorage.setItem("activated", false)
-
       localStorage.setItem("RegId", res._id)
       toast.info('succeful registration')
       navigate('/activate')
     } catch (error) {
-      // console.log(error)
-      toast.error(error)
+     
+      toast.error(error.data.message)
     }
 
   }

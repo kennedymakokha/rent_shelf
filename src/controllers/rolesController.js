@@ -17,7 +17,7 @@ const getRoles = expressAsyncHandler(async (req, res) => {
 const registerRole = expressAsyncHandler(async (req, res) => {
     try {
         await CustomError(validateRoleInput, req.body, res)
-        req.body.createdBy = req.user._id
+        // req.body.createdBy = req.user._id
         await Role.create(req.body)
         return res.status(200).json({ message: 'Created Successfull' })
     } catch (error) {
