@@ -16,10 +16,12 @@ export default sms_logs
 const signInLogs = new Schema({
     failure_reason: { type: String, },
     success: { type: Boolean, default: false },
+    ip: { type: String },
     gadget: { type: String },
-    location: { type: String },
+    corods: {},
+    actualplace:{type:String},
     type: { type: String, },
     deletedAt: { type: Date, default: null },
     target: { type: Schema.Types.ObjectId, ref: 'tb_user' },
 }, { timestamps: true });
-export const role = mongoose.model('tb_sign_in_attempts', signInLogs);
+export const SignInLogs = mongoose.model('tb_sign_in_attempts', signInLogs);

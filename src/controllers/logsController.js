@@ -11,17 +11,17 @@ const getSmsLogs = expressAsyncHandler(async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
-    // try {
-    //     const { skip, limit } = req.query
-    //     let count = await Logs.find()
-    //     const smslogs = await Logs.find().populate("target", "name").limit(limit).skip(skip)
-    //     return res.status(200).json({ data: smslogs, count: count.length })
-    // } catch (error) {
-    //     console.log(error)
-    //     return res.status(400).json({ message: "Error Ocured try again", error })
+   
+})
+const getLoginLogs = expressAsyncHandler(async (req, res) => {
+    try {
+        const e = res.paginate
+        res.status(200).json(e)
 
-
-    // }
+    } catch (error) {
+        res.status(500).json(error)
+    }
+   
 })
 const registerSMSlog = expressAsyncHandler(async (req, res) => {
     try {
@@ -46,6 +46,6 @@ const getUserLogs = expressAsyncHandler(async (req, res) => {
     }
 })
 export {
-    registerSMSlog, getUserLogs, getSmsLogs
+    registerSMSlog, getUserLogs, getSmsLogs,getLoginLogs
 
 }

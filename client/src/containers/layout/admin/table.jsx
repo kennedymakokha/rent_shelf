@@ -45,16 +45,16 @@ export function TableContainer(props) {
     )
 }
 export function TableTitle(props) {
-    const { onchange, notitle, Search, value } = props
+    const { onchange, notitle, Search,noSearch, value } = props
     return (
-        <div className={`flex gap-x-2  bg-green-100 w-full items-center ${notitle ? " px-20 flex  w-full" : "justify-between"}`}>
+        <div className={`flex gap-x-2  w-full items-center ${notitle ? " px-20 flex  w-full" : "justify-between"}`}>
             {!notitle && < h2 className="text-primary-100  text-[20px] uppercase underline m-2">
                 {props.tableTitle}
             </h2>}
-            <div className={`flex items-center w-full`}>
+            {!noSearch && <div className={`flex items-center w-full`}>
                 <input onChange={onchange} value={value} placeholder='Search' type="text" className={`h-9 appearance-none my-2 relative block ${notitle ? "w-full" : "w-[100%]"} rounded-l-md px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-[18px] text-sm`} />
                 <div onClick={Search} className=' h-9 bg-primary-100 px-2  rounded-r-md sm:text-[18px] my-2  hover:bg-slate-600 items-center justify-center flex text-slate-100 hover:text-slate-800'>Search </div>
-            </div>
+            </div>}
 
         </div >
     )
@@ -62,7 +62,7 @@ export function TableTitle(props) {
 
 
 export default function Table(props) {
-    const { filter, prev, next, page, setLimit, paginate } = props
+
     return (
         <table className="min-w-full w-full  ">
 

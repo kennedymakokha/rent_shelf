@@ -16,6 +16,7 @@ function Index() {
     const { data, refetch, isFetching, isSuccess, isError } = useFetchshelvesQuery(initialState)
     const navigate = useNavigate()
     const { userInfo } = useSelector((state) => state.auth)
+   
     useEffect(() => {
 
         if (userInfo && userInfo.role === "admin") {

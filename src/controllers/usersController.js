@@ -13,40 +13,63 @@ import jwt from "jsonwebtoken";
 import { SendMessage } from "../utils/sms_sender.js";
 import Format_phone_number from "../utils/FormatPhonNumber.js";
 import { getTemplatedMessageInput, getTextMessageInput, sendMessage } from "../utils/messageHelper.js";
+import { SignInLogs } from "../models/logsmodel.js";
 
+const logBody = {
+    failure_reason: "",
+    success: false,
+    gadget: "",
+    // location:,
+    type: "SignIn Attempts",
 
+}
 
 const login_user = expressAsyncHandler(async (req, res) => {
     try {
+        console.log(JSON.stringify(req.body.ip))
 
         const { email, password } = req.body;
         let phone = await Format_phone_number(email)
         const user = await User.findOne({ $or: [{ email: email }, { ID_no: email }, { phone: phone }] }).populate('role', 'name')
-        // 
+        if (user) {
+            logBody.location = req.body.location.location
+            logBody.target = user._id
+            logBody.ip = req.body.ip
+            logBody.actualplace = req.body.location.name
 
-        if (user && (await user.matchPassword(password))) {
-            let token = generateToken(res, user._id)
-            if (req.body.token !== null) {
-
-                user.tokens.indexOf(req.body.token) === -1 ? user.tokens.push(req.body.token) : console.log("This item already exists");
+            if (await user.matchPassword(password)) {
+                let token = generateToken(res, user._id)
+                if (req.body.token !== null) {
+                    user.tokens.indexOf(req.body.token) === -1 ? user.tokens.push(req.body.token) : console.log("This item already exists");
+                }
+                await User.findOneAndUpdate({ $or: [{ email }, { ID_no: email }] }, { tokens: user.tokens }, { new: true, useFindAndModify: false })
+                logBody.success = true
+                await SignInLogs.create(logBody)
+                return res.status(201).json({
+                    id: user._id,
+                    name: user.name,
+                    token: token,
+                    email: user.email,
+                    role: user?.role?.name,
+                    onduty: user.onduty,
+                    tokens: user.tokens
+                })
+            } else {
+                logBody.failure_reason = "wrong password"
+                await SignInLogs.create(logBody)
+                return res.status(401).json({ message: "Invalid email or password" })
             }
-            await User.findOneAndUpdate({ $or: [{ email }, { ID_no: email }] }, { tokens: user.tokens }, { new: true, useFindAndModify: false })
-            return res.status(201).json({
-                id: user._id,
-                name: user.name,
-                token: token,
-                email: user.email,
-                role: user?.role?.name,
-                onduty: user.onduty,
-                tokens: user.tokens
-            })
-
-
-        } else {
-
-            return res.status(401).json({ message: "Invalid email or password" })
-
         }
+        else {
+            return res.status(401).json({ message: "Invalid email or password" })
+        }
+
+
+
+
+
+
+
     } catch (error) {
         console.log(error)
         return res.status(401).json({ message: "Erronous password  or email entered " })
@@ -166,10 +189,10 @@ const getUsers1 = expressAsyncHandler(async (req, res) => {
 })
 const ResendActivation = expressAsyncHandler(async (req, res) => {
     try {
-      
+
         const user = await User.findById(req.params.id)
-    
-       let  textbody = { id: user._id, subject: "Resend Activation key", address: `${user.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${user.verification_code}  ` }
+
+        let textbody = { id: user._id, subject: "Resend Activation key", address: `${user.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${user.verification_code}  ` }
         await SendMessage(textbody)
         return res.status(200).json(user)
     } catch (error) {

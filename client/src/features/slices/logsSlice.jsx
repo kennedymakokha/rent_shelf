@@ -17,8 +17,11 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         fetchsmslogs: builder.query({
             query: (data) => `${USER_URL}/smslogs?page=${data.page}&limit=${data.limit}&user=${data.user}&word=${data.word}`
         }),
+        fetchlogs: builder.query({
+            query: (data) => `${USER_URL}/login-logs?page=${data.page}&limit=${data.limit}&user=${data.user}&word=${data.word}`
+        }),
 
     })
 })
 
-export const { useCreatesmsMutation, useFetchsmslogsQuery, useFetchusersmslogsQuery } = usersApiSlice
+export const { useCreatesmsMutation,useFetchlogsQuery, useFetchsmslogsQuery, useFetchusersmslogsQuery } = usersApiSlice

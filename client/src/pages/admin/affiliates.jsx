@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import Table, { TBody, TH, TableContainer, TableHead, TableTitle } from '../../containers/layout/admin/table';
 import { AffiliatesTableHead } from './data.json'
@@ -67,7 +68,7 @@ function Affiliates() {
     }
     const deleteHandler = async (id) => {
         try {
-            await deletePatient(id).unwrap();
+            // await deletePatient(id).unwrap();
             refetch()
             toast(`${item.lastName} Deleted Succesfully`)
         } catch (error) {
