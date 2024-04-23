@@ -80,7 +80,7 @@ const Header = () => {
           {userInfo ? <div className='sm:flex hidden items-center justify-center  gap-x-0'>
 
             <DropDown title={userInfo?.name} array={[{
-              title: "Profile", onclick: () => console.log("first")
+              title: "Profile", onclick: () => navigate(`/profile?name=${userInfo.name}`)
             },
             {
               title: "Logout", onclick: LogOutHandler

@@ -9,6 +9,7 @@ import Services from './pages/services.jsx'
 import About from './pages/about'
 import Contact from './pages/contacts'
 import Root from './pages/root.jsx'
+import Profile from './pages/profile.jsx'
 import ShelveDetails from './pages/shelves/shelveDetails/details'
 import Shelves from './pages/shelves'
 import Warehouse from './pages/shelfTypes'
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "about-us",
         element: <About />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "contact-us",

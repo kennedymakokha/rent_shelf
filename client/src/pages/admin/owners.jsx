@@ -9,8 +9,6 @@ import { Link } from 'react-router-dom';
 import InputContainer, { SearchContaine } from '../../containers/input';
 import { useFetchaffiliatesQuery, useGetusersQuery, useRegisterMutation } from '../../features/slices/usersApiSlice';
 import Modal from '../../containers/Modal';
-import moment from 'moment'
-import AffiliatesCharts from './charts/affiliatesCharts';
 function Affiliates() {
     const [showModal, setShowModal] = useState(false);
     const [affils, setaffils] = useState(false);

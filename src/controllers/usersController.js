@@ -32,10 +32,10 @@ const login_user = expressAsyncHandler(async (req, res) => {
         let phone = await Format_phone_number(email)
         const user = await User.findOne({ $or: [{ email: email }, { ID_no: email }, { phone: phone }] }).populate('role', 'name')
         if (user) {
-            logBody.location = req.body.location.location
+            logBody.location = req.body?.location?.location
             logBody.target = user._id
             logBody.ip = req.body.ip
-            logBody.actualplace = req.body.location.name
+            logBody.actualplace = req.body?.location?.name
 
             if (await user.matchPassword(password)) {
                 let token = generateToken(res, user._id)
@@ -158,7 +158,13 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
-        phone: req.user.phone
+        phone: req.user.phone,
+        referal_no: req.user.referal_no,
+        x: req.user.x,
+        insta: req.user.insta,
+        fb: req.user.fb,
+        youtube: req.user.youtube,
+        tiktok: req.user.tiktok,
     }
     return res.status(200).json(user)
 })

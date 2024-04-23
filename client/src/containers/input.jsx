@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
+import { SVG, TikTok } from '../pages/about/components/components'
 
 
 export function SearchContaine(props) {
@@ -66,23 +67,23 @@ export const CheckBoxContainer = ({ title, checked, onClick }) => {
         </div>
     )
 }
-const InputContainer = ({ value, id, name, btnaction, required, type, placeholder, label, handleChange }) => {
+const InputContainer = ({ value, icon, noLabels, id, name, btnaction, required, type, placeholder, label, bg, handleChange }) => {
     return (
         <>
-            <label className="block text-primary-500 uppercase text-[18px] ml-1  font-bold mb-1">
+            {!noLabels && <label className="block text-primary-500 uppercase text-[18px] ml-1  font-bold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
-            </label>
-            <div className='rounded-md appearance-none my-2  h-9 justify-between items-center  flex w-full  bg-white border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm'>
+            </label>}
+            <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full  ${bg ? `${bg} text-white px-5` : "bg-white "} border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
+                {icon && name === "tiktok" ? <TikTok /> : <SVG path={icon} />}
                 <input
                     onChange={handleChange}
                     value={value}
                     id={id}
                     name={name}
-
                     multiple
                     type={type}
                     required={required}
-                    className="h-full focus:outline-none flex  items-center focus:ring-secondary-100 px-2 rounded-md"
+                    className={`h-full focus:outline-none flex  ${bg} items-center focus:ring-secondary-100 px-2 rounded-md`}
                     placeholder={placeholder}
                 />  {btnaction && <div onClick={btnaction} className='flex  items-center pr-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
