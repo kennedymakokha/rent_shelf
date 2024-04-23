@@ -20,7 +20,7 @@ const logBody = {
     success: false,
     gadget: "",
     // location:,
-    type: "SignIn Attempts",
+    type: "",
 
 }
 
@@ -36,8 +36,15 @@ const login_user = expressAsyncHandler(async (req, res) => {
             logBody.target = user._id
             logBody.ip = req.body.ip
             logBody.actualplace = req.body?.location?.name
+            logBody.type = "Login Attempts"
 
             if (await user.matchPassword(password)) {
+
+                if (user.activated === false) {
+                    logBody.failure_reason = "Inactive Account sign in attempt"
+                    await SignInLogs.create(logBody)
+                    return res.status(401).json({ message: "Please Activate your account" })
+                }
                 let token = generateToken(res, user._id)
                 if (req.body.token !== null) {
                     user.tokens.indexOf(req.body.token) === -1 ? user.tokens.push(req.body.token) : console.log("This item already exists");
@@ -113,7 +120,7 @@ const register_User = expressAsyncHandler(async (req, res) => {
         }
 
         await SendMessage(textbody)
-        console.log(textbody)
+       
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
         console.log(error)
@@ -195,9 +202,7 @@ const getUsers1 = expressAsyncHandler(async (req, res) => {
 })
 const ResendActivation = expressAsyncHandler(async (req, res) => {
     try {
-
         const user = await User.findById(req.params.id)
-
         let textbody = { id: user._id, subject: "Resend Activation key", address: `${user.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${user.verification_code}  ` }
         await SendMessage(textbody)
         return res.status(200).json(user)
@@ -303,6 +308,13 @@ const EditUserDetails = expressAsyncHandler(async (req, res) => {
 const updateUserProfile = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     if (user) {
+        logBody.location = req.body?.location?.location
+        logBody.target = user._id
+        logBody.ip = req.body.ip
+        logBody.actualplace = req.body?.location?.name
+        logBody.type = "Profile Update"
+        let v = await SignInLogs.create(logBody)
+        console.log(v)
         let updatte = await User.findOneAndUpdate({ _id: user._id }, req.body, { new: true, useFindAndModify: false })
         return res.status(200).json({ message: 'Updated', updatte })
 

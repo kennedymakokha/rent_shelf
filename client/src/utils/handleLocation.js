@@ -22,11 +22,17 @@ const getName = async (setorigin, lat, lng) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
         .then(res => res.json().then(data => {
             let T = data.results[0].formatted_address.split(",")
-            setorigin({name:`${T[T.length - 2]},${T[T.length - 1]}`,location:{lat,lng}})
+            setorigin({ name: `${T[T.length - 2]},${T[T.length - 1]}`, location: { lat, lng } })
         }).catch((e) => {
             console.log(e)
         })
         )
+}
+export const getIP = (setIPAddress) => {
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => setIPAddress(`${data.ip}`))
+        .catch(error => console.log(error))
 }
 export const getMe = (setorigin) => {
     navigator.geolocation.getCurrentPosition(

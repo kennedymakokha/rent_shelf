@@ -9,18 +9,20 @@ import { SVG, TikTok } from './about/components/components'
 
 import { useEditUserDetailsMutation, useGetuserQuery } from '../features/slices/usersApiSlice'
 import { HandleConsole } from '../utils/selectFromapi'
+import { getIP, getMe } from '../utils/handleLocation'
 
 function Profile() {
     // useGetusersQuery
     const [showModal, setShowModal] = useState(false)
     const { data, refetch } = useGetuserQuery()
-
+    const [location, setLocations] = useState()
+    const [ipAddress, setIPAddress] = useState('')
     const [updateRow] = useEditUserDetailsMutation()
 
     const [item, setItem] = useState({
         x: "", fb: "", insta: "", youtube: "", name: "", email: "", phone: "", tiktok: ''
     })
-   
+
     const changeInput = (e) => {
         const { name, value } = e.target ? e.target : e
         setItem(prevState => ({
@@ -34,8 +36,10 @@ function Profile() {
 
     }
     const submit = async () => {
-        // item.id = userInfo._id
-        HandleConsole(item)
+        getMe(setLocations)
+        getIP(setIPAddress)
+        item.location = location
+        item.ip = ipAddress
         await updateRow(item).unwrap()
         refetch()
         setShowModal(false)
