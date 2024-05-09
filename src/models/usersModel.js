@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     phone: { type: String, required: true, unique: true, },
     ID_no: { type: String, unique: true, },
     referal_no: { type: String, unique: true, },
+    pass_reset_code: { type: String },
     tokens: [{ type: String }],
     role: { type: Schema.Types.ObjectId, ref: 'tb_role' },
     createdBy: { type: Schema.Types.ObjectId, ref: 'tb_user' },

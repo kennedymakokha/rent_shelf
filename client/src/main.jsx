@@ -26,6 +26,7 @@ import Logs from './pages/admin/logs'
 import Customers from './pages/admin/users.jsx'
 import Login from './pages/authentication/login.jsx'
 import SignUp from './pages/authentication/signup.jsx'
+import ForgotPass from './pages/authentication/forgotpasssword'
 import Activate from './pages/authentication/activate.jsx'
 import { store } from './store.jsx'
 import { Provider } from 'react-redux'
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignUp />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPass />,
       },
       {
         path: "admin",

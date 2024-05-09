@@ -351,7 +351,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                 />
                                                 <div className='w-full px-2'>
                                                     {currentLocation ? <div className='flex flex-col'>
-                                                        <CheckBoxContainer title="Use my current location" checked={currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+                                                       
                                                         <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
                                                     </div> :
                                                         <InputContainer cancel btnaction={() => { setActualname(""); setCurrentLocation((prevState) => (!prevState)) }} value={actualname} required name="Location" label="Location" placeholder="Name" handleChange={(e) => changeInput(e)} />}

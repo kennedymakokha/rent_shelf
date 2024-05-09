@@ -57,3 +57,37 @@ export const validateUserInput = (data) => {
         isValid: isEmpty(errors)
     }
 }
+export const validatepassInput = (data) => {
+
+    let errors = {};
+    data.code = !isEmpty(data.code) && data.code !== undefined ? data.code : '';
+    data.password = !isEmpty(data.password) && data.password !== undefined ? data.password : '';
+    data.confirm_password = !isEmpty(data.confirm_password) && data.confirm_password !== undefined ? data.confirm_password : '';
+
+    if (Validator.isEmpty(data.code)) {
+        errors.code = 'code is required';
+    }
+
+    if (Validator.isEmpty(data.password)) {
+        errors.password = 'Password is required';
+    }
+  
+    if (!Validator.isLength(data.password, { min: 8, max: 30 })) {
+        errors.password = 'Password must be more than 8 characters long';
+    }
+    if (!NumericalExists(data.password)) {
+        errors.password = 'Password Must have at least one Numerical value';
+    }
+    if (!isSpecial(data.password)) {
+        errors.password = 'Password Must contain at least one special characters  ';
+    }
+
+    
+    if (data.password !== data.confirm_password) {
+        errors.new_password = 'Password Mismatch    ';
+    }
+    return {
+        errors,
+        isValid: isEmpty(errors)
+    }
+}

@@ -255,7 +255,7 @@ const getUsershelves = expressAsyncHandler(async (req, res) => {
 const publishUnpublishShelf = expressAsyncHandler(async (req, res) => {
     try {
         let Shelve = await Shelf.findById(req.params.id)
-        console.log("B", Shelve)
+    
         let Owner = await User.findById(Shelve.createdBy)
         let updates = await Shelf.findOneAndUpdate({ _id: req.params.id }, { published: !Shelve.published }, { new: true, useFindAndModify: false })
 

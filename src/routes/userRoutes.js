@@ -1,9 +1,12 @@
 import express from 'express'
-import { login_user, activate_User,ResendActivation, getAffiliateCounts, Whatsap, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, logoutUser, getUserProfile, getUser } from '../controllers/usersController.js'
+import { login_user, activate_User,ResendActivation,RecoverPasseword,ResetPasseword, getAffiliateCounts, Whatsap, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, logoutUser, getUserProfile, getUser } from '../controllers/usersController.js'
 import { isAuth, protect } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
 router.post('/', register_User)
+router.post('/recover-password', RecoverPasseword)
+router.post('/reset-password', ResetPasseword)
+
 router.get('/whatasap', Whatsap)
 
 router.get('/', protect, getUsers1)

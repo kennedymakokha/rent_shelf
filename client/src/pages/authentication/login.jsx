@@ -68,6 +68,7 @@ export default function Login() {
                 <div className="-space-y-px">
                     {
                         fields.map(field =>
+                            
                             <Input
                                 key={field.id}
                                 handleChange={handleChange}
@@ -86,6 +87,7 @@ export default function Login() {
                 </div>
 
                 <FormExtra first="Remember me"
+                    ndAction={() => window.location.replace("forgot-password")}
                     second="Forgot your password?" />
                 <FormAction isLoading={isFetching} handleSubmit={handleSubmit} text="Login" />
 

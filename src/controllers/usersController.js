@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs';
 import generateToken from "../utils/generateToken.js";
 import { GenActivationCode } from "../utils/GenerateActivationCode.js";
 import { CustomError } from "../middlewares/customErr.js";
-import { validateUserInput } from "../Validators/usersValidator.js";
+import { validateUserInput, validatepassInput } from "../Validators/usersValidator.js";
 
 import jwt from "jsonwebtoken";
 import { SendMessage } from "../utils/sms_sender.js";
@@ -26,7 +26,7 @@ const logBody = {
 
 const login_user = expressAsyncHandler(async (req, res) => {
     try {
-        console.log(JSON.stringify(req.body.ip))
+
 
         const { email, password } = req.body;
         let phone = await Format_phone_number(email)
@@ -120,7 +120,7 @@ const register_User = expressAsyncHandler(async (req, res) => {
         }
 
         await SendMessage(textbody)
-       
+
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
         console.log(error)
@@ -251,8 +251,6 @@ const getUsers = expressAsyncHandler(async (req, res) => {
         return res.status(200).json(users)
     }
 })
-
-
 const getroleUsers = expressAsyncHandler(async (req, res) => {
     if (req.params.role === "all") {
         const users = await User.find({ deletedAt: null })
@@ -269,6 +267,44 @@ const getUser = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
         .populate('role', 'name').populate('station', 'name')
     return res.status(200).json(user)
+})
+const RecoverPasseword = expressAsyncHandler(async (req, res) => {
+    try {
+        let phone = await Format_phone_number(req.body.phone)
+        const user = await User.findOne({ $or: [{ ID_no: req.body.phone }, { phone: phone }] })
+        if (user) {
+            let assign = await User.findOneAndUpdate({ $or: [{ ID_no: req.body.phone }, { phone: phone }] }, { pass_reset_code: GenActivationCode(6) }, { new: true, useFindAndModify: false })
+            let textbody = { id: user._id, subject: "Password Reset Code", address: `${user.phone}`, Body: `Hi \nYour Password reset Code for spaces is  ${assign.pass_reset_code}  ` }
+            // await SendMessage(textbody)
+            return res.status(200).json({ message: ' successfully ', assign })
+        } else {
+            return res.status(400).json({ message: 'User does not Exist', })
+        }
+
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({ message: ' failed ', error })
+    }
+})
+const ResetPasseword = expressAsyncHandler(async (req, res) => {
+    try {
+
+        CustomError(validatepassInput, req.body, res)
+        const user = await User.findOne({ pass_reset_code: req.body.code })
+        if (user) {
+            const salt = await bcrypt.genSalt(10)
+            let password = await bcrypt.hash(req.body.password, salt)
+            let assign = await User.findOneAndUpdate({ _id: user._id }, { password: password }, { new: true, useFindAndModify: false })
+
+            return res.status(200).json({ message: ' successfully ' })
+        } else {
+            return res.status(400).json({ message: 'User does not Exist', })
+        }
+
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({ message: ' failed ', error })
+    }
 })
 const logoutUser = expressAsyncHandler(async (req, res) => {
     try {
@@ -326,5 +362,5 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    login_user, ResendActivation, activate_User, Whatsap, getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
+    login_user, ResetPasseword, RecoverPasseword, ResendActivation, activate_User, Whatsap, getAffiliateCounts, getUsers1, updateUserProfile, getroleUsers, EditUserDetails, register_User, getUser, getUsers, logoutUser, getUserProfile
 }
