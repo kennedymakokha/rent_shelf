@@ -95,7 +95,7 @@ function Slider({ data }) {
                     ))}
                 </div>
                 {data !== undefined && data && <div className="absolute rounded-md  w-full sm:w-1/2 sm:h-3/4 h-full  top:0 sm:top-[5%] right:0 sm:right-[2%]  mx-0 flex justify-center items-center z-40">
-                    <Clustermap data={data} />
+                    <MyMap data={data} />
                 </div>}
                 <div className="absolute  inset-0  bg-gradient-to-t from-primary-100  mx-0 flex justify-center  items-center -z-5">
 

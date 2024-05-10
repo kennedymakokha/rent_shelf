@@ -18,7 +18,20 @@
 //     }
 
 // }
-const getName = async (setorigin, lat, lng) => {
+
+export const getLatLong = async (name,setLocation,map) => {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${name}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
+      .then(res => res.json().then(data => {
+        let loc = data.results[0].geometry.location
+        // setLocation(loc)
+        map.panTo(loc)
+
+      }).catch((e) => {
+        console.log(e)
+      })
+      )
+  }
+const getName = async (setorigin, lat, lng,map) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
         .then(res => res.json().then(data => {
             let T = data.results[0].formatted_address.split(",")
@@ -34,7 +47,7 @@ export const getIP = (setIPAddress) => {
         .then(data => setIPAddress(`${data.ip}`))
         .catch(error => console.log(error))
 }
-export const getMe = (setorigin) => {
+export const getMe = (setorigin,map) => {
     navigator.geolocation.getCurrentPosition(
         async position => {
             await getName(setorigin, position.coords.latitude, position.coords.longitude)

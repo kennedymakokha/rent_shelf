@@ -16,7 +16,7 @@ function Index() {
     const { data, refetch, isFetching, isSuccess, isError } = useFetchshelvesQuery(initialState)
     const navigate = useNavigate()
     const { userInfo } = useSelector((state) => state.auth)
-   
+
     useEffect(() => {
 
         if (userInfo && userInfo.role === "admin") {
@@ -26,17 +26,17 @@ function Index() {
         }
     })
     useEffect(() => {
-        refetch()
-        socket.on("publishing", () => {
-            refetch()
+
+        socket.on("publishing", async () => {
+            await refetch()
         });
 
-    }, [data, refetch])
+    }, [data,])
 
     return (
         <div className='overflow-hidden'>
-           <Slider data={data} /> 
-                
+            <Slider data={data} />
+
             <div className=" w-full h-full relative z-0">
                 <Featured data={data?.filter(e => e.featured === true)} isFetching={isFetching} isSuccess={isSuccess} />
                 <Shelves data={data} isFetching={isFetching} isSuccess={isSuccess} />

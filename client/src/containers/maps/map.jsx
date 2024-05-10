@@ -5,6 +5,7 @@ import { GoogleMap, useJsApiLoader, Autocomplete, MarkerF } from "@react-google-
 import { useEffect, useRef, useState } from "react";
 import pin1 from './../../assets/pin1.png'
 import pin2 from './../../assets/pin2.png'
+import { HandleConsole } from "../../utils/selectFromapi";
 
 const { VITE_APP_GOOGLE_API_KEY } = import.meta.env;
 
@@ -44,6 +45,7 @@ function MapswithDirection({ data }) {
       })
       )
   }
+  HandleConsole(origin)
   useEffect(() => {
 
 

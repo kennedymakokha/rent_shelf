@@ -8,6 +8,8 @@ import MapInput from "../../maps/smallMap.jsx";
 import { useFetchCategoryQuery } from "../../../features/slices/categorySlice.jsx";
 import { useFetchCategorySubsQuery, useFetchsingleSubQuery } from "../../../features/slices/subcategorySlice.jsx";
 import { useFetchsinglePropertyQuery } from "../../../features/slices/propertySlice.jsx";
+import SmallMap2 from "../../maps/smallMap2.jsx";
+import { getMe } from "../../../utils/handleLocation.js";
 
 
 const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresArray, towns, types, }) => {
@@ -18,6 +20,8 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
     const [availabletypes, setavailableTypes] = useState([])
     const [currentLocation, setCurrentLocation] = useState(true);
     const [actualname, setActualname] = useState("");
+    const [origin, setorigin] = useState("");
+    const [position, setPosition] = useState({})
     const [createshelve] = useCreateshelveMutation();
     const { data, } = useFetchCategoryQuery()
 
@@ -178,7 +182,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
     const getName = async (lat, lng) => {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
             .then(res => res.json().then(data => {
-                console.log(data)
                 let T = data.results[0].formatted_address.split(",")
                 setActualname(`${T[T.length - 2]},${T[T.length - 1]}`)
                 setItem((prevState) => ({
@@ -189,6 +192,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             })
             )
     }
+
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             position => {
@@ -209,7 +213,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             error => console.error('Error getting location:', error)
         );
     }, []);
-
+   
     return (
         <>
 
@@ -227,7 +231,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
 
                                     </div>
                                 </div>
-                                {!currentLocation ? <MapInput setActualname={setActualname} onChange={setLocation} placeholder="Search the area" /> : <div className="relative px-6 bg-slate-100 flex-auto">
+                                {!currentLocation ? <SmallMap2 setPosition={setPosition} setorigin={setorigin} setActualname={setActualname} setCurrentLocation={setCurrentLocation} center={origin.location} origin={origin.name} onChange={setLocation} placeholder="Search the area" /> : <div className="relative px-6 bg-slate-100 flex-auto">
                                     <div className=" rounded px-8 pt-6 pb-1 w-full">
                                         <div className="flex w-full  sm:flex-row flex-col ">
 
@@ -351,27 +355,14 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                 />
                                                 <div className='w-full px-2'>
                                                     {currentLocation ? <div className='flex flex-col'>
-                                                       
-                                                        <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+
+                                                        <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => { getMe(setorigin); setCurrentLocation(prevState => (!prevState)) }} />
                                                     </div> :
                                                         <InputContainer cancel btnaction={() => { setActualname(""); setCurrentLocation((prevState) => (!prevState)) }} value={actualname} required name="Location" label="Location" placeholder="Name" handleChange={(e) => changeInput(e)} />}
 
 
                                                 </div>
-                                                {/* <SelectContainer
-                                                    name="Area"
-                                                    array={SelectFromAPI({
-                                                        array: areas
-                                                        , name: "area_id"
-                                                    })}
-                                                    handleChange={(e) => { console.log(e.target.value); setItem(prevState => ({ ...prevState, area_id: e.target.value })) }}
-                                                    placeholder="town"
-                                                    label="town"
-                                                    type="select"
-                                                    value={item.town_id}
-                                                    id="town"
-                                                    require={true}
-                                                /> */}
+
                                                 <InputContainer
                                                     name="files[]"
                                                     multiple={true}
@@ -382,9 +373,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     value={item.images}
                                                     id="price"
                                                 />
-
-
-
                                                 <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
                                                     Types
                                                 </label>
@@ -395,8 +383,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                             className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-primary-100 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                                     ))}
                                                 </div>
-
-
                                             </div>
                                         </div>
 
@@ -407,7 +393,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                     <button
                                         className="text-secondary-500 hover:text-primary-100 hover:border-secondary-100 border-primary-100 border rounded-md background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={() => { !currentLocation ? setCurrentLocation(true) : setShowModal(false); setCurrentLocation(true) }}
                                     >
                                         Close
                                     </button>
