@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
 import { Autocomplete, GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import { getLatLong } from '../../utils/handleLocation';
+import { getLatLong, getName } from '../../utils/handleLocation';
 const { VITE_APP_GOOGLE_API_KEY } = import.meta.env;
 const containerStyle = {
   width: '1200px',
   height: '400px'
 };
 
-const SmallMap2 = ({ center, setPosition,setorigin, origin }) => {
+const SmallMap2 = ({ center, setActualname, setorigin, origin }) => {
 
 
   const { isLoaded } = useJsApiLoader({
@@ -30,14 +30,14 @@ const SmallMap2 = ({ center, setPosition,setorigin, origin }) => {
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
   }, [])
- 
+
   const destinationRef = useRef()
 
   const panTo = async () => {
 
     if (destinationRef.current.value === "") return
     const directionService = new google.maps.DirectionsService()
-    getLatLong(destinationRef.current.value.replace(/ /g, '+'),  setPosition, map)
+    getLatLong(destinationRef.current.value.replace(/ /g, '+'), setorigin, map)
     const results = await directionService.route({
       origin: origin,
       destination: destinationRef.current.value,
@@ -45,6 +45,16 @@ const SmallMap2 = ({ center, setPosition,setorigin, origin }) => {
       travelMode: google.maps.TravelMode.DRIVING
     })
   }
+  const handleMarkerDrag = (e) => {
+    getName(setorigin, e.latLng.lat(), e.latLng.lng())
+    setorigin(prev => ({
+      ...prev, location: {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng()
+      }
+    }))
+
+  };
   return isLoaded ? (
     <div className="flex rounded-md relative flex-col  z-0 items-center h-[400px] w-[800px]">
       <div className="absolute rounded-full left-0 top-0 h-[100%] w-[100%]">
@@ -52,11 +62,18 @@ const SmallMap2 = ({ center, setPosition,setorigin, origin }) => {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
+          onDragStart={() => console.log("start")}
+          // onDrag={console.log("first")}
           onLoad={onLoad}
           onUnmount={onUnmount}
-          options={{ mapTypeControl: false, zoomControl: true, fullscreenControl: false }}
+          options={{ mapTypeControl: false, zoomControl: true, fullscreenControl: false, draggingCursor: true }}
         >
-          <MarkerF position={center} />
+          <MarkerF
+            draggable={true}
+            position={center}
+            onDrag={(e) => handleMarkerDrag(e)}
+            onDragStart={(e)=>console.log(e)}
+          />
           { /* Child components, such as markers, info windows, etc. */}
           <></>
         </GoogleMap>

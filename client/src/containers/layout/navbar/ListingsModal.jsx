@@ -113,7 +113,8 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
 
     }
     const handleSubmit = async () => {
-
+        console.log(item)
+        return
         try {
 
             // eslint-disable-next-line no-unreachable
@@ -213,13 +214,13 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             error => console.error('Error getting location:', error)
         );
     }, []);
-   
+
     return (
         <>
 
             {showModal ? (
                 <>
-                    <div className="flex  overflow-x-hidden  fixed top-[12%] sm:left-[10%] sm:right-[10%] z-50 outline-none focus:outline-none">
+                    <div className="flex  overflow-x-hidden  fixed top-[10%] sm:left-[10%] sm:right-[10%] z-50 outline-none focus:outline-none">
                         <div className="relative  w-full my-2 mx-auto ">
                             <div className="border-0 rounded-lg  relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 <div className="flex items-start justify-between px-5 py-2 border-b border-solid border-gray-300 rounded-t ">
@@ -356,7 +357,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                 <div className='w-full px-2'>
                                                     {currentLocation ? <div className='flex flex-col'>
 
-                                                        <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => { getMe(setorigin); setCurrentLocation(prevState => (!prevState)) }} />
+                                                        <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => { getMe(setorigin, setPosition); setCurrentLocation(prevState => (!prevState)) }} />
                                                     </div> :
                                                         <InputContainer cancel btnaction={() => { setActualname(""); setCurrentLocation((prevState) => (!prevState)) }} value={actualname} required name="Location" label="Location" placeholder="Name" handleChange={(e) => changeInput(e)} />}
 
@@ -400,9 +401,9 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                     <button
                                         className="text-white bg-primary-100 hover:bg-primary-300 hover:text-secondary-100 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
-                                        onClick={() => { handleSubmit(item) }}
+                                        onClick={() => { currentLocation ? handleSubmit(item) : setItem(prevState => ({ ...prevState, location: origin.location, area: origin.name })); setCurrentLocation(prev => !prev); }}
                                     >
-                                        Submit
+                                        {currentLocation ? "Submit" : "Ok"}
                                     </button>
                                 </div>
                             </div>
