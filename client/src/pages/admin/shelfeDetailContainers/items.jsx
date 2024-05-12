@@ -5,7 +5,7 @@ export const DetailItem = (props) => {
     return (
         <div className='flex gap-x-2  h-auto  items-center    text-[18px]'>
             <div className='flex font-bold text-primary-100 w-[70px]'>{props.label}:</div>
-            <div className='flex font-normal text-slate-400'>{props.value}</div>
+            <div className='flex font-normal capitalize text-slate-400'>{props.value}</div>
         </div>
     )
 }

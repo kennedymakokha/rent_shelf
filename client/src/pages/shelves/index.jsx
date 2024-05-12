@@ -27,7 +27,7 @@ export const initialState = {
   limit: 1
 }
 
-function Index() {
+function index() {
   const [town, setTown] = useState({})
   const [area, setArea] = useState({})
   // const [featured, setfeatured] = useState(false)
@@ -190,4 +190,4 @@ function Index() {
   )
 }
 
-export default Index
+export default index

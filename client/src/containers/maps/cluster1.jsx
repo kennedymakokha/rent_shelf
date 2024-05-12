@@ -31,11 +31,11 @@ const MapComponent = ({ data }) => {
     useEffect(() => {
         getMe(setorigin, setPosition);
     }, [])
-    console.table(data)
+
     return isLoaded ? (
         <div className="flex rounded-md relative flex-col  z-0 items-center h-full w-full">
             <div className="absolute rounded-full left-0 top-0 h-[100%] w-[100%]">
-                <GoogleMap mapContainerStyle={{ width: "100%", height: "400px" }}
+                <GoogleMap mapContainerStyle={{ width: "100%", height: "400px", borderRadius: "7px", }}
                     options={mapOptions} onLoad={onLoad} onUnmount={onUnmount}
 
                 >
@@ -57,7 +57,7 @@ const MapComponent = ({ data }) => {
                                 <h3 className="font-bold">{selectedMarker.name}</h3>
                                 <h3>{selectedMarker.area}({selectedMarker.building})</h3>
                                 <p className="font-semibold">{selectedMarker.price}</p>
-                                <Link>
+                                <Link to={`/shalves/${selectedMarker.name}`}>
                                     <p className="font-semibold text-blue-400">Get direction</p>
                                 </Link>
                             </div>
@@ -68,7 +68,9 @@ const MapComponent = ({ data }) => {
 
         </div>
     ) : (
-        <></>
+        <div className="w-[100%] h-[400px] border ">
+            {/* <img src={MapHolder} alt="" /> */}
+        </div>
     );
 };
 

@@ -8,10 +8,10 @@ import { toast } from 'react-toastify'
 import OwnerCard from './sidebarComponents/OwnerCard.jsx'
 import DetailCard from './sidebarComponents/detailCard.jsx'
 import RateCard from './sidebarComponents/rateCard.jsx'
-
 import ClaimModal from './sidebarComponents/claimModal.jsx'
 import RateModal from './sidebarComponents/rateModal.jsx'
 import SafetyCard from './sidebarComponents/sefety.jsx'
+import DirectionCard from './sidebarComponents/directioncard.jsx'
 
 function Sidebar({ data }) {
     const [chating, setChating] = useState(false)
@@ -30,7 +30,10 @@ function Sidebar({ data }) {
     }
     return (
         <div className='flex flex-col w-full mt-2 gap-y-2'>
-            <DetailCard data={data} />
+            <DirectionCard data={data} />
+            {/* <DetailCard data={data} /> */}
+            {/* <MapswithDirection/> */}
+
             <OwnerCard data={data} RevealContact={RevealContact} reveal={reveal} />
             <Chat userInfo={userInfo}
                 chating={chating} StartChat={StartChat}

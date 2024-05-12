@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import slider from './../../assets/slider1.jpg'
 import slider1 from './sliderImages/slider1.jpg'
 import slider2 from './sliderImages/slider2.jpg'
-import MyMap from './../../containers/maps/map'
-import MapClust from '../../containers/maps/mapClust.jsx'
-import Clustermap from '../../containers/maps/clustermap'
+// import MyMap from './../../containers/maps/map'
+// import MapClust from '../../containers/maps/mapClust.jsx'
+// import Clustermap from '../../containers/maps/clustermap'
+
 import MapComponent from '../../containers/maps/cluster1.jsx'
+import MapswithDirection from '../../containers/maps/mapswithDirection.jsx'
 
 // eslint-disable-next-line react/prop-types
 function Slider({ data }) {
@@ -95,8 +97,8 @@ function Slider({ data }) {
                         <span key={i} className={`${item.state === true ? 'bg-secondary-1000 sm:w-3 sm:h-3 h-1 w-1 rounded-full border border-2 border-white' : 'bg-primary-1000  sm:w-3 sm:h-3 h-1 w-1 rounded-full'}`}></span>
                     ))}
                 </div>
-                {data !== undefined && data && <div className="absolute rounded-md  w-full sm:w-1/2 sm:h-3/4 h-full  top:0 sm:top-[5%] right:0 sm:right-[2%]  mx-0 flex justify-center items-center z-40">
-                    <MapComponent data={data} />
+                {data !== undefined && data && <div className="absolute rounded-md  w-full sm:w-1/2 sm:h-3/4 h-full  top:0 sm:top-[15%] right:0 sm:right-[2%]  mx-0 flex justify-center items-center z-40">
+                    <MapswithDirection data={data} />
                 </div>}
                 <div className="absolute  inset-0  bg-gradient-to-t from-primary-100  mx-0 flex justify-center  items-center -z-5">
 
