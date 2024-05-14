@@ -33,7 +33,7 @@ export const fixedInputclassName = "rounded-md h-9 appearance-none my-2 relative
 export const TextArea = ({ value, id, name, required, type, placeholder, label, handleChange }) => {
     return (
         <>
-            <label className="block text-slate-500 uppercase text-[18px] ml-1  font-bold mb-0">
+            <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
 
@@ -46,7 +46,7 @@ export const TextArea = ({ value, id, name, required, type, placeholder, label, 
                 multiple
                 type={type}
                 required={required}
-                className={fixedInputclassName}
+                className="rounded-md h-[118px] appearance-none my-0 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-[18px] text-sm"
                 placeholder={placeholder}
             />
         </>
@@ -67,15 +67,17 @@ export const CheckBoxContainer = ({ title, checked, onClick }) => {
         </div>
     )
 }
-const InputContainer = ({ value, icon, noLabels, id, name, btnaction, required, type, placeholder, label, bg, handleChange }) => {
+const InputContainer = ({ value, ref, icon, noLabels, id, name, btnaction, required, type, placeholder, label, bg, handleChange }) => {
     return (
         <>
-            {!noLabels && <label className="block text-primary-500 uppercase text-[18px] ml-1  font-bold mb-1">
+            {!noLabels && <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>}
+            {type === "file" ? <input multiple className="flex h-9 w-full mt-2 rounded-md border border-input bg-white px-3 py-1 text-sm  transition-colors file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" id="picture" name={name} type={type} />:
             <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full  ${bg ? `${bg} text-white px-5` : "bg-white "} border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
                 {icon && name === "tiktok" ? <TikTok /> : <SVG path={icon} />}
                 <input
+                    ref={ref}
                     onChange={handleChange}
                     value={value}
                     id={id}
@@ -89,19 +91,8 @@ const InputContainer = ({ value, icon, noLabels, id, name, btnaction, required, 
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
                 </div>}
-            </div>
-            {/* <input
-                onChange={handleChange}
-                value={value}
-                id={id}
-                name={name}
+            </div>}
 
-                multiple
-                type={type}
-                required={required}
-                className={fixedInputclassName}
-                placeholder={placeholder}
-            /> */}
 
         </>
     )
@@ -110,7 +101,7 @@ const InputContainer = ({ value, icon, noLabels, id, name, btnaction, required, 
 export const SelectContainer = ({ multiple, array, name, required, label, handleChange }) => {
     return (
         <>
-            <label className="block text-primary-500 uppercase text-[18px] ml-1 font-bold mb-1">
+            <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>
             <select multiple={multiple} className={fixedInputclassName} onChange={handleChange}>
@@ -132,7 +123,7 @@ export function SelectInput(props) {
     let { options, value, onChange } = props
     const [data, setData] = useState(options)
 
-    console.log(setData, searchKey)
+  
 
     const [searchKey, setSearchKey] = useState('')
     const [typing, setTyping] = useState(true)

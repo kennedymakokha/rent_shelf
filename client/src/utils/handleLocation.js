@@ -19,12 +19,19 @@
 
 // }
 
-export const getLatLong = async (name, setorigin, map) => {
+export const getLatLong = async (name, setorigin, map, setItem) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${name}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
         .then(res => res.json().then(data => {
             let loc = data.results[0].geometry.location
             setorigin(prev => ({ ...prev, name: name, location: loc }))
-            map.panTo(loc)
+            // map.panTo(loc)
+
+            setItem((prevState) => ({
+                ...prevState,
+                area: name,
+                location: loc
+            }));
+
 
         }).catch((e) => {
             console.log(e)

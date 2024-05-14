@@ -10,6 +10,7 @@ import Message from './firebase/Message';
 import { useSubcribeMutation } from './features/slices/FCmSlice';
 import { HandleConsole } from './utils/selectFromapi';
 import { io } from 'socket.io-client'
+import { MapProvider } from './mapsProvider';
 export const socket = io("http://localhost:5000");
 export const ThemContext = createContext(null)
 const { VITE_APP_VAPID_KEY } = import.meta.env;
@@ -63,25 +64,27 @@ function App() {
 
   return (
     <>
-      <ThemContext.Provider value={{theme, toggleTheme}}>
-        <Home />
-        <CookieConsent
-          style={{ width: "", borderRadius: '5px', backgroundColor: "transparent", display: 'flex', flexDirection: "column", marginRight: "15px", float: "right", position: 'fixed' }}
-          buttonStyle={{ color: "#199e9e", borderRadius: '5px', position: "absolute", right: "0", bottom: '2px', zIndex: 120, fontSize: "13px" }}
-          expires={150}
-          debug={false}>
-          <div className="bg-gray-400 w-[300px]  rounded-[5px] h-full relative z-0">
-            <img src={Cookie} alt="" />
-            <div className="absolute top-[55%] -rotate-[19deg] left-[50px]  w-full flex justify-center items-center z-20">
-              <p className="text-[12px]  text-[yellow]  font-bold">We love Cookies </p>
+      <MapProvider>
+        <ThemContext.Provider value={{ theme, toggleTheme }}>
+          <Home />
+          <CookieConsent
+            style={{ width: "", borderRadius: '5px', backgroundColor: "transparent", display: 'flex', flexDirection: "column", marginRight: "15px", float: "right", position: 'fixed' }}
+            buttonStyle={{ color: "#199e9e", borderRadius: '5px', position: "absolute", right: "0", bottom: '2px', zIndex: 120, fontSize: "13px" }}
+            expires={150}
+            debug={false}>
+            <div className="bg-gray-400 w-[300px]  rounded-[5px] h-full relative z-0">
+              <img src={Cookie} alt="" />
+              <div className="absolute top-[55%] -rotate-[19deg] left-[50px]  w-full flex justify-center items-center z-20">
+                <p className="text-[12px]  text-[yellow]  font-bold">We love Cookies </p>
+              </div>
+              <div className="absolute rounded-[5px] opacity-50 inset-0  bg-primary-100 flex justify-center items-center z-10">
+                {/* <p className="text-2xl font-bold">This should be on top of the map</p> */}
+              </div>
             </div>
-            <div className="absolute rounded-[5px] opacity-50 inset-0  bg-primary-100 flex justify-center items-center z-10">
-              {/* <p className="text-2xl font-bold">This should be on top of the map</p> */}
-            </div>
-          </div>
-        </CookieConsent>
-        <Message show={show} data={data} setShow={setShow} />
-      </ThemContext.Provider>
+          </CookieConsent>
+          <Message show={show} data={data} setShow={setShow} />
+        </ThemContext.Provider>
+      </MapProvider>
     </>
 
   )
