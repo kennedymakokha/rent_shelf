@@ -73,25 +73,34 @@ const InputContainer = ({ value, ref, icon, noLabels, id, name, btnaction, requi
             {!noLabels && <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-1">
                 {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
             </label>}
-            {type === "file" ? <input multiple className="flex h-9 w-full mt-2 rounded-md border border-input bg-white px-3 py-1 text-sm  transition-colors file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" id="picture" name={name} type={type} />:
-            <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full  ${bg ? `${bg} text-white px-5` : "bg-white "} border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
-                {icon && name === "tiktok" ? <TikTok /> : <SVG path={icon} />}
-                <input
-                    ref={ref}
-                    onChange={handleChange}
-                    value={value}
-                    id={id}
-                    name={name}
-                    multiple
-                    type={type}
-                    required={required}
-                    className={`h-full focus:outline-none flex  ${bg} items-center focus:ring-secondary-100 px-2 rounded-md`}
-                    placeholder={placeholder}
-                />  {btnaction && <div onClick={btnaction} className='flex  items-center pr-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
+            {type === "file" ? <input
+                ref={ref}
+                onChange={handleChange}
+                value={value}
+                id={id}
+                name={name}
+                multiple
+                type={type}
+                required={required}
+                className="flex h-9 w-full mt-2 rounded-md border border-input bg-white px-3 py-1 text-sm  transition-colors file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" /> :
+                <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full  ${bg ? `${bg} text-white px-5` : "bg-white "} border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
+                    {icon && name === "tiktok" ? <TikTok /> : <SVG path={icon} />}
+                    <input
+                        ref={ref}
+                        onChange={handleChange}
+                        value={value}
+                        id={id}
+                        name={name}
+                        multiple
+                        type={type}
+                        required={required}
+                        className={`h-full focus:outline-none flex  ${bg} items-center focus:ring-secondary-100 px-2 rounded-md`}
+                        placeholder={placeholder}
+                    />  {btnaction && <div onClick={btnaction} className='flex  items-center pr-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                    </div>}
                 </div>}
-            </div>}
 
 
         </>
@@ -99,15 +108,25 @@ const InputContainer = ({ value, ref, icon, noLabels, id, name, btnaction, requi
 }
 
 export const SelectContainer = ({ multiple, array, name, required, label, handleChange }) => {
+    const [hoveredOption, setHoveredOption] = useState(null);
+
+    const handleMouseEnter = (option) => {
+        setHoveredOption(option);
+        console.log(option)
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredOption(null);
+    };
     return (
         <>
             <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-1">
-                {label}{required === true && <span className="text-red-500 px-2 text-bold">*</span>}
+                {label}{required === true && <span className="text-red-500 px-2 text-bold">* {hoveredOption}</span>}
             </label>
             <select multiple={multiple} className={fixedInputclassName} onChange={handleChange}>
-                <option value="">Select {name}</option>
+                <option value="">Select {name} </option>
                 {array?.map((arr, i) => (
-                    <option key={i} value={arr.value} className="h-20">{arr.label}</option>
+                    <option key={i} value={arr.value} onMouseEnter={() => handleMouseEnter(arr.label)} onMouseLeave={handleMouseLeave} className="h-20">{arr.label}</option>
                 ))}
             </select>
         </>
@@ -123,7 +142,7 @@ export function SelectInput(props) {
     let { options, value, onChange } = props
     const [data, setData] = useState(options)
 
-  
+
 
     const [searchKey, setSearchKey] = useState('')
     const [typing, setTyping] = useState(true)

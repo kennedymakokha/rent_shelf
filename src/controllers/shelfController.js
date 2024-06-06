@@ -170,9 +170,8 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
         const reqFiles = [];
         const url = req.protocol + '://' + req.get('host')
         // CustomError(validateShelfInput, req.body, res)
-        if (req.files.length === 0) {
-            res.status(400).json({ message: 'Kindly upload at least one image ' })
-            return
+        if (req.files.length < 4) {
+            return res.status(400).json({ message: 'Kindly upload at least four  image ' })
         }
         for (var i = 0; i < req.files.length; i++) {
             reqFiles.push(url + '/public/uploads/files/' + req.files[i].filename);
@@ -190,23 +189,16 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
             lat: req.body.lat,
             lng: req.body.lng,
         }
-
-
         let shel = await Shelf.create(req.body)
         let rol = await role.findOne({ name: "owner" })
         await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
-
         res.status(200).json({ message: 'Shelf Updated successfully ', shel })
-
         let adminRole = await role.findOne({ name: "admin" })
         let admins = await User.find({ role: adminRole._id })
         let tokensArray = []
         for (let index = 0; index < admins.length; index++) {
-
             tokensArray = tokensArray.concat(admins[index].tokens)
-
         }
-
         let payload = {
             notification: {
                 title: `New Shelf In Town `,
@@ -255,7 +247,7 @@ const getUsershelves = expressAsyncHandler(async (req, res) => {
 const publishUnpublishShelf = expressAsyncHandler(async (req, res) => {
     try {
         let Shelve = await Shelf.findById(req.params.id)
-    
+
         let Owner = await User.findById(Shelve.createdBy)
         let updates = await Shelf.findOneAndUpdate({ _id: req.params.id }, { published: !Shelve.published }, { new: true, useFindAndModify: false })
 

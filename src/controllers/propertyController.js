@@ -47,8 +47,8 @@ const registerProperty = expressAsyncHandler(async (req, res) => {
 
 const getProperty = expressAsyncHandler(async (req, res) => {
 
-    const Property = await Property.findById()
-    return res.status(200).json(Property)
+    const Prop = await Property.findById()
+    return res.status(200).json(Prop)
 })
 
 const getSubproperties = expressAsyncHandler(async (req, res) => {

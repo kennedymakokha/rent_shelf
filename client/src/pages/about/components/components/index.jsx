@@ -10,7 +10,7 @@ export const SocialComponent = ({ color, name, title, path, sm }) => {
 }
 export const TikTok = () => {
     return (
-        <svg width="30px" height="30px" viewBox="0 0 58 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg width="30px" height="30px" viewBox="0 0 58 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 
             <g id="Icon/Social/tiktok-color" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                 <g id="Group-7" transform="translate(8.000000, 6.000000)">

@@ -60,7 +60,7 @@ function Slider({ data }) {
         setTimeout(function sum() {
             next();
         }, 100)
-        setInterval(console.log("ten"), 1000)
+        // setInterval(console.log("ten"), 1000)
         setTimeout(next(), 100)
     }, [items])
 

@@ -25,13 +25,11 @@ export const getLatLong = async (name, setorigin, map, setItem) => {
             let loc = data.results[0].geometry.location
             setorigin(prev => ({ ...prev, name: name, location: loc }))
             // map.panTo(loc)
-
             setItem((prevState) => ({
                 ...prevState,
                 area: name,
                 location: loc
             }));
-
 
         }).catch((e) => {
             console.log(e)

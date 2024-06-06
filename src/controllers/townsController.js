@@ -4,22 +4,34 @@ import Town from '../models/townsmodel.js'
 import { CustomError } from "../middlewares/customErr.js";
 
 import { validateTypeInput } from "../Validators/typesValidator.js";
+import { TownsArray } from "./towns.js";
 
 const getTowns = expressAsyncHandler(async (req, res) => {
     try {
         const Towns = await Town.find({ deletedAt: null })
         return res.status(200).json(Towns)
     } catch (error) {
-        return res.status(400).json({message:"Error Ocured try again",error})
-    
-    
+        return res.status(400).json({ message: "Error Ocured try again", error })
+
+
     }
 })
 const registerTown = expressAsyncHandler(async (req, res) => {
     try {
-        await CustomError(validateTypeInput, req.body, res)
-        req.body.createdBy = req.user._id,
+        console.log(TownsArray.length)
+        for (let index = 0; index < TownsArray.length; index++) {
+            const element = TownsArray[index];
+            req.body.createdBy = req.user._id
+            req.body.name = element.name
+            req.body.location = {
+                lng: element.lng,
+                lat: element.lat
+            }
+          
             await Town.create(req.body)
+        }
+        // await CustomError(validateTypeInput, req.body, res)
+
         return res.status(200).json({ message: 'Created Successfull' })
     } catch (error) {
         console.log(error)

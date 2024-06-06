@@ -8,7 +8,7 @@ import MapInput from "../../maps/smallMap.jsx";
 import { useFetchCategoryQuery } from "../../../features/slices/categorySlice.jsx";
 import { useFetchCategorySubsQuery, useFetchsingleSubQuery } from "../../../features/slices/subcategorySlice.jsx";
 import { useFetchsinglePropertyQuery } from "../../../features/slices/propertySlice.jsx";
-
+import { MapProvider } from "../../../mapsProvider";
 import { getMe, getLatLong } from "../../../utils/handleLocation.js";
 import { Autocomplete } from "@react-google-maps/api";
 
@@ -50,8 +50,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
     const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(item.category_id)
     const { data: sub, refetch: fetchsub, } = useFetchsingleSubQuery(item.sub_category_id)
     const { data: prop, refetch: fetchprop, } = useFetchsinglePropertyQuery(item.sub_category_id)
-
-
 
     const changeInput = (e) => {
         const { name, value } = e.target ? e.target : e
@@ -105,7 +103,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             const indexes = newFeatures.indexOf(newArr[index]._id);
             if (indexes > -1) {
                 newFeatures.splice(indexes, 1);
-
             }
             setavailaFeatures(newFeatures) // return newFeatures
         } else {
@@ -116,17 +113,14 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
         setFeaturesArr(newArr);
     }
     const handleCategory = async () => {
-
         await fetchsubs()
-
     }
-    const handleSubCategory = async (e) => {
-        await fetchsub();
-        await fetchprop()
-        setsubCategory(e)
-        HandleArray(prop)
-
-    }
+    // const handleSubCategory = async (e) => {
+    //     await fetchsub();
+    //     await fetchprop()
+    //     setsubCategory(e)
+    //     HandleArray(prop)
+    // }
     const getName = async (lat, lng) => {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
             .then(res => res.json().then(data => {
@@ -161,31 +155,22 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
         );
     }
     const handleSubmit = async () => {
-
         try {
-            console.log(item.area)
             if (item.area === "") {
                 await getLocation()
             }
-            HandleConsole(item)
-
-            // eslint-disable-next-line no-unreachable
             for (const key in {
                 name: "",
                 building: "",
                 town_id: "",
                 description: "",
             }) {
-
                 if (item[key] === "") {
                     return toast.error(`${key} is a required field`)
                 }
-
             }
-
             item.type_id = availabletypes
             item.features = availablefeatures
-
             const formData = new FormData();
             for (let index = 0; index < files.length; index++) {
                 formData.append("files", files[index]);
@@ -199,7 +184,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             if (sub && sub.name === "office space" && item.dimension === "") {
                 return toast.error(`Dimension is a required field`)
             }
-
             formData.append("name", item.name);
             formData.append("lat", item.location.lat);
             formData.append("lng", item.location.lng);
@@ -208,9 +192,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             formData.append("building", item.building);
             formData.append("area", actualname);
             formData.append("town_id", item.town_id);
-
             let r = await createshelve(formData)
-            HandleConsole(r)
             setItem(initialState)
             setShowModal(false);
             toast.success('Added successfull')
@@ -220,15 +202,12 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
         }
 
     }
-
-
     const setLocation = (position) => {
         setItem((prevState) => ({
             ...prevState,
             location: position,
         }));
         setCurrentLocation(true)
-
     }
     useEffect(() => {
         setTypesArr(types)
@@ -307,6 +286,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
 
 
                                             </div>
+
                                             <div className="sm:w-1/2 px-2 w-full flex-col flex">
                                                 {isSuccess && subs !== undefined && < SelectContainer
                                                     name="Sub Categories"
@@ -314,7 +294,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                         array: subs
                                                         , name: "sub_category_id"
                                                     })}
-                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, sub_category_id: e.target.value })); await handleSubCategory(e.target.value) }}
+                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, sub_category_id: e.target.value })) }}
                                                     placeholder="Sub category"
                                                     label="Sub category"
                                                     type="select"
@@ -375,23 +355,27 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     id="town"
                                                     required={true}
                                                 />
-                                                <Autocomplete>
-                                                    <>
-                                                        <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-3">
-                                                            Location
-                                                        </label>
-                                                        <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full bg-white  border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
-                                                            <input type="text" ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Other places" />
-                                                            <div onClick={() => { panTo() }} className='flex  items-center pr-2'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className={`w-6 h-6   text-primary-100 cursor-pointer animate-pulse`}>
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                                                </svg>
+                                                {/* <MapP */}
+                                                <MapProvider>
+                                                    <Autocomplete>
+                                                        <>
+                                                            <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-3">
+                                                                Location
+                                                            </label>
+                                                            <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full bg-white  border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
+                                                                <input type="text"  ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Other places" />
+                                                                <div onClick={() => { panTo() }} className='flex  items-center pr-2'>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-6 h-6   text-primary-100 cursor-pointer animate-pulse`}>
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                                    </svg>
 
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </>
-                                                </Autocomplete>
+                                                        </>
+                                                    </Autocomplete>
+                                                </MapProvider>
+
 
 
                                                 <InputContainer

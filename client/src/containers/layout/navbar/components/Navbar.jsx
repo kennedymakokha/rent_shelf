@@ -7,13 +7,13 @@ const Navbar = () => {
         <nav className="desktop-nav">
             <ul className="menus">
                 {menuItemsData.map((menu, index) => {
-                    return (<>
+                    return (<span key={index}>
                         {!menu.mobile && <MenuItems
                             depthLevel={depthLevel}
                             items={menu}
                             key={index}
                         />}
-                    </>)
+                    </span>)
                         ;
                 })}
             </ul>
