@@ -7,12 +7,15 @@ export const SelectFromAPI = (data) => {
         key: i,
         value: item?._id,
         label: `${item?.name}`,
+        lat: `${item?.location?.lat}`,
+        lng: `${item?.location?.lng}`,
         name: name
       }
     ))
  
     return t
   }
+  
 
   export const HandleArray = (array) => {
     let newarr = []

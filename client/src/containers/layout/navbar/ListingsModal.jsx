@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState, useRef } from "react";
 import { HandleArray, HandleConsole, SelectFromAPI } from "../../../utils/selectFromapi";
-import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
+import { useCreateshelveMutation, useFetchshelvesQuery } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
-import InputContainer, { CheckBoxContainer, SelectContainer, TextArea } from "../../input.jsx";
+import InputContainer, { CheckBoxContainer, SelectContainer, SelectContainerWithSearch, TextArea } from "../../input.jsx";
 import MapInput from "../../maps/smallMap.jsx";
 import { useFetchCategoryQuery } from "../../../features/slices/categorySlice.jsx";
 import { useFetchCategorySubsQuery, useFetchsingleSubQuery } from "../../../features/slices/subcategorySlice.jsx";
@@ -11,9 +11,11 @@ import { useFetchsinglePropertyQuery } from "../../../features/slices/propertySl
 import { MapProvider } from "../../../mapsProvider";
 import { getMe, getLatLong } from "../../../utils/handleLocation.js";
 import { Autocomplete } from "@react-google-maps/api";
+import { initialState as init } from "../../../pages/shelves/index.jsx";
+import { useFetchQuery } from "../../../features/slices/townsSlice.jsx";
 
 
-const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresArray, towns, types, }) => {
+const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, }) => {
     const [files, setFiles] = useState([])
 
     const [typesArr, setTypesArr] = useState([])
@@ -22,7 +24,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
     const [currentLocation, setCurrentLocation] = useState(true);
     const [actualname, setActualname] = useState("");
     const [origin, setorigin] = useState("");
-    const [position, setPosition] = useState({})
     const [createshelve] = useCreateshelveMutation();
     const { data, } = useFetchCategoryQuery()
     const destinationRef = useRef()
@@ -47,10 +48,11 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
 
     const [availablefeatures, setavailaFeatures] = useState([])
     const [map, setMap] = useState(null)
+    const { data: towns } = useFetchQuery()
     const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(item.category_id)
     const { data: sub, refetch: fetchsub, } = useFetchsingleSubQuery(item.sub_category_id)
     const { data: prop, refetch: fetchprop, } = useFetchsinglePropertyQuery(item.sub_category_id)
-
+    const { data: products, refetch, isFetching, isError } = useFetchshelvesQuery(init)
     const changeInput = (e) => {
         const { name, value } = e.target ? e.target : e
         setItem(prevState => ({
@@ -58,6 +60,13 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
         }))
 
     }
+    const changeTown = (town) => {
+        let townObj = towns.find(e => { if (e._id === town) { return e } })
+        setActualname(townObj.name)
+        setItem(prev => ({ ...prev, location: townObj.location }))
+
+    }
+
 
     const panTo = async () => {
 
@@ -115,12 +124,12 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
     const handleCategory = async () => {
         await fetchsubs()
     }
-    // const handleSubCategory = async (e) => {
-    //     await fetchsub();
-    //     await fetchprop()
-    //     setsubCategory(e)
-    //     HandleArray(prop)
-    // }
+    const handleSubCategory = async (e) => {
+        await fetchsub();
+        await fetchprop()
+        setsubCategory(e)
+        HandleArray(prop)
+    }
     const getName = async (lat, lng) => {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
             .then(res => res.json().then(data => {
@@ -195,6 +204,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             let r = await createshelve(formData)
             setItem(initialState)
             setShowModal(false);
+            refetch()
             toast.success('Added successfull')
         } catch (error) {
             console.log(error)
@@ -282,9 +292,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     id="building"
                                                     required={true}
                                                 />
-
-
-
                                             </div>
 
                                             <div className="sm:w-1/2 px-2 w-full flex-col flex">
@@ -294,7 +301,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                         array: subs
                                                         , name: "sub_category_id"
                                                     })}
-                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, sub_category_id: e.target.value })) }}
+                                                    handleChange={async (e) => { await handleSubCategory(e.target.value); setItem(prevState => ({ ...prevState, sub_category_id: e.target.value })) }}
                                                     placeholder="Sub category"
                                                     label="Sub category"
                                                     type="select"
@@ -341,7 +348,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
 
                                             </div>
                                             <div className="sm:w-1/4 px-2 w-full flex-col flex">
-                                                <SelectContainer
+                                                <SelectContainerWithSearch
                                                     name="Town"
                                                     array={SelectFromAPI({
                                                         array: towns
@@ -356,14 +363,17 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     required={true}
                                                 />
                                                 {/* <MapP */}
-                                                <MapProvider>
+                                                {actualname === "" ? <div className='flex flex-col'>
+                                                    <CheckBoxContainer title="Use my current location" checked={currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+                                                    <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+                                                </div> : <MapProvider>
                                                     <Autocomplete>
                                                         <>
-                                                            <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-3">
+                                                            <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mt-4">
                                                                 Location
                                                             </label>
                                                             <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full bg-white  border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
-                                                                <input type="text"  ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Other places" />
+                                                                <input type="text" ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Other places" />
                                                                 <div onClick={() => { panTo() }} className='flex  items-center pr-2'>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-6 h-6   text-primary-100 cursor-pointer animate-pulse`}>
                                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -374,7 +384,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                             </div>
                                                         </>
                                                     </Autocomplete>
-                                                </MapProvider>
+                                                </MapProvider>}
 
 
 

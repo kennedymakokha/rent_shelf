@@ -9,18 +9,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import ListingModal from './ListingsModal.jsx';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useFetchQuery } from '../../../features/slices/townsSlice.jsx';
+
 
 import { logout } from '../../../features/slices/authSlice';
 import { useFetchTypeQuery } from '../../../features/slices/typeSlice.js';
 import { useLogoutMutation } from '../../../features/slices/usersApiSlice.js';
-import { HandleArray } from '../../../utils/selectFromapi.jsx';
+import { HandleArray, HandleConsole } from '../../../utils/selectFromapi.jsx';
 import { DropDown } from '../../DropDown.jsx';
 import { useFetchsinglePropertyQuery } from '../../../features/slices/propertySlice.jsx';
 // import { Dropdown } from './../../DropDown.jsx';
 const Header = () => {
   const [showModal, setShowModal] = useState(false)
-  const [town, setTown] = useState("")
+
   const [subCategory, setsubCategory] = useState("")
 
   const { userInfo } = useSelector((state) => state.auth)
@@ -28,19 +28,17 @@ const Header = () => {
   const navigate = useNavigate()
   const [logoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch()
-  const { data: towns, isSuccess } = useFetchQuery()
+
   // const { data: areas, } = useFetchTownAreasQuery(town)
   const { data: types, isSuccess: typesuccess, } = useFetchTypeQuery()
   const { data: features, refetch: fetchprop, } = useFetchsinglePropertyQuery(subCategory)
   // const { data: features, } = useFetchFeatureQuery()
 
 
-  const changeTown = (town) => {
-    setTown(town)
-  }
 
   let newTypesArray = HandleArray(types)
   let featuresArray = HandleArray(features)
+ 
   const addListings = () => {
     if (!userInfo) {
       navigate('login')
@@ -92,7 +90,7 @@ const Header = () => {
 
         </div>
       </div>
-      <ListingModal showModal={showModal} setsubCategory={setsubCategory} changeTown={changeTown} setTown={setTown} types={newTypesArray} featuresArray={featuresArray} typesuccess={typesuccess} towns={towns} isSuccess={isSuccess} setShowModal={setShowModal} />
+      <ListingModal showModal={showModal} setsubCategory={setsubCategory} types={newTypesArray} featuresArray={featuresArray} typesuccess={typesuccess} fetchprop={fetchprop} setShowModal={setShowModal} />
     </header>
   );
 };

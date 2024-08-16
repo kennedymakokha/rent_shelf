@@ -17,9 +17,9 @@ const CheckItem = ({ title }) => {
 
 
     return (
-        <div className="w-1/2 flex  ">
+        <div className="w-1/2 flex   ">
             <div className="w-full h-6  gap-x-2 px-1 flex items-center">
-                <div className="w-6 h-6 bg-primary-100 flex items-center justify-center ">
+                <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="4.5" stroke="currentColor" className="w-4 h-4 text-secondary-100">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                     </svg>

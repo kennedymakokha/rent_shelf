@@ -93,7 +93,7 @@ function MapswithDirection({ data }) {
 
   return (
     <>
-      {isLoaded && location &&
+      {/* {isLoaded && location && */}
 
         <>
           <div className="flex rounded-md relative flex-col  z-0 items-center h-full w-full">
@@ -158,7 +158,7 @@ function MapswithDirection({ data }) {
 
         </>
 
-      }
+      {/* } */}
     </>
   )
 }

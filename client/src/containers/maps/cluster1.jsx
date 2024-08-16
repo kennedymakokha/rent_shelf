@@ -28,7 +28,7 @@ const MapComponent = ({ data }) => {
 
     const [selectedMarker, setSelectedMarker] = useState(null);
     const mapOptions = {
-        zoom: 5,
+        zoom: 2,
         center: origin.location, // Default center coordinates
         mapTypeControl: false, zoomControl: true, fullscreenControl: false,
     };

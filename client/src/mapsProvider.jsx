@@ -2,7 +2,7 @@
 'use client';
 const { VITE_APP_GOOGLE_API_KEY, VITE_APP_GOOGLE_MAP_ID } = import.meta.env;
 // Import necessary modules and functions from external libraries and our own project
-import { useJsApiLoader } from '@react-google-maps/api';
+import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 import { ReactNode } from 'react';
 
 // Define a list of libraries to load from the Google Maps API
@@ -18,7 +18,7 @@ export function MapProvider({ children }) {
     });
 
     if (loadError) return <p>Encountered error while loading google maps</p>
-    console.log(scriptLoaded)
+
     if (!scriptLoaded) return <p>Map Script is loading ...</p>
 
     // Return the children prop wrapped by this MapProvider component

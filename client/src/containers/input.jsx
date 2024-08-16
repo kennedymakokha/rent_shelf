@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SVG, TikTok } from '../pages/about/components/components'
 
 
@@ -94,7 +94,7 @@ const InputContainer = ({ value, ref, icon, noLabels, id, name, btnaction, requi
                         multiple
                         type={type}
                         required={required}
-                        className={`h-full focus:outline-none flex  ${bg} items-center focus:ring-secondary-100 px-2 rounded-md`}
+                        className={`h-full focus:outline-none flex  ${bg} items-center focus:ring-secondary-100 px-0 rounded-md`}
                         placeholder={placeholder}
                     />  {btnaction && <div onClick={btnaction} className='flex  items-center pr-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -127,6 +127,70 @@ export const SelectContainer = ({ multiple, array, name, required, label, handle
                 <option value="">Select {name} </option>
                 {array?.map((arr, i) => (
                     <option key={i} value={arr.value} onMouseEnter={() => handleMouseEnter(arr.label)} onMouseLeave={handleMouseLeave} className="h-20">{arr.label}</option>
+                ))}
+            </select>
+        </>
+    )
+
+
+}
+export const SelectContainerWithSearch = ({ multiple, array, name, required, label, handleChange }) => {
+    const [hoveredOption, setHoveredOption] = useState(null);
+    const [search, setSearch] = useState("");
+    const [data, setData] = useState(array);
+    const handleMouseEnter = (option) => {
+        setHoveredOption(option);
+
+    };
+    const handleMouseLeave = () => {
+        setHoveredOption(null);
+    };
+    const handleSearch = (e) => {
+        setSearch(e)
+        let x = array.filter((a) => { if (a.label.toLowerCase().startsWith(`${e}`)) { return a } });
+        setData(x)
+    }
+    useEffect(() => {
+
+    }, [data])
+
+
+    return (
+        <>
+            <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-3">
+                {label}{required === true && <span className="text-red-500 px-2 text-bold">* {hoveredOption}</span>}
+            </label>
+            {/* <div className="flex w-full h-auto">
+                <input
+                    // type={props.type ? props.type : "text"}
+                    // placeholder={props.placeholder}
+                    // name={props.name}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    value={search}
+                    className="shadow h-9 appearance-none text-[18px] border rounded w-full  px-1 text-black"
+                />
+                <div class="bg-gray-400 w-[23%] h-auto top-[14.6%] absolute z-60">
+                    {data.map((d, i) => (
+                        <p class="shadow h-9 appearance-none text-[18px] border rounded w-full  px-1 text-black">Map</p>
+                    ))}
+
+                </div>
+
+            </div> */}
+
+            {/* <input
+                // type={props.type ? props.type : "text"}
+                // placeholder={props.placeholder}
+                // name={props.name}
+                onChange={(e) => handleSearch(e.target.value)}
+                value={search}
+                className="shadow h-9 appearance-none text-[18px] border rounded w-full  px-1 text-black"
+            /> */}
+
+            <select multiple={multiple} className="rounded-md h-9 appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 focus:outline-none focus:ring-secondary-100 focus:border-secondary-100 focus:z-10 sm:text-[18px] text-sm" onChange={handleChange}>
+                <option value="">Select {name} </option>
+                {data?.map((arr, i) => (
+                    <option key={i} value={arr.value} className="h-20">{arr.label}</option>
                 ))}
             </select>
         </>
