@@ -29,9 +29,12 @@ const registerSubCategory = expressAsyncHandler(async (req, res) => {
     }
 })
 const getSubCategory = expressAsyncHandler(async (req, res) => {
-
-    const Sub = await Scategory.find({ category_id: req.params.id })
-    return res.status(200).json(Sub)
+    try {
+        const Sub = await Scategory.find({ category_id: req.params.id })
+        return res.status(200).json(Sub)
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 const getSingleSubCategory = expressAsyncHandler(async (req, res) => {
@@ -61,5 +64,5 @@ const deleteSubCategory = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    getSubCategory, getSubCategorys, getSingleSubCategory, updateSubCategory, registerSubCategory,deleteSubCategory
+    getSubCategory, getSubCategorys, getSingleSubCategory, updateSubCategory, registerSubCategory, deleteSubCategory
 }

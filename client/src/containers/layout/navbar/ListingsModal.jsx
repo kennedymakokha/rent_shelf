@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { HandleArray, HandleConsole, SelectFromAPI } from "../../../utils/selectFromapi";
 import { useCreateshelveMutation, useFetchshelvesQuery } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
@@ -13,6 +14,7 @@ import { getMe, getLatLong } from "../../../utils/handleLocation.js";
 import { Autocomplete } from "@react-google-maps/api";
 import { initialState as init } from "../../../pages/shelves/index.jsx";
 import { useFetchQuery } from "../../../features/slices/townsSlice.jsx";
+import { fetchTodos } from "../../../features/slices/scategorySlice.js";
 
 
 const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, }) => {
@@ -27,6 +29,10 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
     const [createshelve] = useCreateshelveMutation();
     const { data, } = useFetchCategoryQuery()
     const destinationRef = useRef()
+    const dispatch = useDispatch();
+    const state = useSelector((state) => state);
+
+    console.log("state", state);
 
 
     let initialState = {
@@ -123,7 +129,8 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         setFeaturesArr(newArr);
     }
     const handleCategory = async (e) => {
-        // console.log(e)
+        console.log(e)
+        console.log(category_id)
         // category_id = e
         await fetchsubs()
     }
@@ -227,7 +234,9 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         setFeaturesArr(featuresArray)
     }, [types, featuresArray])
 
-    console.log(subs)
+const fetchSubcategories = async(e)=>{
+    dispatch(fetchTodos(e))
+}
     return (
         <>
 
@@ -248,7 +257,16 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
                                 <div className="relative px-1 bg-slate-100 flex-auto">
                                     <div className=" rounded px-8 pt-6 pb-1 w-full">
                                         <div className="flex w-full  sm:flex-row flex-col ">
-
+                                            <div className="App">
+                                                <button onClick={(e) => dispatch(fetchTodos())}>Click</button>
+                                                <br />
+                                                {state?.todo?.isLoading && <><b>Loading...</b></>}
+                                                {state?.todo?.data?.map((i) => {
+                                                    return (
+                                                        <li>{i.title}</li>
+                                                    )
+                                                })}
+                                            </div>
                                             <div className="sm:w-1/4 px-2 w-full flex flex-col">
                                                 <SelectContainer
                                                     name="Categories"
@@ -256,7 +274,7 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
                                                         array: data !== undefined && data
                                                         , name: "category_id"
                                                     })}
-                                                    handleChange={async (e) => { setCate(e.target.value); await handleCategory(e.target.value) }}
+                                                    handleChange={async (e) => { setCate(e.target.value); await fetchSubcategories(e.target.value) }}
                                                     placeholder="category"
                                                     label="category"
                                                     type="select"
