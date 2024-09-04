@@ -11,7 +11,7 @@ import { useSubcribeMutation } from './features/slices/FCmSlice';
 import { HandleConsole } from './utils/selectFromapi';
 import { io } from 'socket.io-client'
 import { MapProvider } from './mapsProvider';
-export const socket = io("http://localhost:5000");
+export const socket = io("https://rent-space.onrender.com");
 export const ThemContext = createContext(null)
 const { VITE_APP_VAPID_KEY } = import.meta.env;
 function App() {
