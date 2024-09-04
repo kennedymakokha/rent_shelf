@@ -9,7 +9,7 @@ const Lab = (http) => {
     const io = new Server(http, {
         cors: {
             origin: [
-                // "http://localhost:3000",
+                "http://localhost:3000",
                 // "http://localhost:5000",
                 "https://rent-space.onrender.com"]
         }
