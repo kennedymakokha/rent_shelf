@@ -22,7 +22,7 @@ import Towns from './pages/admin/towns'
 import Areas from './pages/admin/areas/index.jsx'
 import OwnerDetails from './pages/admin/ownerDetails.jsx'
 import ShelfDetails from './pages/admin/shelfDetails.jsx'
-import Logs from './pages/admin/logs'
+// import Logs from './pages/admin/logs'
 import Customers from './pages/admin/users.jsx'
 import Login from './pages/authentication/login.jsx'
 import SignUp from './pages/authentication/signup.jsx'
@@ -122,10 +122,10 @@ const router = createBrowserRouter([
         path: "admin/space-categories",
         element: <Categories />,
       },
-      {
-        path: "admin/logs",
-        element: <Logs />,
-      },
+      // {
+      //   path: "admin/logs",
+      //   element: <Logs />,
+      // },
       {
         path: "admin/space-sub-categories",
         element: <SubCategories />,
