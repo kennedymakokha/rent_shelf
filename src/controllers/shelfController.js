@@ -17,7 +17,7 @@ import { getMessaging } from "firebase-admin/messaging";
 const getShelfs = expressAsyncHandler(async (req, res) => {
     try {
         const { town, area, featured, category, skip, subcategory, limit } = req.query
-      
+
         let data = []
         // data = await Shelf.find({
         //     deletedAt: null,
@@ -166,61 +166,58 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 })
 const registerShelf = expressAsyncHandler(async (req, res) => {
     try {
-        // console.log("first")
-        // return res.json('tailer')
-        console.log(req.body)
-        // const reqFiles = [];
-        // const url = req.protocol + '://' + req.get('host')
-        // // CustomError(validateShelfInput, req.body, res)
-        // if (req.files.length < 4) {
-        //     return res.status(400).json({ message: 'Kindly upload at least four  image ' })
-        // }
-        // for (var i = 0; i < req.files.length; i++) {
-        //     reqFiles.push(url + '/public/uploads/files/' + req.files[i].filename);
-        //     await imagemin(["public/uploads/files/" + req.files[i].filename], {
-        //         destination: "public/uploads/files",
-        //         plugins: [
-        //             imageminMozJpeg({ quality: 30 })
-        //         ]
-        //     })
 
-        // }
-        // req.body.files = reqFiles
-        // req.body.createdBy = req.user._id
-        // req.body.location = {
-        //     lat: req.body.lat,
-        //     lng: req.body.lng,
-        // }
-        // let shel = await Shelf.create(req.body)
-        // let rol = await role.findOne({ name: "owner" })
-        // await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
-        // res.status(200).json({ message: 'Shelf Updated successfully ', shel })
-        // let adminRole = await role.findOne({ name: "admin" })
-        // let admins = await User.find({ role: adminRole._id })
-        // let tokensArray = []
-        // for (let index = 0; index < admins.length; index++) {
-        //     tokensArray = tokensArray.concat(admins[index].tokens)
-        // }
-        // let payload = {
-        //     notification: {
-        //         title: `New Shelf In Town `,
-        //         body: `${shel.name} Has been Posted\nChcke it out and Publish `,
-        //         image: `${shel.files[0]}`
-        //     },
-        //     "webpush": {
-        //         "fcm_options": {
-        //             "link": "https://dummypage.com"
-        //         }
-        //     },
-        //     data: {
-        //         url: 'http://localhost:3000/shelves'
-        //     },
+        const reqFiles = [];
+        const url = req.protocol + '://' + req.get('host')
+        // CustomError(validateShelfInput, req.body, res)
+        if (req.files.length < 4) {
+            return res.status(400).json({ message: 'Kindly upload at least four  image ' })
+        }
+        for (var i = 0; i < req.files.length; i++) {
+            reqFiles.push(url + '/public/uploads/files/' + req.files[i].filename);
+            await imagemin(["public/uploads/files/" + req.files[i].filename], {
+                destination: "public/uploads/files",
+                plugins: [
+                    imageminMozJpeg({ quality: 30 })
+                ]
+            })
 
-        //     tokens: tokensArray
-        // }
+        }
+        req.body.files = reqFiles
+        req.body.createdBy = req.user._id
+        req.body.location = {
+            lat: req.body.lat,
+            lng: req.body.lng,
+        }
+        let shel = await Shelf.create(req.body)
+        let rol = await role.findOne({ name: "owner" })
+        await User.findOneAndUpdate({ _id: req.user._id }, { role: rol._id }, { new: true, useFindAndModify: false })
+        res.status(200).json({ message: 'Shelf Updated successfully ', shel })
+        let adminRole = await role.findOne({ name: "admin" })
+        let admins = await User.find({ role: adminRole._id })
+        let tokensArray = []
+        for (let index = 0; index < admins.length; index++) {
+            tokensArray = tokensArray.concat(admins[index].tokens)
+        }
+        let payload = {
+            notification: {
+                title: `New Shelf In Town `,
+                body: `${shel.name} Has been Posted\nChcke it out and Publish `,
+                image: `${shel.files[0]}`
+            },
+            "webpush": {
+                "fcm_options": {
+                    "link": "https://dummypage.com"
+                }
+            },
+            data: {
+                url: 'http://localhost:3000/shelves'
+            },
 
-        // let v = await firebaseAdmin.messaging().sendEachForMulticast(payload)
-        console.log("kebbsy")
+            tokens: tokensArray
+        }
+
+        let v = await firebaseAdmin.messaging().sendEachForMulticast(payload)
         return
     } catch (error) {
         console.log(error)
