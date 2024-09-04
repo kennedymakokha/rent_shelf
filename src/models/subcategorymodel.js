@@ -19,5 +19,5 @@ const sbSchema = new Schema({
     category_id: { type: Schema.Types.ObjectId, ref: 'tb_category' },
     deletedAt: { type: Date, default: null },
 }, { timestamps: true });
-const SB = mongoose.model('tb_sub_categories', sbSchema);
-export default SB
+const Subategory = mongoose.model('tb_sub_categories', sbSchema);
+export default Subategory
