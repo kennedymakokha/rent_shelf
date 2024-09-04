@@ -8,7 +8,7 @@ const router = express.Router()
 router.route('/category/:id')
     .get(protect, getSingleSubCategory)
 router.route('/:id')
-    // .delete(protect, deleteSubCategory)
+    .delete(protect, deleteSubCategory)
     .put(protect, updateSubCategory)
     .get(protect, getSubCategory)
 

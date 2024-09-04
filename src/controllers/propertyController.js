@@ -1,8 +1,10 @@
 import expressAsyncHandler from "express-async-handler"
-import SubCategory from '../models/Subcategorymodel.js'
+
 import Property from '../models/propertymodel.js'
 import { CustomError } from "../middlewares/customErr.js";
 import { validateSubCategoryInput } from "../Validators/categoryValidator.js";
+import SB from "../models/Subcategorymodel.js";
+// import SB from "../models/subcategorymodel.js";
 
 
 const getPropertys = expressAsyncHandler(async (req, res) => {
@@ -18,7 +20,7 @@ const getPropertys = expressAsyncHandler(async (req, res) => {
 })
 
 const addMultiples = expressAsyncHandler(async (req, res) => {
-    const Sub = await SubCategory.find({ category_id: req.params.id })
+    const Sub = await SB.find({ category_id: req.params.id })
     for (let index = 0; index < Sub.length; index++) {
         const element = Sub[index];
         let props = await Property.findOne({ category_id: element._id, name: req.body.name })
