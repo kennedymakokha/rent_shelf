@@ -10,7 +10,7 @@ const Lab = (http) => {
         cors: {
             origin: [
                 "http://localhost:3000",
-                // "http://localhost:5000",
+                "http://localhost:5173",
                 "https://rent-space.onrender.com"]
         }
     })
@@ -26,7 +26,7 @@ const Lab = (http) => {
         });
         socket.on('publishing', async (msg) => {
             let result;
-            
+
             await publish(msg)
             // include the offset with the message
             io.emit('publishing', msg);
