@@ -1,14 +1,14 @@
 
 
 import express from 'express'
-import { getSubCategory, getSubCategorys, getSingleSubCategory,updateSubCategory, deleteSubCategory, registerSubCategory } from '../controllers/subController.js'
+import { getSubCategory, getSubCategorys, getSingleSubCategory,updateSubCategory, registerSubCategory } from '../controllers/subController.js'
 import { protect } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
 router.route('/category/:id')
     .get(protect, getSingleSubCategory)
 router.route('/:id')
-    .delete(protect, deleteSubCategory)
+    // .delete(protect, deleteSubCategory)
     .put(protect, updateSubCategory)
     .get(protect, getSubCategory)
 

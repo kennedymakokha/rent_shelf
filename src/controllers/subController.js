@@ -46,17 +46,17 @@ const updateSubCategory = expressAsyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'SubCategory Updated failed ' })
     }
 })
-const deleteSubCategory = expressAsyncHandler(async (req, res) => {
-    try {
-        // let deleted = await SubCategory.findOneAndUpdate({ _id: req.params.id }, { deletedAt: Date() }, { new: true, useFindAndModify: false })
-        // return res.status(200).json({ message: ' deleted successfully ', deleted })
-    } catch (error) {
-        return res.status(404);
-        console.log(error)
-        throw new Error("deletion Failed ")
-    }
-})
+// const deleteSubCategory = expressAsyncHandler(async (req, res) => {
+//     try {
+//         // let deleted = await SubCategory.findOneAndUpdate({ _id: req.params.id }, { deletedAt: Date() }, { new: true, useFindAndModify: false })
+//         // return res.status(200).json({ message: ' deleted successfully ', deleted })
+//     } catch (error) {
+//         return res.status(404);
+//         console.log(error)
+//         throw new Error("deletion Failed ")
+//     }
+// })
 
 export {
-    getSubCategory, getSubCategorys, getSingleSubCategory, updateSubCategory, deleteSubCategory, registerSubCategory
+    getSubCategory, getSubCategorys, getSingleSubCategory, updateSubCategory, registerSubCategory
 }
