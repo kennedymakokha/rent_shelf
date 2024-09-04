@@ -1,7 +1,7 @@
 
 
 import express from 'express'
-import { getSubCategory, getSubCategorys, getSingleSubCategory,updateSubCategory, registerSubCategory } from '../controllers/subController.js'
+import { getSubCategory, getSubCategorys, getSingleSubCategory,updateSubCategory, registerSubCategory, deleteSubCategory } from '../controllers/subController.js'
 import { protect } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
