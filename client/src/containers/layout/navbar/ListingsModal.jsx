@@ -46,10 +46,11 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
     }
     const [item, setItem] = useState(initialState)
 
+    const [category_id, setCate] = useState("")
     const [availablefeatures, setavailaFeatures] = useState([])
     const [map, setMap] = useState(null)
     const { data: towns } = useFetchQuery()
-    const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(item.category_id)
+    const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(category_id)
     const { data: sub, refetch: fetchsub, } = useFetchsingleSubQuery(item.sub_category_id)
     const { data: prop, refetch: fetchprop, } = useFetchsinglePropertyQuery(item.sub_category_id)
     const { data: products, refetch, isFetching, isError } = useFetchshelvesQuery(init)
@@ -121,7 +122,9 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         newArr[index].state = !newArr[index].state
         setFeaturesArr(newArr);
     }
-    const handleCategory = async () => {
+    const handleCategory = async (e) => {
+        // console.log(e)
+        // category_id = e
         await fetchsubs()
     }
     const handleSubCategory = async (e) => {
@@ -224,7 +227,7 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         setFeaturesArr(featuresArray)
     }, [types, featuresArray])
 
-
+    console.log(subs)
     return (
         <>
 
@@ -253,7 +256,7 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
                                                         array: data !== undefined && data
                                                         , name: "category_id"
                                                     })}
-                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, category_id: e.target.value })); await handleCategory(e.target.value) }}
+                                                    handleChange={async (e) => { setCate(e.target.value); await handleCategory(e.target.value) }}
                                                     placeholder="category"
                                                     label="category"
                                                     type="select"

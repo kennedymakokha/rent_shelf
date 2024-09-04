@@ -1,12 +1,13 @@
 import expressAsyncHandler from "express-async-handler"
 
-// import SubCategory from '../models/Subcategorymodel.js'
+import SubCategory from '../models/Subcategorymodel.js'
 import { CustomError } from "../middlewares/customErr.js";
 import { validateSubCategoryInput } from "../Validators/categoryValidator.js";
 
 
 const getSubCategorys = expressAsyncHandler(async (req, res) => {
     try {
+       
         const SubCategorys = await SubCategory.find({ deletedAt: null }).populate("category_id")
         return res.status(200).json(SubCategorys)
     } catch (error) {
@@ -27,12 +28,12 @@ const registerSubCategory = expressAsyncHandler(async (req, res) => {
 })
 const getSubCategory = expressAsyncHandler(async (req, res) => {
 
-    const Sub = await SubCategory.find({category_id:req.params.id})
+    const Sub = await SubCategory.find({ category_id: req.params.id })
     return res.status(200).json(Sub)
 })
 
 const getSingleSubCategory = expressAsyncHandler(async (req, res) => {
-
+    console.log(req.params)
     const Sub = await SubCategory.findById(req.params.id)
     return res.status(200).json(Sub)
 })
