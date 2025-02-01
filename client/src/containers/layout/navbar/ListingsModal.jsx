@@ -52,11 +52,11 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
     }
     const [item, setItem] = useState(initialState)
 
-    const [category_id, setCate] = useState("")
+    // const [category_id, setCate] = useState("")
     const [availablefeatures, setavailaFeatures] = useState([])
     const [map, setMap] = useState(null)
     const { data: towns } = useFetchQuery()
-    const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(category_id)
+    const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(item.category_id)
     const { data: sub, refetch: fetchsub, } = useFetchsingleSubQuery(item.sub_category_id)
     const { data: prop, refetch: fetchprop, } = useFetchsinglePropertyQuery(item.sub_category_id)
     const { data: products, refetch, isFetching, isError } = useFetchshelvesQuery(init)
@@ -65,7 +65,6 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         setItem(prevState => ({
             ...prevState, [name]: value
         }))
-
     }
     const changeTown = (town) => {
         let townObj = towns.find(e => { if (e._id === town) { return e } })
@@ -73,8 +72,6 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         setItem(prev => ({ ...prev, location: townObj.location }))
 
     }
-
-
     const panTo = async () => {
 
         if (destinationRef.current.value === "" || destinationRef.current.value === undefined) return
@@ -90,7 +87,6 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
     const handleFileChange = (event) => {
         const fileList = event.target.files;
         setFiles([...fileList]);
-
         setItem(prevState => ({ ...prevState, files: fileList }))
     };
     var newTypes = [...availabletypes]
@@ -129,12 +125,11 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         setFeaturesArr(newArr);
     }
     const handleCategory = async (e) => {
-        console.log(e)
-        console.log(category_id)
-        // category_id = e
+
         await fetchsubs()
     }
     const handleSubCategory = async (e) => {
+        alert(e)
         await fetchsub();
         await fetchprop()
         setsubCategory(e)
@@ -234,17 +229,16 @@ const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, 
         setFeaturesArr(featuresArray)
     }, [types, featuresArray])
 
-const fetchSubcategories = async(e)=>{
-    dispatch(fetchTodos(e))
-}
+    const fetchSubcategories = async (e) => {
+        dispatch(fetchTodos(e))
+    }
     return (
         <>
-
             {showModal ? (
                 <>
-                    <div className="flex  overflow-x-hidden  fixed top-[10%] sm:left-[1%] sm:right-[1%] z-50 outline-none focus:outline-none">
-                        <div className="relative  w-full my-2 mx-auto ">
-                            <div className="border-0 rounded-lg  relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <div className="flex h-[100vh] overflow-x-hidden  fixed top-[6%] sm:left-[1%] sm:right-[1%] z-50 outline-none focus:outline-none">
+                        <div className="relative   w-full my-2 mx-auto ">
+                            <div className="border-0 rounded-lg h-[90%]  relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 <div className="flex items-start justify-between px-5 py-2 border-b border-solid border-gray-300 rounded-t ">
                                     <h3 className="text-2xl font=semibold">New Space </h3>
                                     <div onClick={() => setShowModal(false)} className="h-8 w-8 p-1  border flex items-center justify-center rounded-full text-center text-2xl font-bold">
@@ -257,16 +251,7 @@ const fetchSubcategories = async(e)=>{
                                 <div className="relative px-1 bg-slate-100 flex-auto">
                                     <div className=" rounded px-8 pt-6 pb-1 w-full">
                                         <div className="flex w-full  sm:flex-row flex-col ">
-                                            <div className="App">
-                                                <button onClick={(e) => dispatch(fetchTodos())}>Click</button>
-                                                <br />
-                                                {state?.todo?.isLoading && <><b>Loading...</b></>}
-                                                {state?.todo?.data?.map((i) => {
-                                                    return (
-                                                        <li>{i.title}</li>
-                                                    )
-                                                })}
-                                            </div>
+
                                             <div className="sm:w-1/4 px-2 w-full flex flex-col">
                                                 <SelectContainer
                                                     name="Categories"
@@ -274,7 +259,9 @@ const fetchSubcategories = async(e)=>{
                                                         array: data !== undefined && data
                                                         , name: "category_id"
                                                     })}
-                                                    handleChange={async (e) => { setCate(e.target.value); await fetchSubcategories(e.target.value) }}
+                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, category_id: e.target.value })); await handleCategory(e.target.value) }}
+
+                                                    // handleChange={async (e) => { setCate(e.target.value); await handleCategory(e.target.value) }}
                                                     placeholder="category"
                                                     label="category"
                                                     type="select"
@@ -387,7 +374,7 @@ const fetchSubcategories = async(e)=>{
                                                 {actualname === "" ? <div className='flex flex-col'>
                                                     <CheckBoxContainer title="Use my current location" checked={currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
                                                     <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
-                                                </div> : <MapProvider>
+                                                </div> :
                                                     <Autocomplete>
                                                         <>
                                                             <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mt-4">
@@ -405,7 +392,7 @@ const fetchSubcategories = async(e)=>{
                                                             </div>
                                                         </>
                                                     </Autocomplete>
-                                                </MapProvider>}
+                                                }
 
 
 

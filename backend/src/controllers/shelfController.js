@@ -166,7 +166,8 @@ const getShelfs = expressAsyncHandler(async (req, res) => {
 })
 const registerShelf = expressAsyncHandler(async (req, res) => {
     try {
-
+        console.log("first", req.body)
+        return
         const reqFiles = [];
         const url = req.protocol + '://' + req.get('host')
         // CustomError(validateShelfInput, req.body, res)
@@ -225,7 +226,7 @@ const registerShelf = expressAsyncHandler(async (req, res) => {
     }
 })
 const getShelf = expressAsyncHandler(async (req, res) => {
-
+console.log(req.params.id)
     const ShelV = await Shelf.findById(req.params.id)
     return res.status(200).json(ShelV)
 })

@@ -38,7 +38,7 @@ export default function Login() {
             loginState.token = localStorage.getItem("token")
             const res = await login(loginState).unwrap();
             dispatch(setCredentials({ ...res }))
-            localStorage.removeItem("token")
+            // localStorage.removeItem("token")
             navigate('/')
         } catch (error) {
 

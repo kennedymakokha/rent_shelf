@@ -7,15 +7,12 @@ import Scategory from "../models/sCategorymodel.js";
 
 
 
-const getSubCategorys = expressAsyncHandler(async (req, res) => {
+const fetch_sub_categories = expressAsyncHandler(async (req, res) => {
     try {
-
         const SubCategorys = await Scategory.find({ deletedAt: null }).populate("category_id")
         return res.status(200).json(SubCategorys)
     } catch (error) {
         return res.status(400).json({ message: "Error Ocured try again", error })
-
-
     }
 })
 const registerSubCategory = expressAsyncHandler(async (req, res) => {
@@ -28,8 +25,9 @@ const registerSubCategory = expressAsyncHandler(async (req, res) => {
         console.log(error)
     }
 })
-const getSubCategory = expressAsyncHandler(async (req, res) => {
+const fetch_sub_category = expressAsyncHandler(async (req, res) => {
     try {
+        console.log("first",req.params)
         const Sub = await Scategory.find({ category_id: req.params.id })
         return res.status(200).json(Sub)
     } catch (error) {
@@ -37,7 +35,7 @@ const getSubCategory = expressAsyncHandler(async (req, res) => {
     }
 })
 
-const getSingleSubCategory = expressAsyncHandler(async (req, res) => {
+const fetch_single_category = expressAsyncHandler(async (req, res) => {
     console.log(req.params)
     const Sub = await Scategory.findById(req.params.id)
     return res.status(200).json(Sub)
@@ -64,5 +62,5 @@ const deleteSubCategory = expressAsyncHandler(async (req, res) => {
 })
 
 export {
-    getSubCategory, getSubCategorys, getSingleSubCategory, updateSubCategory, registerSubCategory, deleteSubCategory
+    fetch_sub_category, fetch_sub_categories, fetch_single_category, updateSubCategory, registerSubCategory, deleteSubCategory
 }

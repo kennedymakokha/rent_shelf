@@ -70,7 +70,7 @@ app.use(errorHandler);
 
 // app.listen(port, () => console.log(`Server started on port ${port}`))
 const port =
-    process.env.NODE_ENV === "production" ? process.env.PORT || 5000 : 5000;
+    process.env.NODE_ENV === "production" ? process.env.PORT || 6000 : 6000;
 http.listen(port, () => console.log("Server listening on port " + port));
 
 let io = Lab(http);

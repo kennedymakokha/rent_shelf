@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-export const bURl = "https://rent-space.onrender.com/"
+// export const bURl = "https://rent-space.onrender.com/"
+export const bURl = "http://localhost:6000/"
 // const baseQuery = fetchBaseQuery({ baseUrl: "" })
 const getAuth = async () => {
     try {

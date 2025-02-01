@@ -119,7 +119,7 @@ const register_User = expressAsyncHandler(async (req, res) => {
             textbody = { id: _id, subject: "Activation key", address: `${req.body.phone}`, Body: `Hi \nYour Account Activation Code for Rent a shelf is  ${req.body.verification_code}  ` }
         }
 
-        await SendMessage(textbody)
+        // await SendMessage(textbody)
 
         return res.status(200).json({ message: "User created Successfully", _id })
     } catch (error) {
