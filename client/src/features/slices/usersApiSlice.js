@@ -20,10 +20,31 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        recoverPass: builder.mutation({
+            query: (data) => {
+
+                return {
+                    url: `${USER_URL}/recover-password`,
+                    method: "POST",
+                    body: data
+                }
+            }
+        }),
+        resetPass: builder.mutation({
+            query: (data) => {
+
+                return {
+                    url: `${USER_URL}/reset-password`,
+                    method: "POST",
+                    body: data
+                }
+            }
+        }),
+
 
         editUserDetails: builder.mutation({
             query: (data) => ({
-                url: `${USER_URL}/${data.id}`,
+                url: `${USER_URL}/${data._id}`,
                 method: "PUT",
                 body: data
             })
@@ -39,7 +60,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             })
         }),
         getuser: builder.query({
-            query: () => `${USER_URL}/profile`
+            query: () => `${USER_URL}/user/profile`
         }),
 
         activate: builder.mutation({
@@ -73,4 +94,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const { useLoginMutation, useResendactivateMutation, useActivateMutation, useFetchaffiliatesQuery, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice
+export const { useLoginMutation, useResetPassMutation, useRecoverPassMutation, useResendactivateMutation, useActivateMutation, useFetchaffiliatesQuery, useGetusersQuery, useEditUserDetailsMutation, useLogoutMutation, useRegisterMutation, useGetuserQuery, useFetchuserQuery } = usersApiSlice

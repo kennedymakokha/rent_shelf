@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginMutation, } from './../../features/slices/usersApiSlice';
 import { setCredentials } from './../../features/slices/authSlice';
 import { toast } from 'react-toastify';
-import { getMe } from '../../utils/handleLocation';
+import { getIP, getMe } from '../../utils/handleLocation';
 
 const fields = loginFields;
 let fieldsState = {};
@@ -32,12 +32,13 @@ export default function Login() {
     const handleSubmit = async () => {
         try {
             getMe(setLocations)
+            getIP(setIPAddress)
             loginState.location = location
             loginState.ip = ipAddress
             loginState.token = localStorage.getItem("token")
             const res = await login(loginState).unwrap();
             dispatch(setCredentials({ ...res }))
-            localStorage.removeItem("token")
+            // localStorage.removeItem("token")
             navigate('/')
         } catch (error) {
 
@@ -47,10 +48,7 @@ export default function Login() {
 
 
     useEffect(() => {
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => setIPAddress(`${data.ip}`))
-            .catch(error => console.log(error))
+
     }, []);
 
     useEffect(() => {
@@ -70,6 +68,7 @@ export default function Login() {
                 <div className="-space-y-px">
                     {
                         fields.map(field =>
+                            
                             <Input
                                 key={field.id}
                                 handleChange={handleChange}
@@ -88,6 +87,7 @@ export default function Login() {
                 </div>
 
                 <FormExtra first="Remember me"
+                    ndAction={() => window.location.replace("forgot-password")}
                     second="Forgot your password?" />
                 <FormAction isLoading={isFetching} handleSubmit={handleSubmit} text="Login" />
 

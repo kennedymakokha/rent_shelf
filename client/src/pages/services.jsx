@@ -1,11 +1,11 @@
 import ErrorModal from "../containers/errorModal"
-import Clustermap from "../containers/maps/clustermap"
+// import Clustermap from "../containers/maps/clustermap"
 
 
 function Services() {
   return (
     <div>
-      <Clustermap />
+      {/* <Clustermap /> */}
       <ErrorModal show={false} />
     </div>
   )

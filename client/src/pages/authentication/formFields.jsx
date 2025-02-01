@@ -34,6 +34,52 @@ const activationFields = [
     },
 
 ]
+const forgotPassFields = [
+    {
+        labelText: "phone number",
+        labelFor: "phone",
+        id: "phone",
+        name: "phone",
+        type: "number",
+        autoComplete: "phone",
+        isRequired: true,
+        placeholder: "phone number"
+    },
+
+]
+const recoverPassFields = [
+    {
+        labelText: "Code",
+        labelFor: "code",
+        id: "code",
+        name: "code",
+        type: "number",
+        autoComplete: "code",
+        isRequired: true,
+        placeholder: "Code "
+    },
+    {
+        labelText: "password",
+        labelFor: "password",
+        id: "password",
+        name: "password",
+        type: "password",
+        autoComplete: "password",
+        isRequired: true,
+        placeholder: "password "
+    },
+    {
+        labelText: "confirm_password",
+        labelFor: "confirm_password",
+        id: "confirm_password",
+        name: "confirm_password",
+        type: "password",
+        autoComplete: "confirm_password",
+        isRequired: true,
+        placeholder: "confirm password "
+    }
+
+]
 
 const signupFields = [
     {
@@ -67,7 +113,7 @@ const signupFields = [
         isRequired: true,
         placeholder: "ID No"
     },
-   
+
     {
         labelText: "Password",
         labelFor: "password",
@@ -132,4 +178,4 @@ const listingFields = [
     }
 ]
 
-export { loginFields, activationFields, listingFields, signupFields }
+export { loginFields, forgotPassFields, recoverPassFields, activationFields, listingFields, signupFields }

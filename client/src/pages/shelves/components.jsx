@@ -5,6 +5,7 @@ import ContentLoader from "react-content-loader"
 import { Multiple } from "../../utils/multiple"
 import { Link } from "react-router-dom"
 import { handleurl } from "../../utils/handleUrl"
+import { truncateString } from "../../utils/trancatString"
 
 // eslint-disable-next-line react/prop-types
 export const FilterTitle = ({ title, topRounded }) => {
@@ -19,7 +20,7 @@ export const FilterItem = (props) => {
         <div className='gap-x-2 flex flex-row'>
             <div onClick={onChange} className='flex w-3 h-3 items-center justify-center border  border-primary-900'>{data.state ? <div className='w-full  flex h-full bg-primary-200'>
             </div> : ""}</div>
-            <div className='flex  h-3 items-center justify-center text-[18px] text-slate-500 '>{data.name}</div>
+            <div className='flex  h-3 items-center justify-center text-[18px] text-slate-500 '>{truncateString(data.name,10)}</div>
         </div>
     )
 }

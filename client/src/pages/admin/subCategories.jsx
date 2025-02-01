@@ -11,7 +11,7 @@ import { useRegisterMutation } from '../../features/slices/usersApiSlice';
 import Modal from '../../containers/Modal';
 import moment from 'moment'
 import AffiliatesCharts from './charts/affiliatesCharts';
-import { useFetchsubCategoryQuery } from '../../features/slices/subcategorySlice';
+// import { useFetchsubCategoryQuery } from '../../features/slices/subcategorySlice';
 import { useFetchCategoryQuery } from '../../features/slices/categorySlice';
 function SubCategories() {
     const [showModal, setShowModal] = useState(false);
@@ -20,7 +20,7 @@ function SubCategories() {
     const [item, setitem] = useState({ firstName: "", lastName: "", ID_no: "", phone: '', email: "" });
     const { userInfo } = useSelector((state) => state.auth)
     // const { data, refetch, isFetching } = useFetchCategoryQuery()
-    const { data, isSuccess, refetch, isFetching } = useFetchsubCategoryQuery()
+    const { data, isSuccess, refetch, isFetching } = useFetchCategoryQuery()
     const [register] = useRegisterMutation();
     // const [updatePatient] = useUpdatePatientMutation();
     // const [deletePatient] = useDeletePatientMutation();

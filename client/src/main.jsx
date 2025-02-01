@@ -9,6 +9,7 @@ import Services from './pages/services.jsx'
 import About from './pages/about'
 import Contact from './pages/contacts'
 import Root from './pages/root.jsx'
+import Profile from './pages/profile.jsx'
 import ShelveDetails from './pages/shelves/shelveDetails/details'
 import Shelves from './pages/shelves'
 import Warehouse from './pages/shelfTypes'
@@ -21,10 +22,11 @@ import Towns from './pages/admin/towns'
 import Areas from './pages/admin/areas/index.jsx'
 import OwnerDetails from './pages/admin/ownerDetails.jsx'
 import ShelfDetails from './pages/admin/shelfDetails.jsx'
-import Logs from './pages/admin/logs'
+// import Logs from './pages/admin/logs'
 import Customers from './pages/admin/users.jsx'
 import Login from './pages/authentication/login.jsx'
 import SignUp from './pages/authentication/signup.jsx'
+import ForgotPass from './pages/authentication/forgotpasssword'
 import Activate from './pages/authentication/activate.jsx'
 import { store } from './store.jsx'
 import { Provider } from 'react-redux'
@@ -54,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "about-us",
         element: <About />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "contact-us",
@@ -97,6 +103,10 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
+        path: "forgot-password",
+        element: <ForgotPass />,
+      },
+      {
         path: "admin",
         element: <Admin />,
       },
@@ -112,10 +122,10 @@ const router = createBrowserRouter([
         path: "admin/space-categories",
         element: <Categories />,
       },
-      {
-        path: "admin/logs",
-        element: <Logs />,
-      },
+      // {
+      //   path: "admin/logs",
+      //   element: <Logs />,
+      // },
       {
         path: "admin/space-sub-categories",
         element: <SubCategories />,

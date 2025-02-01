@@ -1,16 +1,23 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import { HandleArray, SelectFromAPI } from "../../../utils/selectFromapi";
-import { useCreateshelveMutation } from '../../../features/slices/shelfSlice.jsx';
+import { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { HandleArray, HandleConsole, SelectFromAPI } from "../../../utils/selectFromapi";
+import { useCreateshelveMutation, useFetchshelvesQuery } from '../../../features/slices/shelfSlice.jsx';
 import { toast } from 'react-toastify';
-import InputContainer, { CheckBoxContainer, SelectContainer, TextArea } from "../../input.jsx";
+import InputContainer, { CheckBoxContainer, SelectContainer, SelectContainerWithSearch, TextArea } from "../../input.jsx";
 import MapInput from "../../maps/smallMap.jsx";
 import { useFetchCategoryQuery } from "../../../features/slices/categorySlice.jsx";
 import { useFetchCategorySubsQuery, useFetchsingleSubQuery } from "../../../features/slices/subcategorySlice.jsx";
 import { useFetchsinglePropertyQuery } from "../../../features/slices/propertySlice.jsx";
+import { MapProvider } from "../../../mapsProvider";
+import { getMe, getLatLong } from "../../../utils/handleLocation.js";
+import { Autocomplete } from "@react-google-maps/api";
+import { initialState as init } from "../../../pages/shelves/index.jsx";
+import { useFetchQuery } from "../../../features/slices/townsSlice.jsx";
+import { fetchTodos } from "../../../features/slices/scategorySlice.js";
 
 
-const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresArray, towns, types, }) => {
+const Modal = ({ showModal, setShowModal, setsubCategory, featuresArray, types, }) => {
     const [files, setFiles] = useState([])
 
     const [typesArr, setTypesArr] = useState([])
@@ -18,8 +25,14 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
     const [availabletypes, setavailableTypes] = useState([])
     const [currentLocation, setCurrentLocation] = useState(true);
     const [actualname, setActualname] = useState("");
+    const [origin, setorigin] = useState("");
     const [createshelve] = useCreateshelveMutation();
     const { data, } = useFetchCategoryQuery()
+    const destinationRef = useRef()
+    const dispatch = useDispatch();
+    const state = useSelector((state) => state);
+
+    console.log("state", state);
 
 
     let initialState = {
@@ -39,25 +52,41 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
     }
     const [item, setItem] = useState(initialState)
 
+    // const [category_id, setCate] = useState("")
     const [availablefeatures, setavailaFeatures] = useState([])
-
+    const [map, setMap] = useState(null)
+    const { data: towns } = useFetchQuery()
     const { data: subs, refetch: fetchsubs, isSuccess } = useFetchCategorySubsQuery(item.category_id)
     const { data: sub, refetch: fetchsub, } = useFetchsingleSubQuery(item.sub_category_id)
     const { data: prop, refetch: fetchprop, } = useFetchsinglePropertyQuery(item.sub_category_id)
-
-
-
+    const { data: products, refetch, isFetching, isError } = useFetchshelvesQuery(init)
     const changeInput = (e) => {
         const { name, value } = e.target ? e.target : e
         setItem(prevState => ({
             ...prevState, [name]: value
         }))
+    }
+    const changeTown = (town) => {
+        let townObj = towns.find(e => { if (e._id === town) { return e } })
+        setActualname(townObj.name)
+        setItem(prev => ({ ...prev, location: townObj.location }))
 
+    }
+    const panTo = async () => {
+
+        if (destinationRef.current.value === "" || destinationRef.current.value === undefined) return
+        const directionService = new google.maps.DirectionsService()
+        getLatLong(destinationRef.current.value.replace(/ /g, '+'), setorigin, map, setItem)
+        // const results = await directionService.route({
+        //     origin: origin,
+        //     destination: destinationRef.current.value,
+
+        //     travelMode: google.maps.TravelMode.DRIVING
+        // })
     }
     const handleFileChange = (event) => {
         const fileList = event.target.files;
         setFiles([...fileList]);
-
         setItem(prevState => ({ ...prevState, files: fileList }))
     };
     var newTypes = [...availabletypes]
@@ -86,7 +115,6 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             const indexes = newFeatures.indexOf(newArr[index]._id);
             if (indexes > -1) {
                 newFeatures.splice(indexes, 1);
-
             }
             setavailaFeatures(newFeatures) // return newFeatures
         } else {
@@ -96,89 +124,20 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
         newArr[index].state = !newArr[index].state
         setFeaturesArr(newArr);
     }
-    const handleCategory = async () => {
+    const handleCategory = async (e) => {
 
         await fetchsubs()
-
     }
     const handleSubCategory = async (e) => {
+        alert(e)
         await fetchsub();
         await fetchprop()
         setsubCategory(e)
         HandleArray(prop)
-
     }
-    const handleSubmit = async () => {
-
-        try {
-
-            // eslint-disable-next-line no-unreachable
-            for (const key in {
-                name: "",
-                building: "",
-                town_id: "",
-                description: "",
-            }) {
-
-                if (item[key] === "") {
-                    return toast.error(`${key} is a required field`)
-                }
-
-            }
-            // return
-            item.type_id = availabletypes
-            item.features = availablefeatures
-
-            const formData = new FormData();
-            for (let index = 0; index < files.length; index++) {
-                formData.append("files", files[index]);
-            }
-            for (let index = 0; index < item.features.length; index++) {
-                formData.append("features", item.features[index]);
-            }
-            for (let index = 0; index < item.type_id.length; index++) {
-                formData.append("type_id", item.type_id[index]);
-            }
-            if (sub && sub.name === "office space" && item.dimension === "") {
-                return toast.error(`Dimension is a required field`)
-            }
-
-            formData.append("name", item.name);
-            formData.append("lat", item.location.lat);
-            formData.append("lng", item.location.lng);
-            formData.append("price", item.price);
-            formData.append("description", item.description);
-            formData.append("building", item.building);
-            formData.append("area", actualname);
-            formData.append("town_id", item.town_id);
-
-            await createshelve(formData)
-            setItem(initialState)
-            setShowModal(false);
-            toast.success('Added successfull')
-        } catch (error) {
-            toast.error(error.data.message || error.message)
-        }
-
-    }
-
-
-    const setLocation = (position) => {
-        setItem((prevState) => ({
-            ...prevState,
-            location: position,
-        }));
-        setCurrentLocation(true)
-
-    }
-    useEffect(() => {
-        setTypesArr(types)
-        setFeaturesArr(featuresArray)
-    }, [types, featuresArray])
     const getName = async (lat, lng) => {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBYlYdpbci4zBhCSyLAJngOBLR3cRCGJA`)
             .then(res => res.json().then(data => {
-                console.log(data)
                 let T = data.results[0].formatted_address.split(",")
                 setActualname(`${T[T.length - 2]},${T[T.length - 1]}`)
                 setItem((prevState) => ({
@@ -189,10 +148,10 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             })
             )
     }
-    useEffect(() => {
+    const getLocation = async () => {
         navigator.geolocation.getCurrentPosition(
-            position => {
-                getName(position.coords.latitude, position.coords.longitude)
+            async position => {
+                await getName(position.coords.latitude, position.coords.longitude)
                 setLocation({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
@@ -208,18 +167,80 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
             },
             error => console.error('Error getting location:', error)
         );
-    }, []);
+    }
+    const handleSubmit = async () => {
+        try {
+            if (item.area === "") {
+                await getLocation()
+            }
+            for (const key in {
+                name: "",
+                building: "",
+                town_id: "",
+                description: "",
+            }) {
+                if (item[key] === "") {
+                    return toast.error(`${key} is a required field`)
+                }
+            }
+            item.type_id = availabletypes
+            item.features = availablefeatures
+            const formData = new FormData();
+            for (let index = 0; index < files.length; index++) {
+                formData.append("files", files[index]);
+            }
+            for (let index = 0; index < item.features.length; index++) {
+                formData.append("features", item.features[index]);
+            }
+            for (let index = 0; index < item.type_id.length; index++) {
+                formData.append("type_id", item.type_id[index]);
+            }
+            if (sub && sub.name === "office space" && item.dimension === "") {
+                return toast.error(`Dimension is a required field`)
+            }
+            formData.append("name", item.name);
+            formData.append("lat", item.location.lat);
+            formData.append("lng", item.location.lng);
+            formData.append("price", item.price);
+            formData.append("description", item.description);
+            formData.append("building", item.building);
+            formData.append("area", actualname);
+            formData.append("town_id", item.town_id);
+            let r = await createshelve(formData)
+            setItem(initialState)
+            setShowModal(false);
+            refetch()
+            toast.success('Added successfull')
+        } catch (error) {
+            console.log(error)
+            toast.error(error.data.message || error.message)
+        }
 
+    }
+    const setLocation = (position) => {
+        setItem((prevState) => ({
+            ...prevState,
+            location: position,
+        }));
+        setCurrentLocation(true)
+    }
+    useEffect(() => {
+        setTypesArr(types)
+        setFeaturesArr(featuresArray)
+    }, [types, featuresArray])
+
+    const fetchSubcategories = async (e) => {
+        dispatch(fetchTodos(e))
+    }
     return (
         <>
-
             {showModal ? (
                 <>
-                    <div className="flex  overflow-x-hidden  fixed top-[12%] sm:left-[10%] sm:right-[10%] z-50 outline-none focus:outline-none">
-                        <div className="relative  w-full my-2 mx-auto ">
-                            <div className="border-0 rounded-lg  relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <div className="flex h-[100vh] overflow-x-hidden  fixed top-[6%] sm:left-[1%] sm:right-[1%] z-50 outline-none focus:outline-none">
+                        <div className="relative   w-full my-2 mx-auto ">
+                            <div className="border-0 rounded-lg h-[90%]  relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 <div className="flex items-start justify-between px-5 py-2 border-b border-solid border-gray-300 rounded-t ">
-                                    <h3 className="text-2xl font=semibold">New shelf </h3>
+                                    <h3 className="text-2xl font=semibold">New Space </h3>
                                     <div onClick={() => setShowModal(false)} className="h-8 w-8 p-1  border flex items-center justify-center rounded-full text-center text-2xl font-bold">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="hover:text-secondary-500 text-primary-100 w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -227,11 +248,11 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
 
                                     </div>
                                 </div>
-                                {!currentLocation ? <MapInput setActualname={setActualname} onChange={setLocation} placeholder="Search the area" /> : <div className="relative px-6 bg-slate-100 flex-auto">
+                                <div className="relative px-1 bg-slate-100 flex-auto">
                                     <div className=" rounded px-8 pt-6 pb-1 w-full">
                                         <div className="flex w-full  sm:flex-row flex-col ">
 
-                                            <div className="sm:w-1/3 px-2 w-full flex flex-col">
+                                            <div className="sm:w-1/4 px-2 w-full flex flex-col">
                                                 <SelectContainer
                                                     name="Categories"
                                                     array={SelectFromAPI({
@@ -239,6 +260,8 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                         , name: "category_id"
                                                     })}
                                                     handleChange={async (e) => { setItem(prevState => ({ ...prevState, category_id: e.target.value })); await handleCategory(e.target.value) }}
+
+                                                    // handleChange={async (e) => { setCate(e.target.value); await handleCategory(e.target.value) }}
                                                     placeholder="category"
                                                     label="category"
                                                     type="select"
@@ -277,18 +300,16 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     id="building"
                                                     required={true}
                                                 />
-
-
-
                                             </div>
-                                            <div className="sm:w-1/3 px-2 w-full flex-col flex">
+
+                                            <div className="sm:w-1/2 px-2 w-full flex-col flex">
                                                 {isSuccess && subs !== undefined && < SelectContainer
                                                     name="Sub Categories"
                                                     array={SelectFromAPI({
                                                         array: subs
                                                         , name: "sub_category_id"
                                                     })}
-                                                    handleChange={async (e) => { setItem(prevState => ({ ...prevState, sub_category_id: e.target.value })); await handleSubCategory(e.target.value) }}
+                                                    handleChange={async (e) => { await handleSubCategory(e.target.value); setItem(prevState => ({ ...prevState, sub_category_id: e.target.value })) }}
                                                     placeholder="Sub category"
                                                     label="Sub category"
                                                     type="select"
@@ -320,7 +341,7 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     />
                                                 </div>
 
-                                                <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
+                                                <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-1">
                                                     Features
                                                 </label>
                                                 <div className="flex flex-row  gap-2 flex-wrap my-1">
@@ -334,8 +355,8 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
 
 
                                             </div>
-                                            <div className="sm:w-1/3 px-2 w-full flex-col flex">
-                                                <SelectContainer
+                                            <div className="sm:w-1/4 px-2 w-full flex-col flex">
+                                                <SelectContainerWithSearch
                                                     name="Town"
                                                     array={SelectFromAPI({
                                                         array: towns
@@ -349,32 +370,36 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     id="town"
                                                     required={true}
                                                 />
-                                                <div className='w-full px-2'>
-                                                    {currentLocation ? <div className='flex flex-col'>
-                                                        <CheckBoxContainer title="Use my current location" checked={currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
-                                                        <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
-                                                    </div> :
-                                                        <InputContainer cancel btnaction={() => { setActualname(""); setCurrentLocation((prevState) => (!prevState)) }} value={actualname} required name="Location" label="Location" placeholder="Name" handleChange={(e) => changeInput(e)} />}
+                                                {/* <MapP */}
+                                                {actualname === "" ? <div className='flex flex-col'>
+                                                    <CheckBoxContainer title="Use my current location" checked={currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+                                                    <CheckBoxContainer title="Enter Actual Location" checked={!currentLocation} onClick={() => setCurrentLocation(prevState => (!prevState))} />
+                                                </div> :
+                                                    <Autocomplete>
+                                                        <>
+                                                            <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mt-4">
+                                                                Location
+                                                            </label>
+                                                            <div className={`rounded-md appearance-none my-2  h-9  items-center  flex w-full bg-white  border border-gray-300 placeholder-gray-500 text-gray-500  focus:border-secondary-100 focus:z-10 sm:text-sm`}>
+                                                                <input type="text" ref={destinationRef} className="flex w-full px-2 focus:outline-none " placeholder="Other places" />
+                                                                <div onClick={() => { panTo() }} className='flex  items-center pr-2'>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-6 h-6   text-primary-100 cursor-pointer animate-pulse`}>
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                                    </svg>
+
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    </Autocomplete>
+                                                }
 
 
-                                                </div>
-                                                {/* <SelectContainer
-                                                    name="Area"
-                                                    array={SelectFromAPI({
-                                                        array: areas
-                                                        , name: "area_id"
-                                                    })}
-                                                    handleChange={(e) => { console.log(e.target.value); setItem(prevState => ({ ...prevState, area_id: e.target.value })) }}
-                                                    placeholder="town"
-                                                    label="town"
-                                                    type="select"
-                                                    value={item.town_id}
-                                                    id="town"
-                                                    require={true}
-                                                /> */}
+
                                                 <InputContainer
                                                     name="files[]"
                                                     multiple={true}
+                                                    required
                                                     handleChange={handleFileChange}
                                                     placeholder="images"
                                                     label="images"
@@ -382,42 +407,44 @@ const Modal = ({ showModal, changeTown, setShowModal, setsubCategory, featuresAr
                                                     value={item.images}
                                                     id="price"
                                                 />
-
-
-
-                                                <label className="block text-slate-500 uppercase text-sm ml-1 font-bold mb-1">
+                                                <label className="block text-primary-500 capitalize text-[18px] ml-1  font-semibold mb-1">
                                                     Types
                                                 </label>
                                                 <div className={`flex flex-row  gap-2 flex-wrap my-1`}>
                                                     {typesArr.map((feature, i) => (
                                                         <div key={i}
                                                             onClick={() => updateFieldChanged(i)}
-                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-primary-100 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
+                                                            className={`flex items-center text-[15px] ${feature.state !== true ? "border border-primary-300 text-primary-100  " : "border text-slate-400 border-slate-400  "} rounded-md justify-center px-2`}>{feature.name}</div>
                                                     ))}
                                                 </div>
-
-
                                             </div>
                                         </div>
 
 
                                     </div>
-                                </div>}
+                                </div>
                                 <div className="flex items-center justify-end px-6 py-2 border-t border-solid border-blueGray-200 rounded-b">
                                     <button
                                         className="text-secondary-500 hover:text-primary-100 hover:border-secondary-100 border-primary-100 border rounded-md background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={() => { !currentLocation ? setCurrentLocation(true) : setShowModal(false); setCurrentLocation(true) }}
                                     >
                                         Close
                                     </button>
-                                    <button
+                                    {currentLocation ? <button
                                         className="text-white bg-primary-100 hover:bg-primary-300 hover:text-secondary-100 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
                                         onClick={() => { handleSubmit(item) }}
                                     >
                                         Submit
-                                    </button>
+                                    </button> :
+                                        <button
+                                            className="text-white bg-primary-100 hover:bg-primary-300 hover:text-secondary-100 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                            type="button"
+                                            onClick={() => { setItem(prevState => ({ ...prevState, location: origin.location, area: origin.name })); setCurrentLocation(prev => !prev); }}
+                                        >
+                                            Ok
+                                        </button>}
                                 </div>
                             </div>
                         </div>
