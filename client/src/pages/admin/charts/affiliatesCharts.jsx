@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
 import { useFetchaffiliatesQuery } from '../../../features/slices/usersApiSlice';
